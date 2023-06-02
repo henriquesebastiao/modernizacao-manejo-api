@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "modernizacao-manejo-api"
+version = "0.1.0"
+description = ""
+authors = ["Henrique Sebastião <henriquesebastiao.web@gmail.com>"]
+readme = "README.md"
+packages = [{include = "modernizacao_manejo_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.2"
+uvicorn = "^0.22.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
