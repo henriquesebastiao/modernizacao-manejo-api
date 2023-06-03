@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from models.animal import Base
 from serializer.animal import Animal as AnimalSerializer
+from serializer.cargo import Cargo as CargoSerializer
 from models.animal import Animal
 from models.pesagem import Pesagem
 from models.cargo import Cargo
@@ -42,13 +43,16 @@ async def create_animal(animal: AnimalSerializer):
         peso_nascimento=animal.peso_nascimento
     )
 
+    session.add(animal_db)
+    session.commit()
+
     peso_db = Pesagem(
         animal_id=animal_db.id,
         peso=animal.peso_nascimento,
         data=animal.data_entrada
     )
 
-    session.add_all([animal_db, peso_db])
+    session.add(peso_db)
     session.commit()
 
     return {"message": f"Animal {animal.origem} criado com sucesso! O id do animal é {animal_db.id}"}
@@ -87,3 +91,22 @@ async def delete_animal(id: int):
     session.commit()
     return {"message": f"Animal {animal_db.origem} deletado com sucesso!"}
 
+
+@app.post("/cargo")
+async def create_cargo(cargo: CargoSerializer):
+    cargo_db = Cargo(
+        nome=cargo.nome,
+    )
+
+    session.add(cargo_db)
+    session.commit()
+
+    return {"message": f"Cargo {cargo.nome} criado com sucesso!"}
+
+
+@app.delete("/cargo/{id}")
+async def delete_cargo(id: int):
+    cargo_db = session.query(Cargo).filter(Cargo.id == id).first()
+    session.delete(cargo_db)
+    session.commit()
+    return {"message": f"Cargo {cargo_db.nome} deletado com sucesso!"}
