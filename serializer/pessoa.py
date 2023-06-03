@@ -1,8 +1,18 @@
 from pydantic import BaseModel
 
 
-class Pessoa(BaseModel):
-    id: int
+class PessoaBase(BaseModel):
     nome: str
     sobre_nome: str
     cargo_id: int
+
+
+class PessoaCreate(PessoaBase):
+    pass
+
+
+class PessoaSerial(PessoaBase):
+    id: int
+
+    class Config:
+        orm_mode = True

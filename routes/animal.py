@@ -11,6 +11,8 @@ router = APIRouter()
 @router.post("/animal")
 async def create_animal(animal: AnimalCreate):
     animal_db = Animal(
+        chip=animal.chip,
+        brinco=animal.brinco,
         origem=animal.origem,
         id_mae=animal.id_mae,
         id_pai=animal.id_pai,

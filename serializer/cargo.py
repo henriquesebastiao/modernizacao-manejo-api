@@ -1,6 +1,16 @@
 from pydantic import BaseModel
 
 
-class CargoSerializer(BaseModel):
-    id: int
+class CargoBase(BaseModel):
     nome: str
+
+
+class CargoCreate(CargoBase):
+    pass
+
+
+class CargoSerial(CargoBase):
+    id: int
+
+    class Config:
+        orm_mode = True

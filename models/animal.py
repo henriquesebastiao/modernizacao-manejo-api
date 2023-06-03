@@ -7,6 +7,8 @@ from models.base import Base
 class Animal(Base):
     __tablename__ = 'animal'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    chip = Column(Integer)
+    brinco = Column(Integer)
     origem = Column(String)
     id_mae = Column(Integer)
     id_pai = Column(Integer)

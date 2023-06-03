@@ -9,4 +9,4 @@ class Fazendeiro(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     usuario_id = Column(Integer, ForeignKey('usuario.id'))
 
-    usuario = relationship("Usuario")
+    fazendas = relationship("Fazenda", back_populates="fazendeiro")

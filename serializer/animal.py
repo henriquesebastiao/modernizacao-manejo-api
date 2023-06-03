@@ -10,6 +10,8 @@ class Sexo(str, Enum):
 
 
 class AnimalBase(BaseModel):
+    chip: int
+    brinco: int
     origem: str
     id_mae: int
     id_pai: int

@@ -2,13 +2,13 @@ from fastapi import APIRouter
 
 from database.db import session
 from models.cargo import Cargo
-from serializer.cargo import CargoSerializer
+from serializer.cargo import CargoCreate
 
 router = APIRouter()
 
 
 @router.post("/cargo")
-async def create_cargo(cargo: CargoSerializer):
+async def create_cargo(cargo: CargoCreate):
     cargo_db = Cargo(
         nome=cargo.nome,
     )

@@ -10,4 +10,4 @@ class Fazenda(Base):
     fazendeiro_id = Column(Integer, ForeignKey('fazendeiro.id'))
     nome = Column(String)
 
-    fazendeiro = relationship("Fazendeiro")
+    fazendeiro = relationship("Fazendeiro", back_populates="fazendas")
