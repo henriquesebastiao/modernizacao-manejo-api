@@ -68,3 +68,32 @@ async def delete_animal(id: int):
     session.delete(animal_db)
     session.commit()
     return {"message": f"Animal {animal_db.origem} deletado com sucesso!"}
+
+
+@router.get("/animal/{origem}/pesos")
+async def get_pesos(origem: str):
+    """Pegar o peso do animal no intervalo definido"""
+    animal_db = session.query(Animal).filter(Animal.origem == origem).first()
+
+    animal_pesos_db = session.query(Pesagem).filter(
+        Pesagem.animal_id == animal_db.id).all()
+    peso_total = 0
+    data_inicio = ""
+    data_fim = ""
+    for a in animal_pesos_db:
+        peso_total += a.peso
+        if data_inicio == "":
+            data_inicio = a.data
+        else:
+            if data_inicio < a.data:
+                data_inicio = a.data
+        if data_fim == "":
+            data_fim = a.data
+        else:
+            if data_fim > a.data:
+                data_fim = a.data
+    intervalo = data_inicio - data_fim
+    if intervalo == 0:
+        return {"mensagem": "sem intervalo"}
+    else:
+        return peso_total / intervalo.days

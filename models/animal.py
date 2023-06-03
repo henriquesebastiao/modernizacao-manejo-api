@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Date, Float, Integer, String, Enum
+from sqlalchemy.orm import Relationship
 
 from models.base import Base
 
@@ -13,3 +14,5 @@ class Animal(Base):
     sexo = Column(Enum('Macho', 'Fêmea', name='sexo'))
     data_entrada = Column(Date)
     peso_nascimento = Column(Float)
+
+    pesagem = Relationship("Pesagem", back_populates="animal")

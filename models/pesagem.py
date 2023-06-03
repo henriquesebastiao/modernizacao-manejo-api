@@ -11,4 +11,4 @@ class Pesagem(Base):
     peso = Column(Float)
     data = Column(Date)
 
-    animal = relationship("Animal")
+    animal = relationship("Animal", back_populates="pesagem")
