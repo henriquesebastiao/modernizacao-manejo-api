@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
 
-class Cargo(BaseModel):
+class CargoSerializer(BaseModel):
     id: int
     nome: str

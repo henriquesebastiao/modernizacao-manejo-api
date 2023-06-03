@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 
 
-class Animal(BaseModel):
+class AnimalSerializer(BaseModel):
     id: int
     origem: str
     id_mae: int
