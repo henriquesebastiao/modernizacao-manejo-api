@@ -1,11 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, Date
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Column, Date, Float, Integer, String
+from sqlalchemy import Enum
 
-engine = create_engine('postgresql://postgres:postgres@localhost:5432/db-manejo?sslmode=disable')
-Session = sessionmaker(bind=engine)
-session = Session()
-Base = declarative_base()
+from models.base import Base
 
 
 class Animal(Base):
@@ -15,7 +11,6 @@ class Animal(Base):
     id_mae = Column(Integer)
     id_pai = Column(Integer)
     idade = Column(Integer)
-    sexo = Column(String)
+    sexo = Column(Enum('Macho', 'Fêmea', name='sexo'))
     data_entrada = Column(Date)
-    peso_nascimento = Column(Integer)
-
+    peso_nascimento = Column(Float)

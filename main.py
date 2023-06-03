@@ -1,7 +1,10 @@
 from fastapi import FastAPI
-from models.animal import Base, engine
+from models.animal import Base
 from serializer.animal import Animal as AnimalSerializer
-from models.animal import Animal, session
+from models.animal import Animal
+from models.pesagem import Pesagem
+
+from database.db import session, engine
 
 app = FastAPI()
 
@@ -11,12 +14,15 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    teste = 'Olá ' + name
-    return {"message": f"Hello {teste}"}
+@app.delete("/delete")
+async def delete():
+    Base.metadata.drop_all(bind=engine)
+    return {"message": "ok"}
 
-Base.metadata.create_all(engine)
+
+@app.on_event("startup")
+async def startup_event():
+    Base.metadata.create_all(engine)
 
 
 @app.post("/animal")
