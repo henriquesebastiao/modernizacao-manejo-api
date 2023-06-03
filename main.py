@@ -3,6 +3,11 @@ from models.animal import Base
 from serializer.animal import Animal as AnimalSerializer
 from models.animal import Animal
 from models.pesagem import Pesagem
+from models.cargo import Cargo
+from models.fazenda import Fazenda
+from models.fazendeiro import Fazendeiro
+from models.pessoa import Pessoa
+from models.usuario import Usuario
 
 from database.db import session, engine
 
@@ -15,7 +20,7 @@ async def root():
 
 
 @app.delete("/delete")
-async def delete():
+async def delete_db():
     Base.metadata.drop_all(bind=engine)
     return {"message": "ok"}
 
@@ -36,10 +41,17 @@ async def create_animal(animal: AnimalSerializer):
         data_entrada=animal.data_entrada,
         peso_nascimento=animal.peso_nascimento
     )
-    session.add(animal_db)
+
+    peso_db = Pesagem(
+        animal_id=animal_db.id,
+        peso=animal.peso_nascimento,
+        data=animal.data_entrada
+    )
+
+    session.add_all([animal_db, peso_db])
     session.commit()
 
-    return {"message": f"Animal {animal.origem} criado com sucesso!"}
+    return {"message": f"Animal {animal.origem} criado com sucesso! O id do animal é {animal_db.id}"}
 
 
 @app.get("/animal")

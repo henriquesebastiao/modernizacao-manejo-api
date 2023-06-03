@@ -1,0 +1,13 @@
+from sqlalchemy import Column, Integer
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+
+from models.base import Base
+
+
+class Fazendeiro(Base):
+    __tablename__ = 'fazendeiro'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    usuario_id = Column(Integer, ForeignKey('usuario.id'))
+
+    usuario = relationship("Usuario")
