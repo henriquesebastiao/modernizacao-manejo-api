@@ -3,13 +3,13 @@ from fastapi import APIRouter
 from database.db import session
 from models.animal import Animal
 from models.pesagem import Pesagem
-from serializer.animal import AnimalSerializer
+from serializer.animal import AnimalCreate
 
 router = APIRouter()
 
 
 @router.post("/animal")
-async def create_animal(animal: AnimalSerializer):
+async def create_animal(animal: AnimalCreate):
     animal_db = Animal(
         origem=animal.origem,
         id_mae=animal.id_mae,
@@ -49,7 +49,7 @@ async def get_animal_by_id(id: int):
 
 
 @router.patch("/animal/{id}")
-async def update_animal(id: int, animal: AnimalSerializer):
+async def update_animal(id: int, animal: AnimalCreate):
     animal_db = session.query(Animal).filter(Animal.id == id).first()
     animal_db.origem = animal.origem
     animal_db.id_mae = animal.id_mae

@@ -6,10 +6,3 @@ DB_URL = 'postgresql://postgres:postgres@localhost:5432/db-manejo?sslmode=disabl
 engine = create_engine(DB_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
