@@ -10,6 +10,9 @@ packages = [{include = "modernizacao_manejo_api"}]
 python = "^3.11"
 fastapi = "^0.95.2"
 uvicorn = "^0.22.0"
+sqlalchemy = "^2.0.15"
+psycopg2 = "^2.9.6"
+pydantic = "^1.10.8"
 
 
 [build-system]
