@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from database.db import engine
-
 from models.base import Base
 
 router = APIRouter()
