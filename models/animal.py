@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Date, Float, Integer, String, Enum
-from sqlalchemy.orm import Relationship, validates
+from sqlalchemy.orm import relationship, validates
 
 from models.base import Base
 
@@ -25,7 +25,7 @@ class Animal(Base):
     data_nascimento = Column(Date)
     peso_nascimento = Column(Float)
 
-    pesagem = Relationship("Pesagem", back_populates="animal")
+    pesagem = relationship("Pesagem", back_populates="animal")
 
     @validates('brinco')
     def validate_brinco(self, key, value):

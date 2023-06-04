@@ -8,7 +8,7 @@ class Pesagem(Base):
     __tablename__ = 'pesagem'
     id = Column(Integer, primary_key=True, autoincrement=True)
     animal_id = Column(Integer, ForeignKey('animal.id'))
-    peso = Column(Float)
+    peso = Column(Float)  # TODO: Adicionar relacionamento com a tabela de animal
     data = Column(Date)
 
     animal = relationship("Animal", back_populates="pesagem")
