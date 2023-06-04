@@ -14,11 +14,12 @@ async def create_animal(animal: AnimalCreate):
         chip=animal.chip,
         brinco=animal.brinco,
         origem=animal.origem,
+        raca=animal.raca,
         id_mae=animal.id_mae,
         id_pai=animal.id_pai,
-        idade=animal.idade,
         sexo=animal.sexo,
         data_entrada=animal.data_entrada,
+        data_nascimento=animal.data_nascimento,
         peso_nascimento=animal.peso_nascimento
     )
 
@@ -56,7 +57,6 @@ async def update_animal(id: int, animal: AnimalCreate):
     animal_db.origem = animal.origem
     animal_db.id_mae = animal.id_mae
     animal_db.id_pai = animal.id_pai
-    animal_db.idade = animal.idade
     animal_db.sexo = animal.sexo
     animal_db.data_entrada = animal.data_entrada
     animal_db.peso_nascimento = animal.peso_nascimento

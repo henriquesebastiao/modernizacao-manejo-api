@@ -9,15 +9,24 @@ class Sexo(str, Enum):
     femea = "Fêmea"
 
 
+class Raca(str, Enum):
+    nelore = "Nelore"
+    angus = "Angus"
+    guzera = "Guzerá"
+    senepol = "Senepol"
+    outra = "Outra"
+
+
 class AnimalBase(BaseModel):
-    chip: int
-    brinco: int
+    chip: int | None
+    brinco: int | None
     origem: str
+    raca: Raca
     id_mae: int
     id_pai: int
-    idade: int
     sexo: Sexo
     data_entrada: date
+    data_nascimento: date
     peso_nascimento: float
 
 
