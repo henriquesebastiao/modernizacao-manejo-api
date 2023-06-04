@@ -34,7 +34,7 @@ class AnimalCreate(AnimalBase):
     pass
 
 
-class AnimalSerial(AnimalBase):
+class Animal(AnimalBase):
     id: int
 
     class Config:

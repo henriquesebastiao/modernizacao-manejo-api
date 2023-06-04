@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from database.db import session
 from models.pessoa import Pessoa
-from serializer.pessoa import PessoaCreate
+from schemas.pessoa import PessoaCreate
 
 router = APIRouter()
 

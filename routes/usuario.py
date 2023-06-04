@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from database.db import session
 from models.usuario import Usuario
-from serializer.usuario import UsuarioCreate
+from schemas.usuario import UsuarioCreate
 
 router = APIRouter()
 

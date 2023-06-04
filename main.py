@@ -7,6 +7,7 @@ from models.fazendeiro import Fazendeiro
 from models.fazenda import Fazenda
 from models.usuario import Usuario
 from models.pessoa import Pessoa
+from models.pesagem import Pesagem
 
 app = FastAPI()
 

@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from database.db import session
 from models.cargo import Cargo
-from serializer.cargo import CargoCreate
+from schemas.cargo import CargoCreate
 
 router = APIRouter()
 

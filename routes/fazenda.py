@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 from database.db import session
 from models.fazenda import Fazenda
-from serializer.fazenda import FazendaCreate
+from schemas.fazenda import FazendaCreate
 
 router = APIRouter()
 
