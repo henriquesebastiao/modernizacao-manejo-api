@@ -3,7 +3,7 @@ from serializer.animal import AnimalCreate
 from models.animal import Animal
 
 
-def create_animal(animal: AnimalCreate):
+def create_animal_crud(animal: AnimalCreate):
     animal_db = Animal(
         chip=animal.chip,
         brinco=animal.brinco,
@@ -19,7 +19,8 @@ def create_animal(animal: AnimalCreate):
 
     session.add(animal_db)
     session.commit()
-    session.refresh(animal_db)
+    session.close()
+
     print("TESTE")
     print(animal_db.id)
 

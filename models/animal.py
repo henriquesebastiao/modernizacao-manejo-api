@@ -26,10 +26,3 @@ class Animal(Base):
     peso_nascimento = Column(Float)
 
     pesagem = relationship("Pesagem", back_populates="animal")
-
-    @validates('brinco')
-    def validate_brinco(self, key, value):
-        """Verifica se o número de brinco foi informado quando o chip é nulo."""
-        if self.brinco is None and value is None:
-            raise AssertionError('O número de brinco deve ser informado quando o chip é nulo.')
-        return value

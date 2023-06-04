@@ -3,22 +3,24 @@ from fastapi import APIRouter
 from database.db import session
 from models.animal import Animal
 from models.pesagem import Pesagem
-from crud.animal import create_animal
+from serializer.animal import AnimalCreate
+from crud.animal import create_animal_crud
 router = APIRouter()
 
 
 @router.post("/animal")
-async def create_animal(animal: create_animal):
+async def create_animal(animal: AnimalCreate):
 
-    animal_db = create_animal(animal)
+    animal_db = create_animal_crud(animal)
     peso_db = Pesagem(
-        animal_id=animal_db,
+        animal_id=animal_db.id,
         peso=animal.peso_nascimento,
         data=animal.data_entrada
     )
 
     session.add(peso_db)
     session.commit()
+    session.close()
 
     return {
         "message": f"Animal {animal.origem} criado com sucesso! O id do animal é {animal_db.id}"}
