@@ -1,9 +1,9 @@
-from database.db import session
+from sqlalchemy.orm import Session
 from models.animal import Animal
 from schemas.animal import AnimalCreate
 
 
-def create(animal: AnimalCreate):
+def create(animal: AnimalCreate, db: Session):
     animal_db = Animal(
         chip=animal.chip,
         brinco=animal.brinco,
@@ -17,37 +17,35 @@ def create(animal: AnimalCreate):
         peso_nascimento=animal.peso_nascimento
     )
 
-    session.add(animal_db)
-    session.commit()
-    session.refresh(animal_db)
-    session.close()
+    db.add(animal_db)
+    db.commit()
+    db.refresh(animal_db)
 
     return animal_db
 
 
-def get_all():
-    return session.query(Animal).all()
+def get_all(db: Session):
+    return db.query(Animal).all()
 
 
-def get_byid(animal_id: int):
-    return session.query(Animal).filter(Animal.id == animal_id).first()
+def get_byid(animal_id: int, db: Session):
+    return db.query(Animal).filter(Animal.id == animal_id).first()
 
 
-def update(animal_id: int, animal: AnimalCreate):
-    animal_db = session.query(Animal).filter(Animal.id == animal_id).first()
+def update(animal_id: int, animal: AnimalCreate, db: Session):
+    animal_db = db.query(Animal).filter(Animal.id == animal_id).first()
     animal_db.origem = animal.origem
     animal_db.id_mae = animal.id_mae
     animal_db.id_pai = animal.id_pai
     animal_db.sexo = animal.sexo
     animal_db.data_entrada = animal.data_entrada
     animal_db.peso_nascimento = animal.peso_nascimento
-    session.commit()
-    session.close()
+    db.commit()
     return animal_db
 
 
-def delete(animal_id: int):
-    animal_db = session.query(Animal).filter(Animal.id == animal_id).first()
-    session.delete(animal_db)
-    session.commit()
+def delete(animal_id: int, db: Session):
+    animal_db = db.query(Animal).filter(Animal.id == animal_id).first()
+    db.delete(animal_db)
+    db.commit()
     return animal_db

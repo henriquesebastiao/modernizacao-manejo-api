@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from database.db import engine
 from models.animal import Base
-from routes import animal, cargo, db, fazenda, usuario, pessoa, pesagem
+from routes import animal, cargo, fazenda, usuario, pessoa, pesagem
 from models.fazendeiro import Fazendeiro
 from models.fazenda import Fazenda
 from models.usuario import Usuario
@@ -28,4 +28,3 @@ app.include_router(fazenda.router, tags=["fazenda"])
 app.include_router(usuario.router, tags=["usuario"])
 app.include_router(pessoa.router, tags=["pessoa"])
 app.include_router(pesagem.router, tags=["pesagem"])
-app.include_router(db.router, tags=["db"])
