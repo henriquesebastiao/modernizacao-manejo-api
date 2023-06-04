@@ -17,11 +17,10 @@ def create_animal_crud(animal: AnimalCreate):
         peso_nascimento=animal.peso_nascimento
     )
 
+    # Realiza o commit e o refresh do animal no banco de dados e depois fecha a sessão
     session.add(animal_db)
     session.commit()
+    session.refresh(animal_db)
     session.close()
-
-    print("TESTE")
-    print(animal_db.id)
 
     return animal_db

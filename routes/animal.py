@@ -12,6 +12,7 @@ router = APIRouter()
 async def create_animal(animal: AnimalCreate):
 
     animal_db = create_animal_crud(animal)
+
     peso_db = Pesagem(
         animal_id=animal_db.id,
         peso=animal.peso_nascimento,
