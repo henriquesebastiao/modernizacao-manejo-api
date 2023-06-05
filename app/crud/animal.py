@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
 from app.schemas.animal import AnimalCreate
+from app.models.pesagem import Pesagem
+from app.schemas.pesagem import PesagemCreate
 
 
 def create(animal: AnimalCreate, db: Session):
@@ -11,6 +13,17 @@ def create(animal: AnimalCreate, db: Session):
     animal_db = Animal(**animal.dict())
     db.add(animal_db)
     db.commit()
+
+    # Cria um registro na tabela de pesagem com o peso de nascimento do animal
+    pesagem_db = PesagemCreate(
+        id_animal=animal_db.id,
+        peso=animal_db.peso_nascimento,
+        data=animal_db.data_nascimento
+    )
+    pesagem_db = Pesagem(**pesagem_db.dict())
+    db.add(pesagem_db)
+    db.commit()
+
     return animal_db
 
 
