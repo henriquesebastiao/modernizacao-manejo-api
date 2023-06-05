@@ -14,4 +14,5 @@ router = APIRouter()
 async def create_pesagem(animal_id: int, item: PesagemCreate,
                          db: Session = Depends(get_db)):
     """Cria uma pesagem."""
-    return pesagem.create(animal_id, item, db)
+    return pesagem.registrar_pesagem(animal_id, item.data, item.peso,
+                                     db)

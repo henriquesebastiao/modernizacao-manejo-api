@@ -1,6 +1,6 @@
 """Modelo de animal."""
 
-from sqlalchemy import Column, Date, Enum, ForeignKey, Integer, String
+from sqlalchemy import Column, Date, Enum, Float, Integer, String
 from sqlalchemy.orm import Mapped, relationship
 
 from app.database import Base
@@ -8,25 +8,25 @@ from app.database import Base
 
 class Animal(Base):
     """Modelo de animal."""
-    __tablename__ = 'animal'
+    __tablename__ = "animal"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    chip = Column(Integer)
-    brinco: Mapped[int] = Column(Integer)
+    chip = Column(String)
+    brinco = Column(String)
     origem = Column(String)
     raca = Column(Enum(
-        'Nelore',
-        'Angus',
-        'Guzerá',
-        'Senepol',
-        'Outra',
-        name='raca'
+        "Nelore",
+        "Angus",
+        "Guzerá",
+        "Senepol",
+        "Outra",
+        name="raca"
     ))
     id_mae = Column(Integer)
     id_pai = Column(Integer)
-    sexo = Column(Enum('Macho', 'Fêmea', name='sexo'))
+    sexo = Column(Enum("Macho", "Fêmea", name="sexo"))
     data_entrada = Column(Date)
     data_nascimento = Column(Date)
-    pesagem_id = Column(Integer, ForeignKey('pesagem.id'))
+    peso = Column(Float)
 
-    pesagens = relationship("Pesagem", back_populates="animais")
+    pesagens = relationship("Pesagem", back_populates="animal")

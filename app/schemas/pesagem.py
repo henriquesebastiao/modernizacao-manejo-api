@@ -7,7 +7,6 @@ from pydantic import BaseModel
 
 class PesagemBase(BaseModel):
     """Classe base para validação de dados de Pesagem."""
-    id_animal: int
     peso: float
     data: date
 

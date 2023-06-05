@@ -11,22 +11,12 @@ def create(animal: AnimalCreate, db: Session):
     """Cria um animal."""
     animal_db = Animal(chip=animal.chip, brinco=animal.brinco,
                        origem=animal.origem, raca=animal.raca,
-                       id_mae=animal.id_mae, id_pai=animal.id_pai,
-                       sexo=animal.sexo, data_entrada=animal.data_entrada,
-                       data_nascimento=animal.data_nascimento)
+                       data_entrada=animal.data_entrada,
+                       data_nascimento=animal.data_nascimento,
+                       peso=animal.peso, sexo=animal.sexo)
+
+    Pesagem(animal=animal_db, peso=animal.peso, data=animal.data_entrada)
     db.add(animal_db)
-    db.commit()
-
-    # Cria um registro na tabela de pesagem com o peso do animal
-    pesagem_db = Pesagem(
-        id_animal=animal_db.id,
-        peso=animal.peso,
-        data=animal.data_entrada
-    )
-    db.add(pesagem_db)
-    db.commit()
-
-    animal_db.pesagens.append(pesagem_db)
     db.commit()
 
     return animal_db
