@@ -42,11 +42,6 @@ def get_byid(animal_id: int, db: Session):
     return db.query(Animal).filter(Animal.id == animal_id).first()
 
 
-def get_bybrinco(brinco: int, db: Session):
-    """Retorna um animal pelo id."""
-    return db.query(Animal).filter(Animal.brinco == brinco).first()
-
-
 def update(animal_id: int, animal: AnimalCreate, db: Session):
     """Atualiza um animal."""
     animal_db = db.query(Animal).filter(Animal.id == animal_id).first()
