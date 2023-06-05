@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Date, Float, Integer, String, Enum
-from sqlalchemy.orm import relationship, validates
+from sqlalchemy import Column, Date, Enum, Float, Integer, String
+from sqlalchemy.orm import Mapped, relationship
 
 from models.base import Base
 
@@ -7,7 +7,7 @@ from models.base import Base
 class Animal(Base):
     __tablename__ = 'animal'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
     chip = Column(Integer)
     brinco = Column(Integer)
     origem = Column(String)
