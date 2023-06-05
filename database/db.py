@@ -1,9 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DB_URL = 'postgresql://postgres:postgres@localhost:5432/db-manejo?sslmode=disable'
+from config import settings
 
-engine = create_engine(DB_URL)
+
+engine = create_engine(settings.database_url)
 SessionLocal = sessionmaker(bind=engine)
 
 

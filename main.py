@@ -12,11 +12,6 @@ from models.pesagem import Pesagem
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
 @app.on_event("startup")
 async def startup_event():
     Base.metadata.create_all(engine)
