@@ -7,7 +7,7 @@ from models.base import Base
 class Animal(Base):
     __tablename__ = 'animal'
 
-    id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
+    id: int = Column(Integer, primary_key=True, autoincrement=True)
     chip = Column(Integer)
     brinco = Column(Integer)
     origem = Column(String)
