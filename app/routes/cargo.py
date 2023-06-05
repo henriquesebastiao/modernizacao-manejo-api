@@ -1,3 +1,5 @@
+"""Rotas para o CRUD de cargos"""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -10,6 +12,7 @@ router = APIRouter()
 
 @router.post("/cargo")
 async def create_cargo(cargo: CargoCreate, db: Session = Depends(get_db)):
+    """Cria um cargo."""
     cargo_db = Cargo(
         nome=cargo.nome,
     )
@@ -22,6 +25,7 @@ async def create_cargo(cargo: CargoCreate, db: Session = Depends(get_db)):
 
 @router.delete("/cargo/{id}")
 async def delete_cargo(id: int, db: Session = Depends(get_db)):
+    """Deleta um cargo."""
     cargo_db = db.query(Cargo).filter(Cargo.id == id).first()
     db.delete(cargo_db)
     db.commit()

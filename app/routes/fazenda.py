@@ -1,3 +1,5 @@
+"""Rotas para o CRUD de fazendas"""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -10,6 +12,7 @@ router = APIRouter()
 
 @router.post("/fazenda")
 async def create_fazenda(fazenda: FazendaCreate, db: Session = Depends(get_db)):
+    """Cria uma fazenda."""
     fazenda_db = Fazenda(
         fazendeiro_id=fazenda.fazendeiro_id,
         nome=fazenda.nome,
@@ -23,6 +26,7 @@ async def create_fazenda(fazenda: FazendaCreate, db: Session = Depends(get_db)):
 
 @router.delete("/fazenda/{id}")
 async def delete_fazenda(id: int, db: Session = Depends(get_db)):
+    """Deleta uma fazenda."""
     fazenda_db = db.query(Fazenda).filter(Fazenda.id == id).first()
     db.delete(fazenda_db)
     db.commit()

@@ -1,3 +1,5 @@
+"""Rotas para o CRUD de Pessoa."""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -10,6 +12,7 @@ router = APIRouter()
 
 @router.post("/pessoa")
 async def create_pessoa(pessoa: PessoaCreate, db: Session = Depends(get_db)):
+    """Cria uma pessoa."""
     pessoa_db = Pessoa(
         nome=pessoa.nome,
         sobre_nome=pessoa.sobre_nome,
@@ -24,6 +27,7 @@ async def create_pessoa(pessoa: PessoaCreate, db: Session = Depends(get_db)):
 
 @router.delete("/pessoa/{id}")
 async def delete_pessoa(id: int, db: Session = Depends(get_db)):
+    """Deleta uma pessoa."""
     pessoa_db = db.query(Pessoa).filter(Pessoa.id == id).first()
     db.delete(pessoa_db)
     db.commit()

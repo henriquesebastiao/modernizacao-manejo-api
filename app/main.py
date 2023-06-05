@@ -1,3 +1,5 @@
+"""Modulo principal da aplicação."""
+
 from fastapi import FastAPI
 
 from app.database import Base, engine
@@ -9,6 +11,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def startup_event():
+    """Cria as tabelas do banco de dados."""
     Base.metadata.create_all(engine)
 
 

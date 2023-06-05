@@ -1,3 +1,5 @@
+"""Rotas de usuário."""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -10,12 +12,13 @@ router = APIRouter()
 
 @router.post("/usuario")
 async def create_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
-
+    """Cria um usuário."""
     return {"message": f"Usuario {usuario.email} criado com sucesso!"}
 
 
 @router.delete("/usuario/{id}")
 async def delete_usuario(id: int, db: Session = Depends(get_db)):
+    """Deleta um usuário."""
     usuario_db = db.query(Usuario).filter(Usuario.id == id).first()
     db.delete(usuario_db)
     db.commit()

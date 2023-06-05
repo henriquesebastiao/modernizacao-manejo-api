@@ -1,3 +1,5 @@
+"""Esquema de validação de dados para o modelo Animal."""
+
 from datetime import date
 from enum import Enum
 
@@ -5,6 +7,7 @@ from pydantic import BaseModel
 
 
 class Sexo(str, Enum):
+    """Lista de sexos dos quais o animal pode ser."""
     macho = "Macho"
     femea = "Fêmea"
 
@@ -19,6 +22,7 @@ class Raca(str, Enum):
 
 
 class AnimalBase(BaseModel):
+    """Classe base para validação de dados de Animal."""
     chip: int | None
     brinco: int | None
     origem: str
@@ -32,11 +36,14 @@ class AnimalBase(BaseModel):
 
 
 class AnimalCreate(AnimalBase):
+    """Classe para validação de dados de criação de Animal."""
     pass
 
 
 class Animal(AnimalBase):
+    """Classe para validação de dados de Animal."""
     id: int  # O id é gerado automaticamente pelo banco de dados
 
     class Config:
+        """Classe de configuração do Pydantic."""
         orm_mode = True

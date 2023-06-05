@@ -1,3 +1,5 @@
+"""Rotas para o CRUD de fazendeiro"""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -11,4 +13,5 @@ router = APIRouter()
 @router.post("/fazendeiro")
 async def create_pesagem(item: FazendeiroCreate,
                          db: Session = Depends(get_db)):
+    """Cria um fazendeiro."""
     return fazendeiro.create(item, db)
