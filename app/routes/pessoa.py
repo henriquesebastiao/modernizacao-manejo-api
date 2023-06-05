@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.db import get_db
-from models.pessoa import Pessoa
-from schemas.pessoa import PessoaCreate
+from app.database import get_db
+from app.models.pessoa import Pessoa
+from app.schemas.pessoa import PessoaCreate
 
 router = APIRouter()
 

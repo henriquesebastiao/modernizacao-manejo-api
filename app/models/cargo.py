@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from models.base import Base
+from app.database import Base
 
 
 class Cargo(Base):

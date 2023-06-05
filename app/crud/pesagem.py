@@ -1,7 +1,7 @@
-from sqlalchemy import event
 from sqlalchemy.orm import Session
-from models.pesagem import Pesagem
-from schemas.pesagem import PesagemCreate
+
+from app.models.pesagem import Pesagem
+from app.schemas.pesagem import PesagemCreate
 
 
 def create(animal_id: int, pesagem: PesagemCreate, db: Session):

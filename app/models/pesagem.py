@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Date, Float, Integer, ForeignKey
+from sqlalchemy import Column, Date, Float, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from models.base import Base
+from app.database import Base
 
 
 class Pesagem(Base):

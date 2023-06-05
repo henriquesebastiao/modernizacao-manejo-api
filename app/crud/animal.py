@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
-from models.animal import Animal
-from schemas.animal import AnimalCreate
+
+from app.models.animal import Animal
+from app.schemas.animal import AnimalCreate
 
 
 def create(animal: AnimalCreate, db: Session):
@@ -16,11 +17,8 @@ def create(animal: AnimalCreate, db: Session):
         data_nascimento=animal.data_nascimento,
         peso_nascimento=animal.peso_nascimento
     )
-
-    db.add(animal_db)
+    db.add(db)
     db.commit()
-    db.refresh(animal_db)
-
     return animal_db
 
 
@@ -34,12 +32,9 @@ def get_byid(animal_id: int, db: Session):
 
 def update(animal_id: int, animal: AnimalCreate, db: Session):
     animal_db = db.query(Animal).filter(Animal.id == animal_id).first()
-    animal_db.origem = animal.origem
-    animal_db.id_mae = animal.id_mae
-    animal_db.id_pai = animal.id_pai
-    animal_db.sexo = animal.sexo
-    animal_db.data_entrada = animal.data_entrada
-    animal_db.peso_nascimento = animal.peso_nascimento
+    animal_db(origem=animal.origem, mae=animal.id_mae, pai=animal.id_pai,
+              sexo=animal.sexo, data_entrada=animal.data_entrada,
+              peso_nascimento=animal.peso_nascimento)
     db.commit()
     return animal_db
 

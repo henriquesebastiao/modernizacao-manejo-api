@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from crud import animal
-from database.db import get_db
-from schemas.animal import AnimalCreate
+from app.crud import animal
+from app.database import get_db
+from app.schemas.animal import AnimalCreate
 
 router = APIRouter()
 

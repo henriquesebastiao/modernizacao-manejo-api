@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.db import get_db
-from models.fazenda import Fazenda
-from schemas.fazenda import FazendaCreate
+from app.database import get_db
+from app.models.fazenda import Fazenda
+from app.schemas.fazenda import FazendaCreate
 
 router = APIRouter()
 

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Date, Enum, Float, Integer, String
 from sqlalchemy.orm import Mapped, relationship
 
-from models.base import Base
+from app.database import Base
 
 
 class Animal(Base):

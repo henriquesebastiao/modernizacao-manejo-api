@@ -1,4 +1,5 @@
 from datetime import date
+
 from pydantic import BaseModel
 
 
@@ -14,7 +15,6 @@ class PesagemCreate(PesagemBase):
 class PesagemSerial(PesagemBase):
     id: int
     id_animal: int
-
 
     class Config:
         orm_mode = True
