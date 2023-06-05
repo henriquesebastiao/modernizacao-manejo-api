@@ -10,6 +10,7 @@ class Sexo(str, Enum):
 
 
 class Raca(str, Enum):
+    """Lista de raças das quais o animal pode ser."""
     nelore = "Nelore"
     angus = "Angus"
     guzera = "Guzerá"
@@ -35,7 +36,7 @@ class AnimalCreate(AnimalBase):
 
 
 class Animal(AnimalBase):
-    id: int
+    id: int  # O id é gerado automaticamente pelo banco de dados
 
     class Config:
         orm_mode = True

@@ -1,12 +1,22 @@
-from database.db import session
-from schemas.animal import Pesagem
+from sqlalchemy import event
+from sqlalchemy.orm import Session
 from models.pesagem import Pesagem
+from schemas.pesagem import PesagemCreate
 
-peso_db = Pesagem(
-    animal_id=animal_db.id,
-    peso=pesagem.peso,
-    data=pesagem.data
-)
 
-session.add(peso_db)
-session.commit()
+def create(animal_id: int, pesagem: PesagemCreate, db: Session):
+    peso_db = Pesagem(
+        peso=pesagem.peso,
+        data=pesagem.data,
+        id_animal=animal_id
+    )
+
+    db.add(peso_db)
+    db.commit()
+    db.refresh(peso_db)
+
+    return peso_db
+
+
+def get_byid(pesagem_id: int, db: Session):
+    return db.query(Pesagem).filter(Pesagem.id == pesagem_id).first()

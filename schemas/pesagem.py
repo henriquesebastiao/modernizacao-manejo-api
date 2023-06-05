@@ -5,7 +5,6 @@ from pydantic import BaseModel
 class PesagemBase(BaseModel):
     peso: float
     data: date
-    id_animal: int
 
 
 class PesagemCreate(PesagemBase):
@@ -14,6 +13,8 @@ class PesagemCreate(PesagemBase):
 
 class PesagemSerial(PesagemBase):
     id: int
+    id_animal: int
+
 
     class Config:
         orm_mode = True
