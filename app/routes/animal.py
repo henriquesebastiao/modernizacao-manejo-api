@@ -28,6 +28,12 @@ async def get_animal_by_id(brinco: int, db: Session = Depends(get_db)):
     return animal.get_byid(brinco, db)
 
 
+@router.get("/animal/brinco/{brinco}")
+async def get_animal_by_id(brinco: int, db: Session = Depends(get_db)):
+    """Retorna um animal pelo brinco."""
+    return animal.get_byid(brinco, db)
+
+
 @router.patch("/animal/{animal_id}")
 async def update_animal(animal_id: int, item: AnimalCreate,
                         db: Session = Depends(get_db)):
