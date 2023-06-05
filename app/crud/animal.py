@@ -3,25 +3,30 @@
 from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
-from app.schemas.animal import AnimalCreate
 from app.models.pesagem import Pesagem
-from app.schemas.pesagem import PesagemCreate
+from app.schemas.animal import AnimalCreate
 
 
 def create(animal: AnimalCreate, db: Session):
     """Cria um animal."""
-    animal_db = Animal(**animal.dict())
+    animal_db = Animal(chip=animal.chip, brinco=animal.brinco,
+                       origem=animal.origem, raca=animal.raca,
+                       id_mae=animal.id_mae, id_pai=animal.id_pai,
+                       sexo=animal.sexo, data_entrada=animal.data_entrada,
+                       data_nascimento=animal.data_nascimento)
     db.add(animal_db)
     db.commit()
 
-    # Cria um registro na tabela de pesagem com o peso de nascimento do animal
-    pesagem_db = PesagemCreate(
+    # Cria um registro na tabela de pesagem com o peso do animal
+    pesagem_db = Pesagem(
         id_animal=animal_db.id,
-        peso=animal_db.peso_nascimento,
-        data=animal_db.data_nascimento
+        peso=animal.peso,
+        data=animal.data_entrada
     )
-    pesagem_db = Pesagem(**pesagem_db.dict())
     db.add(pesagem_db)
+    db.commit()
+
+    animal_db.pesagens.append(pesagem_db)
     db.commit()
 
     return animal_db

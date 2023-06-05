@@ -25,19 +25,18 @@ class AnimalBase(BaseModel):
     """Classe base para validação de dados de Animal."""
     chip: int | None
     brinco: int | None
-    origem: str
+    origem: str | None
     raca: Raca
-    id_mae: int
-    id_pai: int
+    id_mae: int | None
+    id_pai: int | None
     sexo: Sexo
     data_entrada: date
     data_nascimento: date
-    peso_nascimento: float
 
 
 class AnimalCreate(AnimalBase):
     """Classe para validação de dados de criação de Animal."""
-    pass
+    peso: float
 
 
 class Animal(AnimalBase):

@@ -11,9 +11,9 @@ router = APIRouter()
 
 
 @router.post("/animal")
-async def create_animal(item: AnimalCreate, db: Session = Depends(get_db)):
+async def create_animal(a: AnimalCreate, db: Session = Depends(get_db)):
     """Cria um animal."""
-    return animal.create(item, db)
+    return animal.create(a, db)
 
 
 @router.get("/animal")
