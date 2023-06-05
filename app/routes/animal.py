@@ -23,9 +23,9 @@ async def get_all_animal(db: Session = Depends(get_db)):
 
 
 @router.get("/animal/{animal_id}")
-async def get_animal_by_id(animal_id: int, db: Session = Depends(get_db)):
+async def get_animal_by_id(brinco: int, db: Session = Depends(get_db)):
     """Retorna um animal pelo id."""
-    return animal.get_byid(animal_id, db)
+    return animal.get_byid(brinco, db)
 
 
 @router.patch("/animal/{animal_id}")

@@ -12,7 +12,7 @@ class Animal(Base):
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
     chip = Column(Integer)
-    brinco = Column(Integer)
+    brinco: Mapped[int] = Column(Integer)
     origem = Column(String)
     raca = Column(Enum(
         'Nelore',
