@@ -22,19 +22,19 @@ async def get_all_animal(db: Session = Depends(get_db)):
     return get_all(db)
 
 
-@router.get("/animal/{animal_id}")
+@router.get("/animal/{animal_id}", response_model=Animal)
 async def get_animal_by_id(animal_id: int, db: Session = Depends(get_db)):
     """Retorna um animal pelo id."""
     return get_by_id(animal_id, db)
 
 
-@router.get("/animal/brinco/{brinco}")
+@router.get("/animal/brinco/{brinco}", response_model=Animal)
 async def get_animal_by_id(brinco: str, db: Session = Depends(get_db)):
     """Retorna um animal pelo id."""
     return get_by_brinco(brinco, db)
 
 
-@router.get("/animal/chip/{chip}")
+@router.get("/animal/chip/{chip}", response_model=Animal)
 async def get_animal_by_id(chip: str, db: Session = Depends(get_db)):
     """Retorna um animal pelo id."""
     return get_by_brinco(chip, db)
