@@ -3,7 +3,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.crud.animal import create, delete, get_all, get_byid, update
+from app.crud.animal import create, delete, get_all, get_by_id, get_by_brinco, update
 from app.database import get_db
 from app.schemas.animal import AnimalCreate, Animal
 
@@ -23,9 +23,21 @@ async def get_all_animal(db: Session = Depends(get_db)):
 
 
 @router.get("/animal/{animal_id}")
-async def get_animal_by_id(brinco: int, db: Session = Depends(get_db)):
+async def get_animal_by_id(animal_id: int, db: Session = Depends(get_db)):
     """Retorna um animal pelo id."""
-    return get_byid(brinco, db)
+    return get_by_id(animal_id, db)
+
+
+@router.get("/animal/brinco/{brinco}")
+async def get_animal_by_id(brinco: str, db: Session = Depends(get_db)):
+    """Retorna um animal pelo id."""
+    return get_by_brinco(brinco, db)
+
+
+@router.get("/animal/chip/{chip}")
+async def get_animal_by_id(chip: str, db: Session = Depends(get_db)):
+    """Retorna um animal pelo id."""
+    return get_by_brinco(chip, db)
 
 
 @router.patch("/animal/{animal_id}")
