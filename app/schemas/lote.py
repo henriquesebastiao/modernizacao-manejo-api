@@ -11,3 +11,11 @@ class LoteBase(BaseModel):
 
 class LoteCreate(LoteBase):
     """Classe para validação de dados de criação de Lote."""
+
+
+class Lote(LoteBase):
+    """Classe para validação de dados de atualização de Lote."""
+
+    class Config:
+        """Configuração da classe."""
+        orm_mode = True

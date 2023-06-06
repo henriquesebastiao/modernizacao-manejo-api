@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.crud.animal import create, delete, get_all, get_byid, update
 from app.database import get_db
-from app.schemas.animal import AnimalCreate
+from app.schemas.animal import AnimalCreate, Animal
 
 router = APIRouter()
 
@@ -16,7 +16,7 @@ async def create_animal(a: AnimalCreate, db: Session = Depends(get_db)):
     return create(a, db)
 
 
-@router.get("/animal")
+@router.get("/animal", response_model=list[Animal])
 async def get_all_animal(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     return get_all(db)
