@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from app.database import Base, engine
 from app.routes import animal, cargo, fazenda, fazendeiro, lote, peso_log, \
-    usuario
+    usuario, propriedade
 from app.routes import pessoa
 
 app = FastAPI()
@@ -24,3 +24,4 @@ app.include_router(lote.router, tags=["lote"])
 app.include_router(peso_log.router, tags=["pesagem"])
 app.include_router(pessoa.router, tags=["pessoa"])
 app.include_router(usuario.router, tags=["usuario"])
+app.include_router(propriedade.router, tags=["propriedade"])
