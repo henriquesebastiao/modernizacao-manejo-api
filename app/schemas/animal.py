@@ -23,8 +23,8 @@ class Raca(str, Enum):
 
 class AnimalBase(BaseModel):
     """Classe base para validação de dados de Animal."""
-    chip: int | None
-    brinco: int | None
+    chip: str | None
+    brinco: str | None
     origem: str | None
     raca: Raca
     id_mae: int | None
@@ -32,17 +32,9 @@ class AnimalBase(BaseModel):
     sexo: Sexo
     data_entrada: date
     data_nascimento: date
+    peso: float
+    lote_id: int
 
 
 class AnimalCreate(AnimalBase):
     """Classe para validação de dados de criação de Animal."""
-    peso: float
-
-
-class Animal(AnimalBase):
-    """Classe para validação de dados de Animal."""
-    id: int  # O id é gerado automaticamente pelo banco de dados
-
-    class Config:
-        """Classe de configuração do Pydantic."""
-        orm_mode = True

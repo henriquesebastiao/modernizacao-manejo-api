@@ -1,6 +1,6 @@
 """Modelo de animal."""
 
-from sqlalchemy import Column, Date, Enum, Float, Integer, String
+from sqlalchemy import Column, Date, Enum, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, relationship
 
 from app.database import Base
@@ -28,5 +28,7 @@ class Animal(Base):
     data_entrada = Column(Date)
     data_nascimento = Column(Date)
     peso = Column(Float)
+    lote_id = Column(Integer, ForeignKey("lote.id"))
 
+    lote = relationship("Lote", back_populates="animais")
     pesagens = relationship("Pesagem", back_populates="animal")

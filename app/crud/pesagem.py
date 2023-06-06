@@ -7,13 +7,11 @@ from app.models.pesagem import Pesagem
 from app.schemas.pesagem import PesagemCreate
 
 
-def registrar_pesagem(animal_id, data, peso, db: Session):
+def registrar_pesagem(pesagem: PesagemCreate, db: Session):
     """Registra uma pesagem."""
-    animal = db.query(Animal).get(animal_id)
-    if animal:
-        peso_historico = Pesagem(animal_id=animal_id, data=data, peso=peso)
-        db.add(peso_historico)
-        animal.peso = peso
-        db.commit()
-        return peso_historico
+    animal = db.query(Animal).get(pesagem.animal_id)
+    pesagem_db = Pesagem(**pesagem.dict())
+    db.add(pesagem_db)
+    animal.peso = pesagem_db.peso
+    db.commit()
     return None

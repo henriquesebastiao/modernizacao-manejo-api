@@ -7,19 +7,10 @@ from pydantic import BaseModel
 
 class PesagemBase(BaseModel):
     """Classe base para validação de dados de Pesagem."""
+    animal_id: int
     peso: float
     data: date
 
 
 class PesagemCreate(PesagemBase):
     """Classe para validação de dados de criação de Pesagem."""
-    pass
-
-
-class PesagemSerial(PesagemBase):
-    """Classe para validação de dados de Pesagem."""
-    id: int
-
-    class Config:
-        """Classe de configuração do Pydantic."""
-        orm_mode = True

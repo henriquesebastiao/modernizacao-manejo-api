@@ -9,17 +9,12 @@ from app.schemas.animal import AnimalCreate
 
 def create(animal: AnimalCreate, db: Session):
     """Cria um animal."""
-    animal_db = Animal(chip=animal.chip, brinco=animal.brinco,
-                       origem=animal.origem, raca=animal.raca,
-                       data_entrada=animal.data_entrada,
-                       data_nascimento=animal.data_nascimento,
-                       peso=animal.peso, sexo=animal.sexo)
-
+    animal_db = Animal(**animal.dict())
     Pesagem(animal=animal_db, peso=animal.peso, data=animal.data_entrada)
     db.add(animal_db)
     db.commit()
 
-    return animal_db
+    return None
 
 
 def get_all(db: Session):
@@ -37,7 +32,7 @@ def update(animal_id: int, animal: AnimalCreate, db: Session):
     animal_db = db.query(Animal).filter(Animal.id == animal_id).first()
     animal_db(**animal.dict())
     db.commit()
-    return animal_db
+    return None
 
 
 def delete(animal_id: int, db: Session):
@@ -45,4 +40,4 @@ def delete(animal_id: int, db: Session):
     animal_db = db.query(Animal).filter(Animal.id == animal_id).first()
     db.delete(animal_db)
     db.commit()
-    return animal_db
+    return None
