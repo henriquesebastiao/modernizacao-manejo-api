@@ -3,14 +3,14 @@
 from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
-from app.models.pesagem import Pesagem
-from app.schemas.pesagem import PesagemCreate
+from app.models.peso_log import PesoLog
+from app.schemas.peso_log import PesoLogCreate
 
 
-def registrar_pesagem(pesagem: PesagemCreate, db: Session):
+def registrar_peso(pesagem: PesoLogCreate, db: Session):
     """Registra uma pesagem."""
     animal = db.query(Animal).get(pesagem.animal_id)
-    pesagem_db = Pesagem(**pesagem.dict())
+    pesagem_db = PesoLog(**pesagem.dict())
     db.add(pesagem_db)
     animal.peso = pesagem_db.peso
     db.commit()

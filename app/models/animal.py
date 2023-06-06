@@ -30,5 +30,6 @@ class Animal(Base):
     peso = Column(Float)
     lote_id = Column(Integer, ForeignKey("lote.id"))
 
+    lote_log = relationship("LoteLog", back_populates="animal")
     lote = relationship("Lote", back_populates="animais")
-    pesagens = relationship("Pesagem", back_populates="animal")
+    peso_log = relationship("PesoLog", back_populates="animal")

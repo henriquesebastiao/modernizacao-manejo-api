@@ -16,4 +16,5 @@ class Lote(Base):
     numero = Column(Integer)
     descricao = Column(String)
 
+    lote_log = relationship("LoteLog", back_populates="lote")
     animais = relationship("Animal", back_populates="lote")

@@ -6,7 +6,8 @@ from enum import Enum
 from pydantic import BaseModel
 
 from app.schemas.lote import Lote
-from app.schemas.pesagem import Pesagem
+from app.schemas.lote_log import LoteLog
+from app.schemas.peso_log import PesoLog
 
 
 class Sexo(str, Enum):
@@ -46,7 +47,8 @@ class AnimalCreate(AnimalBase):
 class Animal(AnimalBase):
     """Classe para validação de dados de atualização de Animal."""
     lote: Lote
-    pesagens: list[Pesagem]
+    peso_log: list[PesoLog]
+    lote_log: list[LoteLog]
 
     class Config:
         """Configuração da classe."""

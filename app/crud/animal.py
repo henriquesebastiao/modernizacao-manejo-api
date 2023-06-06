@@ -3,14 +3,17 @@
 from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
-from app.models.pesagem import Pesagem
+from app.models.lote_log import LoteLog
+from app.models.peso_log import PesoLog
 from app.schemas.animal import AnimalCreate
 
 
 def create(animal: AnimalCreate, db: Session):
     """Cria um animal."""
     animal_db = Animal(**animal.dict())
-    Pesagem(animal=animal_db, peso=animal.peso, data=animal.data_entrada)
+    PesoLog(animal=animal_db, peso=animal.peso, data=animal.data_entrada)
+    LoteLog(animal=animal_db, lote_id=animal.lote_id,
+            data_entrada=animal.data_entrada)
     db.add(animal_db)
     db.commit()
     return None
