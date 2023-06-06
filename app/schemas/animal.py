@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from app.schemas.lote import Lote
 from app.schemas.lote_log import LoteLog
 from app.schemas.peso_log import PesoLog
+from app.schemas.raca import Raca
 
 
 class Sexo(str, Enum):
@@ -21,7 +22,7 @@ class AnimalBase(BaseModel):
     chip: str | None
     brinco: str | None
     origem: str | None
-    raca: str | None
+    raca_id: int | None
     id_mae: int | None
     id_pai: int | None
     sexo: Sexo
@@ -38,8 +39,10 @@ class AnimalCreate(AnimalBase):
 class Animal(AnimalBase):
     """Classe para validação de dados de atualização de Animal."""
     lote: Lote
+    raca: Raca
     peso_log: list[PesoLog]
     lote_log: list[LoteLog]
+
 
     class Config:
         """Configuração da classe."""
