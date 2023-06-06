@@ -3,9 +3,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.crud.animal import create, delete, get_all, get_by_id, get_by_brinco, update
+from app.crud.animal import create, delete, get_all, get_by_brinco, get_by_id, \
+    update
 from app.database import get_db
-from app.schemas.animal import AnimalCreate, Animal
+from app.schemas.animal import Animal, AnimalCreate
 
 router = APIRouter()
 
