@@ -14,14 +14,7 @@ class Animal(Base):
     chip = Column(String)
     brinco = Column(String)
     origem = Column(String)
-    raca = Column(Enum(
-        "Nelore",
-        "Angus",
-        "Guzerá",
-        "Senepol",
-        "Outra",
-        name="raca"
-    ))
+    raca_id = Column(Integer, ForeignKey("racas.id"))  # Verificar o que associar aqui, se é o id da raça ou o nome
     id_mae = Column(Integer)
     id_pai = Column(Integer)
     sexo = Column(Enum("Macho", "Fêmea", name="sexo"))
@@ -33,3 +26,4 @@ class Animal(Base):
     lote_log = relationship("LoteLog", back_populates="animal")
     lote = relationship("Lote", back_populates="animais")
     peso_log = relationship("PesoLog", back_populates="animal")
+    raca = relationship("Raca", back_populates="animais")

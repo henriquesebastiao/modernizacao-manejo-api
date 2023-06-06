@@ -16,21 +16,12 @@ class Sexo(str, Enum):
     femea = "Fêmea"
 
 
-class Raca(str, Enum):
-    """Lista de raças das quais o animal pode ser."""
-    nelore = "Nelore"
-    angus = "Angus"
-    guzera = "Guzerá"
-    senepol = "Senepol"
-    outra = "Outra"
-
-
 class AnimalBase(BaseModel):
     """Classe base para validação de dados de Animal."""
     chip: str | None
     brinco: str | None
     origem: str | None
-    raca: Raca
+    raca: str | None
     id_mae: int | None
     id_pai: int | None
     sexo: Sexo
