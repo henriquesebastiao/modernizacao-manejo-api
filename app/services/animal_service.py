@@ -4,9 +4,11 @@ from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
 from app.repository import BaseRepository
-from app.schemas.animal import AnimalCreateSchema, AnimalUpdateSchema, \
-    AnimalDeleteSchema
+from app.schemas.animal import AnimalCreateSchema, AnimalDeleteSchema, \
+    AnimalUpdateSchema
+from app.schemas.peso_log import PesoLogCreateSchema
 from app.services.base_service import BaseService
+from app.services.peso_log_service import PesoLogService
 
 
 class AnimalService(BaseService):
@@ -23,7 +25,13 @@ class AnimalService(BaseService):
         Returns:
             Animal: O animal criado.
         """
-        return self.create(animal)
+        animal = self.create(animal)
+        peso_log_service = PesoLogService(self.db)
+        peso_log = PesoLogCreateSchema(animal_id=animal.id,
+                                       data=animal.data_entrada,
+                                       peso=animal.peso)
+        peso_log_service.create_peso_log(peso_log)
+        return animal
 
     def get_animal(self, animal_id: int) -> Optional[Animal]:
         """

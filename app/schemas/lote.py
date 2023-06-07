@@ -4,9 +4,8 @@ from pydantic import BaseModel
 class LoteBaseSchema(BaseModel):
     """Classe base para validação de dados de Lote."""
     nome: str
-    descricao: str | None
-    referencia: str | None
     numero: int
+    obs: str | None
 
 
 class LoteCreateSchema(LoteBaseSchema):
@@ -23,6 +22,7 @@ class LoteDeleteSchema(LoteBaseSchema):
 
 class LoteSchema(LoteBaseSchema):
     """Classe para validação de dados de atualização de Lote."""
+    id: int
 
     class Config:
         """Configuração da classe."""

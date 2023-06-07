@@ -24,7 +24,7 @@ create-migration:
 	if [ -z "$$Nome" ]; then \
 		Nome="migrate"; \
 	fi; \
-	poetry run alembic revision --autogenerate -m $$Nome
+	poetry run alembic revision --autogenerate -m "$$Nome"
 
 .PHONY: apply-migration
 apply-migration:

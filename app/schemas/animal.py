@@ -46,10 +46,10 @@ class AnimalDeleteSchema(AnimalSchemaBase):
 class AnimalSchema(AnimalSchemaBase):
     """Classe para validação de dados de atualização de Animal."""
     id: int
-    lote: LoteSchema
-    raca: RacaSchema
-    peso_log: list[PesoLogSchema]
-    lote_log: list[LoteLogSchema]
+    lote: LoteSchema | None
+    raca: RacaSchema | None
+    peso_log: list[PesoLogSchema] | None
+    lote_log: list[LoteLogSchema] | None
 
     class Config:
         """Configuração da classe."""
