@@ -3,7 +3,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.crud.peso_log import registrar_peso
 from app.database import get_db
 from app.schemas.peso_log import PesoLogCreate
 

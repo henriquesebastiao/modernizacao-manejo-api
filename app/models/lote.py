@@ -11,10 +11,9 @@ class Lote(Base):
     __tablename__ = "lote"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    nome = Column(String)
-    referencia = Column(String)
-    numero = Column(Integer)
-    descricao = Column(String)
+    nome: Mapped[str] = Column(String)
+    numero: Mapped[int] = Column(Integer)
+    obs: Mapped[str] = Column(String)
 
     lote_log = relationship("LoteLog", back_populates="lote")
     animais = relationship("Animal", back_populates="lote")

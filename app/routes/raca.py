@@ -3,7 +3,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.crud.raca import create, delete, get_all, get_by_id
 from app.database import get_db
 from app.schemas.raca import RacaCreate, Raca
 

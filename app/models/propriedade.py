@@ -11,5 +11,5 @@ class Propriedade(Base):
     __tablename__ = 'propriedade'
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    nome = Column(String)
+    nome: Mapped[str] = Column(String)
     fazendeiro_id = Column(Integer)

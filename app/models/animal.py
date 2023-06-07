@@ -11,17 +11,17 @@ class Animal(Base):
     __tablename__ = "animal"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    chip = Column(String)
-    brinco = Column(String)
-    origem = Column(String)
-    raca_id = Column(Integer, ForeignKey("racas.id"))  # Verificar o que associar aqui, se é o id da raça ou o nome
-    id_mae = Column(Integer)
-    id_pai = Column(Integer)
-    sexo = Column(Enum("Macho", "Fêmea", name="sexo"))
-    data_entrada = Column(Date)
-    data_nascimento = Column(Date)
-    peso = Column(Float)
-    lote_id = Column(Integer, ForeignKey("lote.id"))
+    chip: Mapped[str] = Column(String, nullable=True)
+    brinco: Mapped[str] = Column(String, nullable=True)
+    origem = Column(String, nullable=True)
+    raca_id = Column(Integer, ForeignKey("raca.id"), nullable=True)
+    id_mae = Column(Integer, nullable=True)
+    id_pai = Column(Integer, nullable=True)
+    sexo = Column(Enum("Macho", "Fêmea", name="sexo"), nullable=True)
+    data_entrada = Column(Date, nullable=True)
+    data_nascimento = Column(Date, nullable=True)
+    peso = Column(Float, nullable=True)
+    lote_id = Column(Integer, ForeignKey("lote.id"), nullable=True)
 
     lote_log = relationship("LoteLog", back_populates="animal")
     lote = relationship("Lote", back_populates="animais")

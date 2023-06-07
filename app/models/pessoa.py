@@ -12,7 +12,7 @@ class Pessoa(Base):
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String)
-    sobre_nome = Column(String)
+    sobre_nome: Mapped[str] = Column(String)
     cargo_id = Column(Integer, ForeignKey('cargo.id'))
 
     cargo = relationship("Cargo")

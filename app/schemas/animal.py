@@ -17,7 +17,7 @@ class Sexo(str, Enum):
     femea = "Fêmea"
 
 
-class AnimalBase(BaseModel):
+class AnimalSchemaBase(BaseModel):
     """Classe base para validação de dados de Animal."""
     chip: str | None
     brinco: str | None
@@ -29,20 +29,27 @@ class AnimalBase(BaseModel):
     data_entrada: date
     data_nascimento: date
     peso: float
-    lote_id: int
 
 
-class AnimalCreate(AnimalBase):
+class AnimalCreateSchema(AnimalSchemaBase):
     """Classe para validação de dados de criação de Animal."""
 
 
-class Animal(AnimalBase):
+class AnimalUpdateSchema(AnimalSchemaBase):
+    """Classe para validação de dados de atualização de Animal."""
+
+
+class AnimalDeleteSchema(AnimalSchemaBase):
+    """Classe para validação de dados de atualização de Animal."""
+    id: int
+
+
+class AnimalSchema(AnimalSchemaBase):
     """Classe para validação de dados de atualização de Animal."""
     lote: Lote
     raca: Raca
     peso_log: list[PesoLog]
     lote_log: list[LoteLog]
-
 
     class Config:
         """Configuração da classe."""

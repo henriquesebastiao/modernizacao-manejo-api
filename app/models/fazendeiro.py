@@ -12,4 +12,4 @@ class Fazendeiro(Base):
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
     usuario_id = Column(Integer, ForeignKey('usuario.id'))
 
-    fazendas = relationship("Fazenda", back_populates="fazendeiro")
+    fazenda = relationship("Fazenda", back_populates="fazendeiro")
