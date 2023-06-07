@@ -18,7 +18,7 @@ class PessoaService(BaseService):
         Cria um pessoa.
 
         Args:
-            pessoa (PessoaCreate): Os dados do pessoa a ser criado.
+            pessoa (PessoaCreate): Os dados da pessoa a ser criado.
 
         Returns:
             Pessoa: O pessoa criado.
@@ -27,7 +27,7 @@ class PessoaService(BaseService):
 
     def get_pessoa(self, pessoa_id: int) -> Optional[Pessoa]:
         """
-        Retorna um pessoa com base no seu ID.
+        Retorna uma pessoa com base no seu ID.
 
         Args:
             pessoa_id (int): O ID do pessoa.
@@ -49,10 +49,10 @@ class PessoaService(BaseService):
     def update_pessoa(self, pessoa_id: int, pessoa: PessoaUpdateSchema) -> \
             Pessoa:
         """
-        Atualiza um pessoa com base no seu ID.
+        Atualiza uma pessoa com base no seu ID.
 
         Args:
-            pessoa_id (int): O ID do pessoa a ser atualizado.
+            pessoa_id (int): O ID da pessoa a ser atualizado.
             pessoa (PessoaUpdate): Os dados atualizados do pessoa.
 
         Returns:
@@ -66,10 +66,10 @@ class PessoaService(BaseService):
 
     def delete_pessoa(self, pessoa: PessoaDeleteSchema) -> None:
         """
-        Remove um pessoa com base no seu ID.
+        Remove uma pessoa com base no seu ID.
 
         Args:
-            pessoa (PessoaDelete): O ID do pessoa a ser removido.
+            pessoa (PessoaDelete): O ID da pessoa a ser removido.
         """
         pessoa = self.get_pessoa(pessoa.id)
         if pessoa:

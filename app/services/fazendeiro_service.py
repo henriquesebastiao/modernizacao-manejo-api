@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.models.fazendeiro import Fazendeiro
 from app.repository import BaseRepository
-from app.schemas.fazendeiro import FazendeiroCreateSchema, FazendeiroUpdateSchema, \
-    FazendeiroDeleteSchema
+from app.schemas.fazendeiro import FazendeiroCreateSchema, \
+    FazendeiroDeleteSchema, FazendeiroUpdateSchema
 from app.services.base_service import BaseService
 
 
@@ -13,7 +13,8 @@ class FazendeiroService(BaseService):
     def __init__(self, db: Session):
         super().__init__(db, BaseRepository, Fazendeiro)
 
-    def create_fazendeiro(self, fazendeiro: FazendeiroCreateSchema) -> Fazendeiro:
+    def create_fazendeiro(self,
+                          fazendeiro: FazendeiroCreateSchema) -> Fazendeiro:
         """
         Cria um fazendeiro.
 
@@ -46,7 +47,8 @@ class FazendeiroService(BaseService):
         """
         return self.get_all()
 
-    def update_fazendeiro(self, fazendeiro_id: int, fazendeiro: FazendeiroUpdateSchema) -> \
+    def update_fazendeiro(self, fazendeiro_id: int,
+                          fazendeiro: FazendeiroUpdateSchema) -> \
             Fazendeiro:
         """
         Atualiza um fazendeiro com base no seu ID.
