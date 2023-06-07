@@ -1,34 +1,50 @@
-"""Rotas para o CRUD de Pessoa."""
+"""Routes for pessoa"""
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models.pessoa import Pessoa
-from app.schemas.pessoa import PessoaCreate
+from app.schemas.pessoa import PessoaCreateSchema, PessoaDeleteSchema, \
+    PessoaSchema, PessoaUpdateSchema
+from app.services.pessoa_service import PessoaService
 
-router = APIRouter()
-
-
-@router.post("/pessoa")
-async def create_pessoa(pessoa: PessoaCreate, db: Session = Depends(get_db)):
-    """Cria uma pessoa."""
-    pessoa_db = Pessoa(
-        nome=pessoa.nome,
-        sobre_nome=pessoa.sobre_nome,
-        cargo_id=pessoa.cargo_id
-    )
-
-    db.add(pessoa_db)
-    db.commit()
-
-    return {"message": f"Pessoa {pessoa.nome} criada com sucesso!"}
+router = APIRouter(prefix="/pessoa", tags=["Pessoa"])
 
 
-@router.delete("/pessoa/{id}")
-async def delete_pessoa(id: int, db: Session = Depends(get_db)):
-    """Deleta uma pessoa."""
-    pessoa_db = db.query(Pessoa).filter(Pessoa.id == id).first()
-    db.delete(pessoa_db)
-    db.commit()
-    return {"message": f"Pessoa {pessoa_db.nome} deletada com sucesso!"}
+@router.post("/", response_model=PessoaSchema)
+async def create_pessoa(pessoa: PessoaCreateSchema,
+                        db: Session = Depends(get_db)):
+    """Cria um pessoa."""
+    pessoa_service = PessoaService(db)
+    return pessoa_service.create_pessoa(pessoa)
+
+
+@router.get("/{pessoa_id}", response_model=PessoaSchema)
+def get_pessoa(pessoa_id: int, db: Session = Depends(get_db)):
+    """Retorna um pessoa com base no seu ID."""
+    pessoa_service = PessoaService(db)
+    return pessoa_service.get_pessoa(pessoa_id)
+
+
+@router.get("/")
+async def get_all_pessoas(db: Session = Depends(get_db)):
+    """Retorna todos os animais."""
+    pessoa_service = PessoaService(db)
+    return pessoa_service.get_all_pessoas()
+
+
+@router.patch("/pessoa/{pessoa_id}")
+async def update_pessoa(pessoa_id: int, pessoa: PessoaUpdateSchema,
+                        db: Session = Depends(get_db)):
+    """Atualiza um pessoa."""
+    pessoa_service = PessoaService(db)
+    return pessoa_service.update_pessoa(pessoa_id, pessoa)
+
+
+@router.delete("/pessoa/{pessoa_id}")
+async def delete_pessoa(pessoa: PessoaDeleteSchema,
+                        db: Session = Depends(get_db)):
+    """Deleta um pessoa."""
+    pessoa_service = PessoaService(db)
+    pessoa_service.delete_pessoa(pessoa)
+    return {"message": "Pessoa deleted"}

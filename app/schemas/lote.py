@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class LoteBase(BaseModel):
+class LoteBaseSchema(BaseModel):
     """Classe base para validação de dados de Lote."""
     nome: str
     descricao: str | None
@@ -9,11 +9,19 @@ class LoteBase(BaseModel):
     numero: int
 
 
-class LoteCreate(LoteBase):
+class LoteCreateSchema(LoteBaseSchema):
     """Classe para validação de dados de criação de Lote."""
 
 
-class Lote(LoteBase):
+class LoteUpdateSchema(LoteBaseSchema):
+    """Classe para validação de dados de atualização de Lote."""
+
+
+class LoteDeleteSchema(LoteBaseSchema):
+    """Classe para validação de dados de remoção de Lote."""
+
+
+class LoteSchema(LoteBaseSchema):
     """Classe para validação de dados de atualização de Lote."""
 
     class Config:

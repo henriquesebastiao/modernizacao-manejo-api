@@ -3,15 +3,23 @@
 from pydantic import BaseModel
 
 
-class FazendeiroBase(BaseModel):
+class FazendeiroBaseSchema(BaseModel):
     usuario_id: int
 
 
-class FazendeiroCreate(FazendeiroBase):
-    pass
+class FazendeiroCreateSchema(FazendeiroBaseSchema):
+    """Classe para validação de dados de criação do fazendeiro."""
 
 
-class FazendeiroSerial(FazendeiroBase):
+class FazendeiroUpdateSchema(FazendeiroBaseSchema):
+    """Classe para validação de dados de atualização do fazendeiro."""
+
+
+class FazendeiroDeleteSchema(FazendeiroBaseSchema):
+    """Classe para validação de dados de remoção do fazendeiro."""
+
+
+class FazendeiroSchema(FazendeiroBaseSchema):
     id: int
 
     class Config:

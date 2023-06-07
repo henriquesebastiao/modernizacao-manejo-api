@@ -3,17 +3,24 @@
 from pydantic import BaseModel
 
 
-class RacaBase(BaseModel):
+class RacaBaseSchema(BaseModel):
     """Classe base para validação de dados de Raca."""
     nome: str
 
 
-class RacaCreate(RacaBase):
+class RacaCreateSchema(RacaBaseSchema):
     """Classe para validação de dados de criação de Raca."""
-    pass
 
 
-class Raca(RacaBase):
+class RacaUpdateSchema(RacaBaseSchema):
+    """Classe para validação de dados de atualização de Raca."""
+
+
+class RacaDeleteSchema(RacaBaseSchema):
+    """Classe para validação de dados de remoção de Raca."""
+
+
+class RacaSchema(RacaBaseSchema):
     """Classe para validação de dados de atualização de Raca."""
     id: int
 

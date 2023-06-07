@@ -5,10 +5,10 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from app.schemas.lote import Lote
-from app.schemas.lote_log import LoteLog
-from app.schemas.peso_log import PesoLog
-from app.schemas.raca import Raca
+from app.schemas.lote import LoteSchema
+from app.schemas.lote_log import LoteLogSchema
+from app.schemas.peso_log import PesoLogSchema
+from app.schemas.raca import RacaSchema
 
 
 class Sexo(str, Enum):
@@ -23,12 +23,12 @@ class AnimalSchemaBase(BaseModel):
     brinco: str | None
     origem: str | None
     raca_id: int | None
-    id_mae: int | None
-    id_pai: int | None
-    sexo: Sexo
-    data_entrada: date
-    data_nascimento: date
-    peso: float
+    mae_id: int | None
+    pai_id: int | None
+    sexo: Sexo | None
+    data_entrada: date | None
+    data_nascimento: date | None
+    peso: float | None
 
 
 class AnimalCreateSchema(AnimalSchemaBase):
@@ -40,16 +40,16 @@ class AnimalUpdateSchema(AnimalSchemaBase):
 
 
 class AnimalDeleteSchema(AnimalSchemaBase):
-    """Classe para validação de dados de atualização de Animal."""
-    id: int
+    """Classe para validação de dados de remoção de Animal."""
 
 
 class AnimalSchema(AnimalSchemaBase):
     """Classe para validação de dados de atualização de Animal."""
-    lote: Lote
-    raca: Raca
-    peso_log: list[PesoLog]
-    lote_log: list[LoteLog]
+    id: int
+    lote: LoteSchema
+    raca: RacaSchema
+    peso_log: list[PesoLogSchema]
+    lote_log: list[LoteLogSchema]
 
     class Config:
         """Configuração da classe."""

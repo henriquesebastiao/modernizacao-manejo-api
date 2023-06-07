@@ -3,17 +3,24 @@
 from pydantic import BaseModel
 
 
-class CargoBase(BaseModel):
+class CargoSchemaBase(BaseModel):
     """Classe base para validação de dados de Cargo."""
     nome: str
 
 
-class CargoCreate(CargoBase):
+class CargoCreateSchema(CargoSchemaBase):
     """Classe para validação de dados de criação de Cargo."""
-    pass
 
 
-class CargoSerial(CargoBase):
+class CargoUpdateSchema(CargoSchemaBase):
+    """Classe para validação de dados de atualização de Cargo."""
+
+
+class CargoDeleteSchema(CargoSchemaBase):
+    """Classe para validação de dados de remoção de Cargo."""
+
+
+class CargoSchema(CargoSchemaBase):
     """Classe para validação de dados de Cargo."""
     id: int
 

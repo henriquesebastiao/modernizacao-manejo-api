@@ -11,8 +11,8 @@ class Animal(Base):
     __tablename__ = "animal"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    chip: Mapped[str] = Column(String, nullable=True)
-    brinco: Mapped[str] = Column(String, nullable=True)
+    chip: Mapped[str] = Column(String)
+    brinco: Mapped[str] = Column(String)
     origem = Column(String, nullable=True)
     raca_id = Column(Integer, ForeignKey("raca.id"), nullable=True)
     id_mae = Column(Integer, nullable=True)
