@@ -3,8 +3,7 @@
 from sqlalchemy import Column, Date, Float, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from app.database import Base
-
+from app.models.base import Base
 
 class PesoLog(Base):
     """Modelo de pesagem."""

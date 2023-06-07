@@ -1,6 +1,26 @@
 Configurando ambiente:
 
-Roda o postgresql em um container docker:
+Ligar o banco de dados:
 ```bash
-make db-up
+make up-db
+```
+
+Desligar o banco de dados:
+```bash
+make down-db
+```
+
+Criar migração:
+```bash
+make create-migration
+```
+
+Rodar migração:
+```bash
+make apply-migration
+```
+
+Reverter migração:
+```bash
+make revert-migration
 ```

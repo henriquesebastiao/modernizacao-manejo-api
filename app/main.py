@@ -2,19 +2,11 @@
 
 from fastapi import FastAPI
 
-from app.database import Base, engine
 from app.routes import animal, cargo, fazenda, fazendeiro, lote, lote_log, \
     peso_log, propriedade, raca, usuario
 from app.routes import pessoa
 
 app = FastAPI()
-
-
-@app.on_event("startup")
-async def startup_event():
-    """Cria as tabelas do banco de dados."""
-    Base.metadata.create_all(engine)
-
 
 app.include_router(animal.router)
 app.include_router(cargo.router)

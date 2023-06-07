@@ -3,7 +3,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, relationship
 
-from app.database import Base
+from app.models.base import Base
 
 
 class Fazenda(Base):
