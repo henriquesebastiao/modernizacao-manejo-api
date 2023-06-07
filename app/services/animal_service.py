@@ -64,11 +64,12 @@ class AnimalService(BaseService):
         Returns:
             Optional[Animal]: O animal atualizado ou None se não for encontrado.
         """
-        animal_db = self.get_animal(animal_id)
-        if animal:
-            animal_db = Animal(**animal.dict())
-            return self.update(animal_db)
-        return Animal()
+        db_animal = self.get_animal(animal_id)
+        if db_animal:
+            for field, value in animal.dict(exclude_unset=True).items():
+                setattr(db_animal, field, value)
+            return self.update(db_animal)
+        return db_animal
 
     def delete_animal(self, animal: AnimalDeleteSchema) -> None:
         """
