@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
@@ -33,7 +31,7 @@ class AnimalService(BaseService):
         peso_log_service.create_peso_log(peso_log)
         return animal
 
-    def get_animal(self, animal_id: int) -> Optional[Animal]:
+    def get_animal(self, animal_id: int) -> Animal:
         """
         Retorna um animal com base no seu ID.
 
@@ -43,7 +41,7 @@ class AnimalService(BaseService):
         Returns:
             Optional[Animal]: O animal encontrado ou None se não for encontrado.
         """
-        return self.get_by_id(animal_id)
+        return self.get_by_id(animal_id)[0]
 
     def get_all_animals(self) -> list[Animal]:
         """

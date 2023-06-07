@@ -66,7 +66,7 @@ class BaseService:
         Returns:
             Optional[T]: A entidade encontrada ou None se não for encontrada.
         """
-        return self.repository(self.db).get_by_id(entity_id)
+        return self.repository(self.db, self.model).get_by_id(entity_id)
 
     def get_by_field(self, field_name: str, value: str) -> list[T]:
         """
