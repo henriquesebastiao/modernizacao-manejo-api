@@ -42,7 +42,7 @@ def get_animal_by_chip(chip: str, db: Session = Depends(get_db)):
     return animal_service.get_by_field(chip, chip)
 
 
-@router.get("/")
+@router.get("/", response_model=list[AnimalSchema])
 async def get_all_animals(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     animal_service = AnimalService(db)
