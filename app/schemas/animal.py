@@ -39,10 +39,6 @@ class AnimalUpdateSchema(AnimalSchemaBase):
     """Classe para validação de dados de atualização de Animal."""
 
 
-class AnimalDeleteSchema(AnimalSchemaBase):
-    """Classe para validação de dados de remoção de Animal."""
-
-
 class AnimalSchema(AnimalSchemaBase):
     """Classe para validação de dados de atualização de Animal."""
     id: int | None

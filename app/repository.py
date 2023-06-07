@@ -58,7 +58,7 @@ class BaseRepository:
         """
         return self.db.query(self.model).all()
 
-    def get_by_id(self, entity_id: int) -> list[T]:
+    def get_by_id(self, entity_id: int) -> T:
         """
         Retorna uma lista com uma única entidade do tipo T com base no seu ID.
 
@@ -66,13 +66,12 @@ class BaseRepository:
             entity_id (int): O ID da entidade.
 
         Returns:
-            List[T]: Uma lista contendo a entidade encontrada ou uma lista vazia
-             se não for encontrada.
+            T: Uma entidade encontrada ou None se não for encontrado.
         """
         entity = self.db.query(self.model).filter_by(id=entity_id).first()
         if entity:
-            return [entity]
-        return []
+            return entity
+        return None
 
     def get_by_field(self, field_name: str, value: str) -> list[T]:
         """

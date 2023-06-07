@@ -2,8 +2,7 @@ from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
 from app.repository import BaseRepository
-from app.schemas.animal import AnimalCreateSchema, AnimalDeleteSchema, \
-    AnimalUpdateSchema
+from app.schemas.animal import AnimalCreateSchema, AnimalUpdateSchema
 from app.schemas.peso_log import PesoLogCreateSchema
 from app.services.base_service import BaseService
 from app.services.peso_log_service import PesoLogService
@@ -41,7 +40,7 @@ class AnimalService(BaseService):
         Returns:
             Optional[Animal]: O animal encontrado ou None se não for encontrado.
         """
-        return self.get_by_id(animal_id)[0]
+        return self.get_by_id(animal_id)
 
     def get_all_animals(self) -> list[Animal]:
         """
@@ -71,13 +70,15 @@ class AnimalService(BaseService):
             return self.update(db_animal)
         return db_animal
 
-    def delete_animal(self, animal: AnimalDeleteSchema) -> None:
+    def delete_animal(self, animal_id: int) -> bool:
         """
         Remove um animal com base no seu ID.
 
         Args:
-            animal (AnimalDelete): O ID do animal a ser removido.
+            animal_id: O ID do animal a ser removido.
         """
-        animal = self.get_animal(animal.id)
+        animal = self.get_animal(animal_id)
         if animal:
             self.delete(animal)
+            return True
+        return False

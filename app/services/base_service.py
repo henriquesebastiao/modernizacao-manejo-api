@@ -45,7 +45,7 @@ class BaseService:
         Args:
             entity (T): A entidade a ser removida.
         """
-        self.repository(self.db).delete(entity)
+        self.repository(self.db, self.model).delete(entity)
 
     def get_all(self) -> list[T]:
         """
@@ -56,7 +56,7 @@ class BaseService:
         """
         return self.repository(self.db, self.model).get_all()
 
-    def get_by_id(self, entity_id: int) -> Optional[T]:
+    def get_by_id(self, entity_id: int) -> T:
         """
         Retorna uma entidade com base no seu ID.
 

@@ -1,11 +1,11 @@
 """Routes for animal"""
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.animal import AnimalCreateSchema, AnimalDeleteSchema, \
-    AnimalSchema, AnimalUpdateSchema
+from app.schemas.animal import AnimalCreateSchema, AnimalSchema, \
+    AnimalUpdateSchema
 from app.services.animal_service import AnimalService
 
 router = APIRouter(prefix="/animal", tags=["Animal"])
@@ -23,7 +23,9 @@ async def create_animal(animal: AnimalCreateSchema,
 def get_animal_by_id(animal_id: int, db: Session = Depends(get_db)):
     """Retorna um animal com base no seu ID."""
     animal_service = AnimalService(db)
-    return animal_service.get_animal(animal_id)
+    if db_animal := animal_service.get_animal(animal_id):
+        return db_animal
+    raise HTTPException(status_code=404, detail="Item not found")
 
 
 @router.get("/{brinco}", response_model=AnimalSchema)
@@ -56,9 +58,10 @@ async def update_animal(animal_id: int, animal: AnimalUpdateSchema,
 
 
 @router.delete("/animal/{animal_id}")
-async def delete_animal(animal: AnimalDeleteSchema,
-                        db: Session = Depends(get_db)):
+async def delete_animal(animal_id: int, db: Session = Depends(get_db)) -> dict:
     """Deleta um animal."""
     animal_service = AnimalService(db)
-    animal_service.delete_animal(animal)
-    return {"message": "Animal deleted"}
+    db_animal = animal_service.delete_animal(animal_id)
+    if db_animal:
+        return {"message": "Animal deleted"}
+    raise HTTPException(status_code=404, detail="Item not found")
