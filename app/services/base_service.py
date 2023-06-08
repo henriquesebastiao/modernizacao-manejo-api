@@ -90,7 +90,11 @@ class BaseService:
         Returns:
             Optional[T]: A entidade encontrada ou None se não for encontrada.
         """
-        return BaseRepository(self.db, self.model).get_by_id(entity_id)
+        try:
+            db_entity = BaseRepository(self.db, self.model).get_by_id(entity_id)
+        except Exception:
+            return None
+        return db_entity
 
     def get_by_field(self, field_name: str, value: str) -> list[T] | None:
         """
@@ -104,5 +108,9 @@ class BaseService:
             List[T]: Uma lista contendo a entidade encontrada ou uma lista vazia
              se não for encontrada.
         """
-        return BaseRepository(self.db, self.model).get_by_field(
-            field_name, value)
+        try:
+            db_entity = BaseRepository(self.db, self.model).get_by_field(
+                field_name, value)
+        except Exception:
+            return None
+        return db_entity
