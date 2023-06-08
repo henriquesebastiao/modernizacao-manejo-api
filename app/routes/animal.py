@@ -18,7 +18,7 @@ async def create_animal(animal: AnimalCreateSchema,
     service = AnimalService(db, Animal)
     if service.create(animal):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{animal_id}")

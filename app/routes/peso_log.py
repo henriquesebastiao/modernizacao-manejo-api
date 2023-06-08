@@ -18,7 +18,7 @@ async def create_peso_log(peso_log: PesoLogCreateSchema,
     service = BaseService(db, PesoLog)
     if service.create(peso_log):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{peso_log_id}")

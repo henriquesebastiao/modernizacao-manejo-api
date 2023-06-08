@@ -27,7 +27,7 @@ def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
     service = BaseService(db, Usuario)
     if response := service.get_by_id(usuario_id):
         return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/")

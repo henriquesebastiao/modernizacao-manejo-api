@@ -18,7 +18,7 @@ async def create_pessoa(pessoa: PessoaCreateSchema,
     service = BaseService(db, Pessoa)
     if service.create(pessoa):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{pessoa_id}")

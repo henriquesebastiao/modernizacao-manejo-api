@@ -17,7 +17,7 @@ async def create_raca(raca: RacaCreateSchema, db: Session = Depends(get_db)):
     service = BaseService(db, Raca)
     if service.create(raca):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{raca_id}")

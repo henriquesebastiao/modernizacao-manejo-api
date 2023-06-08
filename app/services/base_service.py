@@ -3,7 +3,7 @@ from typing import Type, TypeVar
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.repository import BaseRepository
+from app.repositories.repository import BaseRepository
 
 T = TypeVar('T')
 
@@ -13,7 +13,7 @@ class BaseService:
         self.db: Session = db
         self.model: Type[T] = model
 
-    def create(self, entity: BaseModel) -> T | None:
+    def create(self, entity: BaseModel) -> bool:
         """
         Cria uma entidade.
 
@@ -23,10 +23,14 @@ class BaseService:
         Returns:
             T: A entidade criada.
         """
-        entity = self.model(**entity.dict())
-        return BaseRepository(self.db, self.model).create(entity)
+        try:
+            if entity := self.model(**entity.dict()):
+                BaseRepository(self.db, self.model).create(entity)
+        except Exception:
+            return False
+        return True
 
-    def update(self, entity_id: int, entity: BaseModel) -> T | None:
+    def update(self, entity_id: int, entity: BaseModel) -> bool:
         """
         Atualiza uma entidade.
 
@@ -37,24 +41,31 @@ class BaseService:
         Returns:
             T: A entidade atualizada.
         """
-        db_entity = self.get_by_id(entity_id)
-        if db_entity:
-            for field, value in entity.dict(exclude_unset=True).items():
-                setattr(db_entity, field, value)
-            return BaseRepository(self.db, self.model).update(db_entity)
-        return None
+        try:
+            db_entity = BaseRepository(self.db, self.model).get_by_id(entity_id)
+            if db_entity:
+                for field, value in entity.dict(exclude_unset=True).items():
+                    setattr(db_entity, field, value)
+                    BaseRepository(self.db, self.model).update(
+                        db_entity)
+        except Exception:
+            return False
+        return True
 
-    def delete(self, entity_id: int) -> T | None:
+    def delete(self, entity_id: int) -> bool:
         """
         Remove uma entidade.
 
         Args:
             entity_id: A entidade a ser removida.
         """
-        entity = self.get_by_id(entity_id)
-        if entity:
-            return BaseRepository(self.db, self.model).delete(entity)
-        return None
+        try:
+            db_entity = BaseRepository(self.db, self.model).get_by_id(entity_id)
+            if db_entity:
+                BaseRepository(self.db, self.model).delete(db_entity)
+        except Exception:
+            return False
+        return True
 
     def get_all(self) -> list[T] | None:
         """
@@ -63,7 +74,11 @@ class BaseService:
         Returns:
             List[T]: Uma lista de entidades.
         """
-        return BaseRepository(self.db, self.model).get_all()
+        try:
+            db_entity = BaseRepository(self.db, self.model).get_all()
+        except Exception:
+            return None
+        return db_entity
 
     def get_by_id(self, entity_id: int) -> T | None:
         """
@@ -89,5 +104,5 @@ class BaseService:
             List[T]: Uma lista contendo a entidade encontrada ou uma lista vazia
              se não for encontrada.
         """
-        return BaseRepository(self.db, self.model).get_by_field(field_name,
-                                                                value)
+        return BaseRepository(self.db, self.model).get_by_field(
+            field_name, value)

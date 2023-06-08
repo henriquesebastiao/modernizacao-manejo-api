@@ -19,7 +19,7 @@ async def create_cargo(cargo: FazendeiroCreateSchema,
     service = BaseService(db, Fazendeiro)
     if service.create(cargo):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{cargo_id}")

@@ -19,7 +19,7 @@ async def create_propriedade(propriedade: PropriedadeCreateSchema,
     service = BaseService(db, Propriedade)
     if service.create(propriedade):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{propriedade_id}")

@@ -10,7 +10,7 @@ class BaseRepository:
         self.db: Session = db
         self.model: Type[T] = model
 
-    def create(self, entity: T) -> T | None:
+    def create(self, entity: T) -> bool:
         """
         Cria uma entidade no banco de dados.
 
@@ -20,14 +20,16 @@ class BaseRepository:
         Returns:
             T: A entidade criada.
         """
-        self.db.add(entity)
-        self.db.commit()
-        self.db.refresh(entity)
-        if entity:
-            return entity
-        return None
+        try:
+            self.db.add(entity)
+            self.db.commit()
+            self.db.refresh(entity)
+        except Exception:
+            self.db.rollback()
+            raise Exception
+        return True
 
-    def update(self, entity: T) -> T | None:
+    def update(self, entity: T) -> bool:
         """
         Atualiza uma entidade no banco de dados.
 
@@ -37,38 +39,43 @@ class BaseRepository:
         Returns:
             T: A entidade atualizada.
         """
-        self.db.commit()
-        self.db.refresh(entity)
-        if entity:
-            return entity
-        return None
+        try:
+            self.db.commit()
+            self.db.refresh(entity)
+        except Exception:
+            self.db.rollback()
+            raise Exception
+        return True
 
-    def delete(self, entity: T) -> T | None:
+    def delete(self, entity: T) -> bool:
         """
         Remove uma entidade do banco de dados.
 
         Args:
             entity (T): A entidade a ser removida.
         """
-        self.db.delete(entity)
-        self.db.commit()
-        if entity:
-            return entity
-        return None
+        try:
+            self.db.delete(entity)
+            self.db.commit()
+        except Exception:
+            self.db.rollback()
+            raise Exception
+        return True
 
-    def get_all(self) -> list[T] | None:
+    def get_all(self) -> list[T]:
         """
         Retorna todas as entidades do tipo T no banco de dados.
 
         Returns:
             Optional[T]: A entidade encontrada ou None se não for encontrada.
         """
-        entity = self.db.query(self.model).all()
-        if entity:
-            return [entity]
-        return None
+        try:
+            entity = self.db.query(self.model).all()
+        except Exception:
+            raise Exception
+        return entity
 
-    def get_by_id(self, entity_id: int) -> T | None:
+    def get_by_id(self, entity_id: int) -> T:
         """
         Retorna uma lista com uma única entidade do tipo T com base no seu ID.
 
@@ -78,12 +85,15 @@ class BaseRepository:
         Returns:
             T: Uma entidade encontrada ou None se não for encontrado.
         """
-        entity = self.db.query(self.model).filter_by(id=entity_id).first()
-        if entity:
-            return entity
-        return None
+        try:
+            entity = self.db.query(self.model).filter_by(id=entity_id).first()
+            if not entity:
+                raise Exception
+        except Exception:
+            raise Exception
+        return entity
 
-    def get_by_field(self, field_name: str, value: str) -> list[T] | None:
+    def get_by_field(self, field_name: str, value: str) -> list[T]:
         """
         Retorna uma entidade com base em um campo específico.
 
@@ -94,8 +104,11 @@ class BaseRepository:
         Returns:
             Optional[T]: A entidade encontrada ou None se não for encontrada.
         """
-        entity = self.db.query(self.model).filter(
-            getattr(self.model, field_name) == value).first()
-        if entity:
-            return [entity]
-        return None
+        try:
+            entity = self.db.query(self.model).filter(
+                getattr(self.model, field_name) == value).all()
+            if not entity:
+                raise Exception
+        except Exception:
+            raise Exception
+        return entity

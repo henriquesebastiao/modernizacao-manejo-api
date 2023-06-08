@@ -18,7 +18,7 @@ async def create_lote_log(lote_log: LoteLogCreateSchema,
     service = BaseService(db, LoteLog)
     if service.create(lote_log):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{lote_log_id}")
