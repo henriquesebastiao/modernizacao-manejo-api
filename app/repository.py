@@ -10,7 +10,7 @@ class BaseRepository:
         self.db: Session = db
         self.model: Type[T] = model
 
-    def create(self, entity: T) -> T:
+    def create(self, entity: T) -> T | None:
         """
         Cria uma entidade no banco de dados.
 
@@ -23,9 +23,11 @@ class BaseRepository:
         self.db.add(entity)
         self.db.commit()
         self.db.refresh(entity)
-        return entity
+        if entity:
+            return entity
+        return None
 
-    def update(self, entity: T) -> T:
+    def update(self, entity: T) -> T | None:
         """
         Atualiza uma entidade no banco de dados.
 
@@ -37,9 +39,11 @@ class BaseRepository:
         """
         self.db.commit()
         self.db.refresh(entity)
-        return entity
+        if entity:
+            return entity
+        return None
 
-    def delete(self, entity: T) -> None:
+    def delete(self, entity: T) -> T | None:
         """
         Remove uma entidade do banco de dados.
 
@@ -48,17 +52,23 @@ class BaseRepository:
         """
         self.db.delete(entity)
         self.db.commit()
+        if entity:
+            return entity
+        return None
 
-    def get_all(self) -> list[T]:
+    def get_all(self) -> list[T] | None:
         """
         Retorna todas as entidades do tipo T no banco de dados.
 
         Returns:
-            List[T]: Uma lista de entidades do tipo T.
+            Optional[T]: A entidade encontrada ou None se não for encontrada.
         """
-        return self.db.query(self.model).all()
+        entity = self.db.query(self.model).all()
+        if entity:
+            return [entity]
+        return None
 
-    def get_by_id(self, entity_id: int) -> T:
+    def get_by_id(self, entity_id: int) -> T | None:
         """
         Retorna uma lista com uma única entidade do tipo T com base no seu ID.
 
@@ -73,7 +83,7 @@ class BaseRepository:
             return entity
         return None
 
-    def get_by_field(self, field_name: str, value: str) -> list[T]:
+    def get_by_field(self, field_name: str, value: str) -> list[T] | None:
         """
         Retorna uma entidade com base em um campo específico.
 
@@ -88,4 +98,4 @@ class BaseRepository:
             getattr(self.model, field_name) == value).first()
         if entity:
             return [entity]
-        return []
+        return None

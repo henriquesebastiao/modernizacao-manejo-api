@@ -1,50 +1,58 @@
 """Routes for lote"""
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.lote import LoteCreateSchema, LoteDeleteSchema, \
-    LoteSchema, LoteUpdateSchema
-from app.services.lote_service import LoteService
+from app.models.lote import Lote
+from app.schemas.lote import LoteCreateSchema, LoteUpdateSchema
+from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/lote", tags=["Lote"])
 
 
-@router.post("/", response_model=LoteSchema)
+@router.post("/")
 async def create_lote(lote: LoteCreateSchema,
-                        db: Session = Depends(get_db)):
+                      db: Session = Depends(get_db)):
     """Cria um lote."""
-    lote_service = LoteService(db)
-    return lote_service.create_lote(lote)
+    service = BaseService(db, Lote)
+    if service.create(lote):
+        return {"mensagem": "Criado com sucesso"}
+    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/{lote_id}", response_model=LoteSchema)
+@router.get("/{lote_id}")
 def get_lote(lote_id: int, db: Session = Depends(get_db)):
     """Retorna um lote com base no seu ID."""
-    lote_service = LoteService(db)
-    return lote_service.get_lote(lote_id)
+    service = BaseService(db, Lote)
+    if response := service.get_by_id(lote_id):
+        return response
+    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
 @router.get("/")
 async def get_all_lotes(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
-    lote_service = LoteService(db)
-    return lote_service.get_all_lotes()
+    service = BaseService(db, Lote)
+    if response := service.get_all():
+        return response
+    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
 @router.patch("/lote/{lote_id}")
 async def update_lote(lote_id: int, lote: LoteUpdateSchema,
-                        db: Session = Depends(get_db)):
+                      db: Session = Depends(get_db)):
     """Atualiza um lote."""
-    lote_service = LoteService(db)
-    return lote_service.update_lote(lote_id, lote)
+    service = BaseService(db, Lote)
+    if service.update(lote_id, lote):
+        return {"mensagem": "Atualizado com sucesso"}
+    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
 @router.delete("/lote/{lote_id}")
-async def delete_lote(lote: LoteDeleteSchema,
-                        db: Session = Depends(get_db)):
+async def delete_lote(lote_id: int, db: Session = Depends(get_db)):
     """Deleta um lote."""
-    lote_service = LoteService(db)
-    lote_service.delete_lote(lote)
-    return {"message": "Lote deleted"}
+    service = BaseService(db, Lote)
+    if service.delete(lote_id):
+        return {"mensagem": "Apagado com sucesso"}
+    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")

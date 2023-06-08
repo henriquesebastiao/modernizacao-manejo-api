@@ -1,18 +1,22 @@
+from typing import Type, TypeVar
+
 from sqlalchemy.orm import Session
 
 from app.models.animal import Animal
+from app.models.peso_log import PesoLog
 from app.repository import BaseRepository
-from app.schemas.animal import AnimalCreateSchema, AnimalUpdateSchema
+from app.schemas.animal import AnimalCreateSchema
 from app.schemas.peso_log import PesoLogCreateSchema
 from app.services.base_service import BaseService
-from app.services.peso_log_service import PesoLogService
+
+T = TypeVar('T')
 
 
 class AnimalService(BaseService):
-    def __init__(self, db: Session):
-        super().__init__(db, BaseRepository, Animal)
+    def __init__(self, db: Session, model: Type[T] = None):
+        super().__init__(db, model)
 
-    def create_animal(self, animal: AnimalCreateSchema) -> Animal:
+    def create(self, animal: AnimalCreateSchema) -> Animal | None:
         """
         Cria um animal.
 
@@ -22,63 +26,11 @@ class AnimalService(BaseService):
         Returns:
             Animal: O animal criado.
         """
-        animal = self.create(animal)
-        peso_log_service = PesoLogService(self.db)
-        peso_log = PesoLogCreateSchema(animal_id=animal.id,
+        entity = self.model(**animal.dict())
+        BaseRepository(self.db, self.model).create(entity)
+        service_peso_log = BaseService(self.db, PesoLog)
+        peso_log = PesoLogCreateSchema(animal_id=entity.id,
                                        data=animal.data_entrada,
                                        peso=animal.peso)
-        peso_log_service.create_peso_log(peso_log)
-        return animal
-
-    def get_animal(self, animal_id: int) -> Animal:
-        """
-        Retorna um animal com base no seu ID.
-
-        Args:
-            animal_id (int): O ID do animal.
-
-        Returns:
-            Optional[Animal]: O animal encontrado ou None se não for encontrado.
-        """
-        return self.get_by_id(animal_id)
-
-    def get_all_animals(self) -> list[Animal]:
-        """
-        Retorna uma lista com todos os animais.
-
-        Returns:
-            List[Animal]: Uma lista com todos os animais.
-        """
-        return self.get_all()
-
-    def update_animal(self, animal_id: int, animal: AnimalUpdateSchema) -> \
-            Animal:
-        """
-        Atualiza um animal com base no seu ID.
-
-        Args:
-            animal_id (int): O ID do animal a ser atualizado.
-            animal (AnimalUpdate): Os dados atualizados do animal.
-
-        Returns:
-            Optional[Animal]: O animal atualizado ou None se não for encontrado.
-        """
-        db_animal = self.get_animal(animal_id)
-        if db_animal:
-            for field, value in animal.dict(exclude_unset=True).items():
-                setattr(db_animal, field, value)
-            return self.update(db_animal)
-        return db_animal
-
-    def delete_animal(self, animal_id: int) -> bool:
-        """
-        Remove um animal com base no seu ID.
-
-        Args:
-            animal_id: O ID do animal a ser removido.
-        """
-        animal = self.get_animal(animal_id)
-        if animal:
-            self.delete(animal)
-            return True
-        return False
+        service_peso_log.create(peso_log)
+        return entity
