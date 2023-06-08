@@ -2,7 +2,6 @@ from typing import Type, TypeVar
 
 from sqlalchemy.orm import Session
 
-from app.models.animal import Animal
 from app.models.lote_log import LoteLog
 from app.models.peso_log import PesoLog
 from app.repositories.repository import BaseRepository
@@ -45,5 +44,3 @@ class AnimalService(BaseService):
         except Exception:
             return False
         return True
-
-
