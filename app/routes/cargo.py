@@ -5,13 +5,13 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.cargo import Cargo
-from app.schemas.cargo import CargoCreateSchema, CargoUpdateSchema
+from app.schemas.cargo import CargoCreateSchema, CargoSchema, CargoUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/cargo", tags=["Cargo"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_cargo(cargo: CargoCreateSchema,
                        db: Session = Depends(get_db)):
     """Cria um cargo."""
@@ -21,7 +21,7 @@ async def create_cargo(cargo: CargoCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{cargo_id}")
+@router.get("/{cargo_id}", response_model=CargoSchema)
 def get_cargo(cargo_id: int, db: Session = Depends(get_db)):
     """Retorna um cargo com base no seu ID."""
     service = BaseService(db, Cargo)
@@ -30,7 +30,7 @@ def get_cargo(cargo_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[CargoSchema])
 async def get_all_cargos(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Cargo)

@@ -5,14 +5,14 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.fazendeiro import Fazendeiro
-from app.schemas.fazendeiro import FazendeiroCreateSchema, \
+from app.schemas.fazendeiro import FazendeiroCreateSchema, FazendeiroSchema, \
     FazendeiroUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/fazendeiro", tags=["Fazendeiro"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_cargo(cargo: FazendeiroCreateSchema,
                        db: Session = Depends(get_db)):
     """Cria um cargo."""
@@ -22,7 +22,7 @@ async def create_cargo(cargo: FazendeiroCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{cargo_id}")
+@router.get("/{cargo_id}", response_model=FazendeiroSchema)
 def get_cargo(cargo_id: int, db: Session = Depends(get_db)):
     """Retorna um cargo com base no seu ID."""
     service = BaseService(db, Fazendeiro)
@@ -31,7 +31,7 @@ def get_cargo(cargo_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[FazendeiroSchema])
 async def get_all_cargos(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Fazendeiro)

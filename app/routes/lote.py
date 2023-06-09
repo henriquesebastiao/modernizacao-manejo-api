@@ -5,13 +5,13 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.lote import Lote
-from app.schemas.lote import LoteCreateSchema, LoteUpdateSchema
+from app.schemas.lote import LoteCreateSchema, LoteSchema, LoteUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/lote", tags=["Lote"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_lote(lote: LoteCreateSchema,
                       db: Session = Depends(get_db)):
     """Cria um lote."""
@@ -21,7 +21,7 @@ async def create_lote(lote: LoteCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{lote_id}")
+@router.get("/{lote_id}", response_model=LoteSchema)
 def get_lote(lote_id: int, db: Session = Depends(get_db)):
     """Retorna um lote com base no seu ID."""
     service = BaseService(db, Lote)
@@ -30,7 +30,7 @@ def get_lote(lote_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[LoteSchema])
 async def get_all_lotes(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Lote)

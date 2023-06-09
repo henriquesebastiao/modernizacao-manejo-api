@@ -5,13 +5,13 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.dieta import Dieta
-from app.schemas.dieta import DietaCreateSchema, DietaUpdateSchema
+from app.schemas.dieta import DietaCreateSchema, DietaSchema, DietaUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/dieta", tags=["Dieta"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_dieta(dieta: DietaCreateSchema,
                        db: Session = Depends(get_db)):
     """Cria uma dieta."""
@@ -21,7 +21,7 @@ async def create_dieta(dieta: DietaCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{dieta_id}")
+@router.get("/{dieta_id}", response_model=DietaSchema)
 def get_dieta(dieta_id: int, db: Session = Depends(get_db)):
     """Retorna uma dieta com base no seu ID."""
     service = BaseService(db, Dieta)
@@ -30,7 +30,7 @@ def get_dieta(dieta_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[DietaSchema])
 async def get_all_dietas(db: Session = Depends(get_db)):
     """Retorna todos os dietas."""
     service = BaseService(db, Dieta)

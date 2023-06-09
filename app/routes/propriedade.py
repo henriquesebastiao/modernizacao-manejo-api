@@ -5,14 +5,14 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.propriedade import Propriedade
-from app.schemas.propriedade import PropriedadeCreateSchema, \
+from app.schemas.propriedade import PropriedadeCreateSchema, PropriedadeSchema, \
     PropriedadeUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/propriedade", tags=["Propriedade"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_propriedade(propriedade: PropriedadeCreateSchema,
                              db: Session = Depends(get_db)):
     """Cria um propriedade."""
@@ -22,7 +22,7 @@ async def create_propriedade(propriedade: PropriedadeCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{propriedade_id}")
+@router.get("/{propriedade_id}", response_model=PropriedadeSchema)
 def get_propriedade(propriedade_id: int, db: Session = Depends(get_db)):
     """Retorna um propriedade com base no seu ID."""
     service = BaseService(db, Propriedade)
@@ -31,7 +31,7 @@ def get_propriedade(propriedade_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[PropriedadeSchema])
 async def get_all_propriedades(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Propriedade)

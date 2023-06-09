@@ -5,13 +5,14 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.peso_log import PesoLog
-from app.schemas.peso_log import PesoLogCreateSchema, PesoLogUpdateSchema
+from app.schemas.peso_log import PesoLogCreateSchema, PesoLogSchema, \
+    PesoLogUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/peso_log", tags=["PesoLog"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_peso_log(peso_log: PesoLogCreateSchema,
                           db: Session = Depends(get_db)):
     """Cria um peso_log."""
@@ -21,7 +22,7 @@ async def create_peso_log(peso_log: PesoLogCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{peso_log_id}")
+@router.get("/{peso_log_id}", response_model=PesoLogSchema)
 def get_peso_log(peso_log_id: int, db: Session = Depends(get_db)):
     """Retorna um peso_log com base no seu ID."""
     service = BaseService(db, PesoLog)
@@ -30,7 +31,7 @@ def get_peso_log(peso_log_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[PesoLogSchema])
 async def get_all_peso_logs(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, PesoLog)

@@ -5,13 +5,14 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.pessoa import Pessoa
-from app.schemas.pessoa import PessoaCreateSchema, PessoaUpdateSchema
+from app.schemas.pessoa import PessoaCreateSchema, PessoaSchema, \
+    PessoaUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/pessoa", tags=["Pessoa"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_pessoa(pessoa: PessoaCreateSchema,
                         db: Session = Depends(get_db)):
     """Cria um pessoa."""
@@ -21,7 +22,7 @@ async def create_pessoa(pessoa: PessoaCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{pessoa_id}")
+@router.get("/{pessoa_id}", response_model=PessoaSchema)
 def get_pessoa(pessoa_id: int, db: Session = Depends(get_db)):
     """Retorna um pessoa com base no seu ID."""
     service = BaseService(db, Pessoa)
@@ -30,7 +31,7 @@ def get_pessoa(pessoa_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[PessoaSchema])
 async def get_all_pessoas(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Pessoa)

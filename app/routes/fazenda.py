@@ -5,13 +5,14 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.fazenda import Fazenda
-from app.schemas.fazenda import FazendaCreateSchema, FazendaUpdateSchema
+from app.schemas.fazenda import FazendaCreateSchema, FazendaSchema, \
+    FazendaUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/fazenda", tags=["Fazenda"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_fazenda(fazenda: FazendaCreateSchema,
                          db: Session = Depends(get_db)):
     """Cria um fazenda."""
@@ -21,7 +22,7 @@ async def create_fazenda(fazenda: FazendaCreateSchema,
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{fazenda_id}")
+@router.get("/{fazenda_id}", response_model=FazendaSchema)
 def get_fazenda(fazenda_id: int, db: Session = Depends(get_db)):
     """Retorna um fazenda com base no seu ID."""
     service = BaseService(db, Fazenda)
@@ -30,7 +31,7 @@ def get_fazenda(fazenda_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[FazendaSchema])
 async def get_all_fazendas(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Fazenda)

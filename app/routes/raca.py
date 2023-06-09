@@ -5,13 +5,13 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.raca import Raca
-from app.schemas.raca import RacaCreateSchema, RacaUpdateSchema
+from app.schemas.raca import RacaCreateSchema, RacaSchema, RacaUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/raca", tags=["Raca"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create_raca(raca: RacaCreateSchema, db: Session = Depends(get_db)):
     """Cria um raca."""
     service = BaseService(db, Raca)
@@ -20,7 +20,7 @@ async def create_raca(raca: RacaCreateSchema, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{raca_id}")
+@router.get("/{raca_id}", response_model=RacaSchema)
 def get_raca(raca_id: int, db: Session = Depends(get_db)):
     """Retorna um raca com base no seu ID."""
     service = BaseService(db, Raca)
@@ -29,7 +29,7 @@ def get_raca(raca_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/")
+@router.get("/", response_model=list[RacaSchema])
 async def get_all_racas(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
     service = BaseService(db, Raca)
