@@ -1,13 +1,11 @@
 """Route for dieta"""
 
-from typing import List
-
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.dieta import Dieta
-from app.schemas.dieta import DietaCreateSchema, DietaUpdateSchema, DietaSchema
+from app.schemas.dieta import DietaCreateSchema, DietaUpdateSchema
 from app.services.base_service import BaseService
 
 router = APIRouter(prefix="/dieta", tags=["Dieta"])
