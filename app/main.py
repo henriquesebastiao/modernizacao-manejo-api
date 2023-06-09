@@ -1,12 +1,21 @@
 """Modulo principal da aplicação."""
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes import animal, cargo, fazenda, fazendeiro, lote, lote_log, \
-    peso_log, propriedade, raca, usuario, dieta
+from app.routes import animal, cargo, dieta, fazenda, fazendeiro, lote, \
+    lote_log, peso_log, propriedade, raca, usuario
 from app.routes import pessoa
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(animal.router)
 app.include_router(cargo.router)
