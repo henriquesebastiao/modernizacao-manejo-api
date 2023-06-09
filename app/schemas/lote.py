@@ -5,6 +5,7 @@ class LoteBaseSchema(BaseModel):
     """Classe base para validação de dados de Lote."""
     nome: str
     numero: int
+    dieta_id: int | None
     obs: str | None
 
 

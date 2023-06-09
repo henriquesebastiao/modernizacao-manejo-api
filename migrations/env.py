@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from app.models import animal, base, cargo, fazenda, fazendeiro, lote, \
-    lote_log, peso_log, pessoa, propriedade, raca, usuario # noqa
+    lote_log, peso_log, pessoa, propriedade, raca, usuario, dieta # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
