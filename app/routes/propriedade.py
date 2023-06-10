@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.propriedade import Propriedade
 from app.schemas.propriedade import PropriedadeCreateSchema, PropriedadeSchema, \
     PropriedadeUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/propriedade", tags=["Propriedade"])
 

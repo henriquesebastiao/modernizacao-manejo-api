@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.fazenda import Fazenda
 from app.schemas.fazenda import FazendaCreateSchema, FazendaSchema, \
     FazendaUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/fazenda", tags=["Fazenda"])
 

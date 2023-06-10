@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.usuario import Usuario
 from app.schemas.usuario import UsuarioCreateSchema, UsuarioSchema, \
     UsuarioUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/usuario", tags=["Usuário"])
 

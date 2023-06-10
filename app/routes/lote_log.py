@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.lote_log import LoteLog
 from app.schemas.lote_log import LoteLogCreateSchema, LoteLogSchema, \
     LoteLogUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/lote_log", tags=["LoteLog"])
 

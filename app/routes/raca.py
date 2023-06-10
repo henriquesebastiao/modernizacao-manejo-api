@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.raca import Raca
 from app.schemas.raca import RacaCreateSchema, RacaSchema, RacaUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/raca", tags=["Raca"])
 

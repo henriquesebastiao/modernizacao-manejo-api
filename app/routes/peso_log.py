@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.peso_log import PesoLog
 from app.schemas.peso_log import PesoLogCreateSchema, PesoLogSchema, \
     PesoLogUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/peso_log", tags=["PesoLog"])
 

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.dieta import Dieta
 from app.schemas.dieta import DietaCreateSchema, DietaSchema, DietaUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/dieta", tags=["Dieta"])
 

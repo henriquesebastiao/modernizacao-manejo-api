@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.cargo import Cargo
 from app.schemas.cargo import CargoCreateSchema, CargoSchema, CargoUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/cargo", tags=["Cargo"])
 

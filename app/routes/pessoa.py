@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.pessoa import Pessoa
 from app.schemas.pessoa import PessoaCreateSchema, PessoaSchema, \
     PessoaUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/pessoa", tags=["Pessoa"])
 

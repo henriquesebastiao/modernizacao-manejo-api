@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.lote import Lote
 from app.schemas.lote import LoteCreateSchema, LoteSchema, LoteUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/lote", tags=["Lote"])
 

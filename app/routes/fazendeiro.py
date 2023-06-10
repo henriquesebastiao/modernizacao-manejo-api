@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.fazendeiro import Fazendeiro
 from app.schemas.fazendeiro import FazendeiroCreateSchema, FazendeiroSchema, \
     FazendeiroUpdateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 router = APIRouter(prefix="/fazendeiro", tags=["Fazendeiro"])
 

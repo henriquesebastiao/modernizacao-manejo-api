@@ -8,12 +8,12 @@ from app.repositories.repository import BaseRepository
 from app.schemas.animal import AnimalCreateSchema
 from app.schemas.lote_log import LoteLogCreateSchema
 from app.schemas.peso_log import PesoLogCreateSchema
-from app.services.base_service import BaseService
+from app.controllers.base_controller import BaseService
 
 T = TypeVar('T')
 
 
-class AnimalService(BaseService):
+class AnimalController(BaseService):
     def __init__(self, db: Session, model: Type[T] = None):
         super().__init__(db, model)
 
