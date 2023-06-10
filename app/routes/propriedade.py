@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.propriedade import Propriedade
 from app.schemas.propriedade import PropriedadeCreateSchema, PropriedadeSchema, \
     PropriedadeUpdateSchema
-from app.controllers.base_controller import BaseService
+from app.controllers.base_controller import Basecontrollers
 
 router = APIRouter(prefix="/propriedade", tags=["Propriedade"])
 
@@ -16,8 +16,8 @@ router = APIRouter(prefix="/propriedade", tags=["Propriedade"])
 async def create_propriedade(propriedade: PropriedadeCreateSchema,
                              db: Session = Depends(get_db)):
     """Cria um propriedade."""
-    service = BaseService(db, Propriedade)
-    if service.create(propriedade):
+    controller = Basecontrollers(db, Propriedade)
+    if controller.create(propriedade):
         return {"mensagem": "Criado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
@@ -25,8 +25,8 @@ async def create_propriedade(propriedade: PropriedadeCreateSchema,
 @router.get("/{propriedade_id}", response_model=PropriedadeSchema)
 def get_propriedade(propriedade_id: int, db: Session = Depends(get_db)):
     """Retorna um propriedade com base no seu ID."""
-    service = BaseService(db, Propriedade)
-    if response := service.get_by_id(propriedade_id):
+    controller = Basecontrollers(db, Propriedade)
+    if response := controller.get_by_id(propriedade_id):
         return response
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
@@ -34,8 +34,8 @@ def get_propriedade(propriedade_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[PropriedadeSchema])
 async def get_all_propriedades(db: Session = Depends(get_db)):
     """Retorna todos os animais."""
-    service = BaseService(db, Propriedade)
-    if response := service.get_all():
+    controller = Basecontrollers(db, Propriedade)
+    if response := controller.get_all():
         return response
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
@@ -45,8 +45,8 @@ async def update_propriedade(propriedade_id: int,
                              propriedade: PropriedadeUpdateSchema,
                              db: Session = Depends(get_db)):
     """Atualiza um propriedade."""
-    service = BaseService(db, Propriedade)
-    if service.update(propriedade_id, propriedade):
+    controller = Basecontrollers(db, Propriedade)
+    if controller.update(propriedade_id, propriedade):
         return {"mensagem": "Atualizado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
@@ -55,7 +55,7 @@ async def update_propriedade(propriedade_id: int,
 async def delete_propriedade(propriedade_id: int,
                              db: Session = Depends(get_db)):
     """Deleta um propriedade."""
-    service = BaseService(db, Propriedade)
-    if service.delete(propriedade_id):
+    controller = Basecontrollers(db, Propriedade)
+    if controller.delete(propriedade_id):
         return {"mensagem": "Apagado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")

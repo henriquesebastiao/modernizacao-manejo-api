@@ -8,12 +8,12 @@ from app.repositories.repository import BaseRepository
 from app.schemas.animal import AnimalCreateSchema
 from app.schemas.lote_log import LoteLogCreateSchema
 from app.schemas.peso_log import PesoLogCreateSchema
-from app.controllers.base_controller import BaseService
+from app.controllers.base_controller import Basecontrollers
 
 T = TypeVar('T')
 
 
-class AnimalController(BaseService):
+class AnimalController(Basecontrollers):
     def __init__(self, db: Session, model: Type[T] = None):
         super().__init__(db, model)
 
@@ -30,17 +30,17 @@ class AnimalController(BaseService):
         try:
             entity = self.model(**animal.dict())
             BaseRepository(self.db, self.model).create(entity)
-            service_peso_log = BaseService(self.db, PesoLog)
+            controllers_peso_log = Basecontrollers(self.db, PesoLog)
             peso_log = PesoLogCreateSchema(animal_id=entity.id,
                                            data=animal.data_entrada,
                                            peso=animal.peso)
-            service_peso_log.create(peso_log)
+            controllers_peso_log.create(peso_log)
 
-            service_lote_log = BaseService(self.db, LoteLog)
+            controllers_lote_log = Basecontrollers(self.db, LoteLog)
             lote_log = LoteLogCreateSchema(animal_id=entity.id,
                                            lote_id=entity.lote_id,
                                            data_entrada=entity.data_entrada)
-            service_lote_log.create(lote_log)
+            controllers_lote_log.create(lote_log)
         except Exception:
             return False
         return True

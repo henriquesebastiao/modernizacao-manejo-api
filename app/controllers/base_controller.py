@@ -8,7 +8,7 @@ from app.repositories.repository import BaseRepository
 T = TypeVar('T')
 
 
-class BaseService:
+class Basecontrollers:
     def __init__(self, db: Session, model: Type[T] = None):
         self.db: Session = db
         self.model: Type[T] = model
