@@ -8,12 +8,12 @@ from app.repositories.repository import BaseRepository
 from app.schemas.animal import AnimalCreateSchema
 from app.schemas.lote_log import LoteLogCreateSchema
 from app.schemas.peso_log import PesoLogCreateSchema
-from app.controllers.base_controller import Basecontrollers
+from app.controllers.base_controller import BaseControllers
 
 T = TypeVar('T')
 
 
-class AnimalController(Basecontrollers):
+class AnimalController(BaseControllers):
     def __init__(self, db: Session, model: Type[T] = None):
         super().__init__(db, model)
 
@@ -30,13 +30,13 @@ class AnimalController(Basecontrollers):
         try:
             entity = self.model(**animal.dict())
             BaseRepository(self.db, self.model).create(entity)
-            controllers_peso_log = Basecontrollers(self.db, PesoLog)
+            controllers_peso_log = BaseControllers(self.db, PesoLog)
             peso_log = PesoLogCreateSchema(animal_id=entity.id,
                                            data=animal.data_entrada,
                                            peso=animal.peso)
             controllers_peso_log.create(peso_log)
 
-            controllers_lote_log = Basecontrollers(self.db, LoteLog)
+            controllers_lote_log = BaseControllers(self.db, LoteLog)
             lote_log = LoteLogCreateSchema(animal_id=entity.id,
                                            lote_id=entity.lote_id,
                                            data_entrada=entity.data_entrada)
