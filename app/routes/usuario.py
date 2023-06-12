@@ -3,11 +3,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.controllers.base_controller import BaseControllers
+from app.controllers.usuario_controller import UsuarioController
 from app.database import get_db
 from app.models.usuario import Usuario
-from app.schemas.usuario import UsuarioCreateSchema, UsuarioSchema, \
-    UsuarioUpdateSchema
-from app.controllers.base_controller import BaseControllers
+from app.schemas.usuario import UsuarioCreateSchema, UsuarioLoginSchema, \
+    UsuarioSchema, UsuarioUpdateSchema
 
 router = APIRouter(prefix="/usuario", tags=["Usuário"])
 
@@ -29,6 +30,15 @@ def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
     if response := controller.get_by_id(usuario_id):
         return response
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
+
+
+@router.post("/login")
+def login(usuario: UsuarioLoginSchema, db: Session = Depends(get_db)):
+    """Retorna um usuário com base no seu ID."""
+    controller = UsuarioController(db, Usuario)
+    if response := controller.login(usuario):
+        return response
+    raise HTTPException(status_code=400, detail="Nenhum registro criado")
 
 
 @router.get("/", response_model=list[UsuarioSchema])

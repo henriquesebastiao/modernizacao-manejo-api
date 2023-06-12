@@ -7,7 +7,12 @@ class UsuarioBaseSchema(BaseModel):
     """Classe base para validação de dados de Usuário."""
     email: str
     password: str
-    pessoa_id: int
+
+
+class UsuarioLoginSchema(BaseModel):
+    """Classe base para validação de dados de Usuário."""
+    email: str
+    password: str
 
 
 class UsuarioCreateSchema(UsuarioBaseSchema):
