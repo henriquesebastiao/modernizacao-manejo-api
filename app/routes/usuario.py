@@ -1,5 +1,3 @@
-"""Routes for usuario"""
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -10,60 +8,53 @@ from app.models.usuario import Usuario
 from app.schemas.usuario import UsuarioCreateSchema, UsuarioLoginSchema, \
     UsuarioSchema, UsuarioUpdateSchema
 
-router = APIRouter(prefix="/usuario", tags=["Usuário"])
+router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.post("/", status_code=201)
-async def create_usuario(usuario: UsuarioCreateSchema,
-                         db: Session = Depends(get_db)):
-    """Cria um usuário."""
+async def create(user: UsuarioCreateSchema, db: Session = Depends(get_db)):
     controller = BaseControllers(db, Usuario)
-    if controller.create(usuario):
+    if controller.create(user):
         return {"mensagem": "Criado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.get("/{usuario_id}", response_model=UsuarioSchema)
-def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
-    """Retorna um usuário com base no seu ID."""
+@router.get("/{id}", response_model=UsuarioSchema)
+def get(user_id: int, db: Session = Depends(get_db)):
     controller = BaseControllers(db, Usuario)
-    if response := controller.get_by_id(usuario_id):
+    if response := controller.get_by_id(user_id):
         return response
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.post("/login")
-def login(usuario: UsuarioLoginSchema, db: Session = Depends(get_db)):
-    """Retorna um usuário com base no seu ID."""
+def login(user: UsuarioLoginSchema, db: Session = Depends(get_db)):
     controller = UsuarioController(db, Usuario)
-    if response := controller.login(usuario):
+    if response := controller.login(user):
         return response
-    raise HTTPException(status_code=400, detail="Nenhum registro criado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/", response_model=list[UsuarioSchema])
-async def get_all_usuarios(db: Session = Depends(get_db)):
-    """Retorna todos os animais."""
+async def get_all(db: Session = Depends(get_db)):
     controller = BaseControllers(db, Usuario)
     if response := controller.get_all():
         return response
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.patch("/usuario/{usuario_id}")
-async def update_usuario(usuario_id: int, usuario: UsuarioUpdateSchema,
-                         db: Session = Depends(get_db)):
-    """Atualiza um usuário."""
+@router.patch("/{id}")
+async def update(user_id: int, user: UsuarioUpdateSchema,
+                 db: Session = Depends(get_db)):
     controller = BaseControllers(db, Usuario)
-    if controller.update(usuario_id, usuario):
+    if controller.update(user_id, user):
         return {"mensagem": "Atualizado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
-@router.delete("/usuario/{usuario_id}")
-async def delete_usuario(usuario_id: int, db: Session = Depends(get_db)):
-    """Deleta um usuário."""
+@router.delete("/{id}")
+async def delete(user_id: int, db: Session = Depends(get_db)):
     controller = BaseControllers(db, Usuario)
-    if controller.delete(usuario_id):
+    if controller.delete(user_id):
         return {"mensagem": "Apagado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
