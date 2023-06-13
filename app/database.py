@@ -8,7 +8,7 @@ from app.config import settings
 SQLALCHEMY_DATABASE_URL = (
     f"{settings.db_type}://{settings.db_user}:{settings.db_password}@"
     f"{settings.db_host}:{settings.db_port}/{settings.db_name}"
-    f"?sslmode={settings.db_ssl}"
+    f"?{settings.db_ssl}"
 )
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
