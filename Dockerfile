@@ -1,4 +1,4 @@
-FROM python:latest as requirements-stage
+FROM python:slim as requirements-stage
 
 WORKDIR /tmp
 
@@ -8,7 +8,7 @@ COPY ./pyproject.toml ./poetry.lock* /tmp/
 
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-FROM python:latest
+FROM python:slim
 
 WORKDIR /code
 
