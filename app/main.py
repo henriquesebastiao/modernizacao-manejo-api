@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import animal, cargo, dieta, fazenda, fazendeiro, lote, \
-    lote_log, peso_log, propriedade, raca, usuario
+    lote_log, peso_log, propriedade, raca, user
 from app.routes import pessoa
 
 app = FastAPI()
@@ -25,7 +25,7 @@ app.include_router(lote.router)
 app.include_router(lote_log.router)
 app.include_router(peso_log.router)
 app.include_router(pessoa.router)
-app.include_router(usuario.router)
+app.include_router(user.router)
 app.include_router(propriedade.router)
 app.include_router(raca.router)
 app.include_router(dieta.router)

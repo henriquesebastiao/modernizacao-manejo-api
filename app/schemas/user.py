@@ -3,31 +3,31 @@
 from pydantic import BaseModel
 
 
-class UsuarioBaseSchema(BaseModel):
+class UserBaseSchema(BaseModel):
     """Classe base para validação de dados de Usuário."""
     email: str
     password: str
 
 
-class UsuarioLoginSchema(BaseModel):
+class UserLoginSchema(BaseModel):
     """Classe base para validação de dados de Usuário."""
     email: str
     password: str
 
 
-class UsuarioCreateSchema(UsuarioBaseSchema):
+class UserCreateSchema(UserBaseSchema):
     """Classe para validação de dados de criação de Usuário."""
 
 
-class UsuarioUpdateSchema(UsuarioBaseSchema):
+class UserUpdateSchema(UserBaseSchema):
     """Classe para validação de dados de atualização de Usuário."""
 
 
-class UsuarioDeleteSchema(UsuarioBaseSchema):
+class UserDeleteSchema(UserBaseSchema):
     """Classe para validação de dados de remoção de Usuário."""
 
 
-class UsuarioSchema(UsuarioBaseSchema):
+class UserSchema(UserBaseSchema):
     """Classe para validação de dados de Usuário."""
     id: int
 

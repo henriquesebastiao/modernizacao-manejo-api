@@ -1,16 +1,14 @@
-from typing import Type, TypeVar
-
 from sqlalchemy.orm import Session
 
-T = TypeVar('T')
+from app.models.base import Base
 
 
 class BaseRepository:
-    def __init__(self, db: Session, model: Type[T]):
+    def __init__(self, db: Session, model: Base):
         self.db: Session = db
-        self.model: Type[T] = model
+        self.model: Base = model
 
-    def create(self, entity: T) -> bool:
+    def create(self, entity: Base) -> bool:
         """
         Cria uma entidade no banco de dados.
 
@@ -29,7 +27,7 @@ class BaseRepository:
             raise Exception
         return True
 
-    def update(self, entity: T) -> bool:
+    def update(self, entity: Base) -> bool:
         """
         Atualiza uma entidade no banco de dados.
 
@@ -47,7 +45,7 @@ class BaseRepository:
             raise Exception
         return True
 
-    def delete(self, entity: T) -> bool:
+    def delete(self, entity: Base) -> bool:
         """
         Remove uma entidade do banco de dados.
 
@@ -62,7 +60,7 @@ class BaseRepository:
             raise Exception
         return True
 
-    def get_all(self) -> list[T]:
+    def get_all(self) -> list[Base]:
         """
         Retorna todas as entidades do tipo T no banco de dados.
 
@@ -75,7 +73,7 @@ class BaseRepository:
             raise Exception
         return entity
 
-    def get_by_id(self, entity_id: int) -> T:
+    def get_by_id(self, entity_id: int) -> Base:
         """
         Retorna uma lista com uma única entidade do tipo T com base no seu ID.
 
@@ -93,7 +91,7 @@ class BaseRepository:
             raise Exception
         return entity
 
-    def get_by_field(self, field_name: str, value: str) -> list[T]:
+    def get_by_field(self, field_name: str, value: str) -> list[Base]:
         """
         Retorna uma entidade com base em um campo específico.
 

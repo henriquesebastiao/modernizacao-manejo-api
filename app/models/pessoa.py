@@ -1,5 +1,3 @@
-"""Módulo de modelo de pessoa."""
-
 from datetime import date
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Date
@@ -9,7 +7,6 @@ from app.models.base import Base
 
 
 class Pessoa(Base):
-    """Modelo de pessoa."""
     __tablename__ = 'pessoa'
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)

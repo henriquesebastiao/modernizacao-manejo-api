@@ -1,18 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.controllers.base_controller import BaseControllers
 from app.database import get_db
 from app.models.fazenda import Fazenda
 from app.schemas.fazenda import FazendaCreateSchema, FazendaSchema, \
     FazendaUpdateSchema
-from app.controllers.base_controller import BaseControllers
 
 router = APIRouter(prefix="/fazenda", tags=["Fazenda"])
 
 
 @router.post("/", status_code=201)
 async def create(fazenda: FazendaCreateSchema,
-                         db: Session = Depends(get_db)):
+                 db: Session = Depends(get_db)):
     controller = BaseControllers(db, Fazenda)
     if controller.create(fazenda):
         return {"mensagem": "Criado com sucesso"}
@@ -37,7 +37,7 @@ async def get_all(db: Session = Depends(get_db)):
 
 @router.patch("/{fazenda_id}")
 async def update(fazenda_id: int, fazenda: FazendaUpdateSchema,
-                         db: Session = Depends(get_db)):
+                 db: Session = Depends(get_db)):
     controller = BaseControllers(db, Fazenda)
     if controller.update(fazenda_id, fazenda):
         return {"mensagem": "Atualizado com sucesso"}

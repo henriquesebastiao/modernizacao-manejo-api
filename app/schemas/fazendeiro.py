@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class FazendeiroBaseSchema(BaseModel):
-    usuario_id: int
+    user_id: int
 
 
 class FazendeiroCreateSchema(FazendeiroBaseSchema):

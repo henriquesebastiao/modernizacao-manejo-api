@@ -1,34 +1,22 @@
-from typing import Type, TypeVar
-
 from sqlalchemy.orm import Session
 
 from app.controllers.base_controller import BaseControllers
+from app.models.base import Base
 from app.repositories.repository import BaseRepository
-from app.schemas.usuario import UsuarioLoginSchema
-
-T = TypeVar('T')
+from app.schemas.user import UserLoginSchema
 
 
-class UsuarioController(BaseControllers):
-    def __init__(self, db: Session, model: Type[T] = None):
+class UserController(BaseControllers):
+    def __init__(self, db: Session, model: Base):
         super().__init__(db, model)
 
-    def login(self, usuario: UsuarioLoginSchema) -> bool:
-        """
-        Cria um animal.
-
-        Args:
-            usuario (UsuarioLoginSchema): Os dados do animal a ser criado.
-
-        Returns:
-            Animal: O animal criado.
-        """
+    def login(self, user: UserLoginSchema) -> bool:
         try:
-            usuario_db = BaseRepository(self.db, self.model).get_by_field(
-                "email", usuario.email)
-            if usuario_db is None:
+            user_db = BaseRepository(self.db, self.model).get_by_field(
+                "email", user.email)
+            if user_db is None:
                 raise Exception
-            if usuario_db[0].password != usuario.password:
+            if user_db[0].password != user.password:
                 raise Exception
         except Exception:
             return False

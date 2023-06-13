@@ -1,32 +1,20 @@
-from typing import Type, TypeVar
-
 from sqlalchemy.orm import Session
 
+from app.controllers.base_controller import BaseControllers
+from app.models.base import Base
 from app.models.lote_log import LoteLog
 from app.models.peso_log import PesoLog
 from app.repositories.repository import BaseRepository
 from app.schemas.animal import AnimalCreateSchema
 from app.schemas.lote_log import LoteLogCreateSchema
 from app.schemas.peso_log import PesoLogCreateSchema
-from app.controllers.base_controller import BaseControllers
-
-T = TypeVar('T')
 
 
 class AnimalController(BaseControllers):
-    def __init__(self, db: Session, model: Type[T] = None):
+    def __init__(self, db: Session, model: Base):
         super().__init__(db, model)
 
     def create(self, animal: AnimalCreateSchema) -> bool:
-        """
-        Cria um animal.
-
-        Args:
-            animal (AnimalCreate): Os dados do animal a ser criado.
-
-        Returns:
-            Animal: O animal criado.
-        """
         try:
             entity = self.model(**animal.dict())
             BaseRepository(self.db, self.model).create(entity)

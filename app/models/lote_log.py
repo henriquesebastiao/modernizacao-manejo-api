@@ -1,5 +1,3 @@
-"""Modelo de lote log log."""
-
 from sqlalchemy import Column, Integer, ForeignKey, Date
 from sqlalchemy.orm import Mapped, relationship
 
@@ -7,7 +5,6 @@ from app.models.base import Base
 
 
 class LoteLog(Base):
-    """Modelo de lote log."""
     __tablename__ = "lote_log"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
