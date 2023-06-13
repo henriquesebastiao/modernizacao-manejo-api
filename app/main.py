@@ -17,6 +17,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.get("/")
+async def root():
+    """Rota principal."""
+    return {"message": "Hello World"}
+
+
 app.include_router(animal.router)
 app.include_router(cargo.router)
 app.include_router(fazenda.router)
