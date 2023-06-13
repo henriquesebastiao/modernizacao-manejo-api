@@ -77,6 +77,16 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:latest" >> $GITHUB_OUTPUT
 
+    - name: List existing image tags
+      id: list-image-tags
+      run: |
+        aws ecr list-images --repository-name my-repo --query 'imageIds[].imageTag' --output text | sort -r > existing_image_tags.txt
+
+    - name: Delete old image tags
+      id: delete-old-image-tags
+      run: |
+        cat existing_image_tags.txt | awk 'NR>3' | while read tag; do aws ecr batch-delete-image --repository-name my-repo --image-ids imageTag=$tag; done
+
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
