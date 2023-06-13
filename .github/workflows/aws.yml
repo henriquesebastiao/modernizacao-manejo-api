@@ -30,6 +30,14 @@ on:
   push:
     branches: [ "master" ]
 
+env:
+  AWS_REGION: env.MY_AWS_REGION
+  ECR_REPOSITORY: env.MY_ECR_REPOSITORY
+  ECS_SERVICE: env.MY_ECS_SERVICE
+  ECS_CLUSTER: env.MY_ECS_CLUSTER
+  ECS_TASK_DEFINITION: env.MY_ECS_TASK_DEFINITION
+  CONTAINER_NAME: env.MY_CONTAINER_NAME
+
 permissions:
   contents: read
 
