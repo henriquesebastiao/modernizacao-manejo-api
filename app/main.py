@@ -9,6 +9,11 @@ from app.routes import pessoa
 
 app = FastAPI()
 
+origins = [
+    "https://site.henriquesebastiao.com/",
+    "*",
+]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
