@@ -10,7 +10,7 @@ from app.routes import pessoa
 app = FastAPI()
 
 origins = [
-    "https://site.henriquesebastiao.com/",
+    "https://site.henriquesebastiao.com",
     "*",
 ]
 
