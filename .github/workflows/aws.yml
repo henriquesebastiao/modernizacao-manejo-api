@@ -80,7 +80,7 @@ jobs:
     - name: List existing image tags
       id: list-image-tags
       run: |
-        aws ecr list-images --repository-name my-repo --query 'imageIds[].imageTag' --output text | sort -r > existing_image_tags.txt
+        aws ecr list-images --repository-name $ECR_REPOSITORY --query 'imageIds[].imageTag' --output text | sort -r > existing_image_tags.txt
     - name: Delete old image tags
       id: delete-old-image-tags
       run: |
