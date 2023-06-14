@@ -19,7 +19,7 @@ async def create(user: UserCreateSchema, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
-@router.get("/{id}", response_model=UserSchema)
+@router.get("/{user_id}", response_model=UserSchema)
 def get(user_id: int, db: Session = Depends(get_db)):
     controller = BaseControllers(db, User)
     if response := controller.get_by_id(user_id):
