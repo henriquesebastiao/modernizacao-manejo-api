@@ -9,6 +9,7 @@ class FazendeiroBaseSchema(BaseModel):
 
 class FazendeiroCreateSchema(FazendeiroBaseSchema):
     """Classe para validação de dados de criação do fazendeiro."""
+    nome: str
     password: str
     email: str
 
