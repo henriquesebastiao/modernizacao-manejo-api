@@ -21,3 +21,15 @@ class UserController(BaseControllers):
         except Exception:
             return False
         return True
+
+    def register(self, user: UserLoginSchema) -> bool:
+        try:
+            user_db = BaseRepository(self.db, self.model).get_by_field(
+                "email", user.email)
+            if user_db is None:
+                raise Exception
+            if user_db[0].password != user.password:
+                raise Exception
+        except Exception:
+            return False
+        return True

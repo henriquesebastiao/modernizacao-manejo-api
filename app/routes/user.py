@@ -27,6 +27,14 @@ def get(user_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
+@router.post("/register")
+def register(user: UserLoginSchema, db: Session = Depends(get_db)):
+    controller = UserController(db, User)
+    if response := controller.login(user):
+        return response
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+
+
 @router.post("/login")
 def login(user: UserLoginSchema, db: Session = Depends(get_db)):
     controller = UserController(db, User)
