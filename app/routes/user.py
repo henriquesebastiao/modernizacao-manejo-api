@@ -16,7 +16,7 @@ async def create(user: UserCreateSchema, db: Session = Depends(get_db)):
     controller = BaseControllers(db, User)
     if controller.create(user):
         return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+    raise HTTPException(status_code=404, detail="Nenhum registro criado")
 
 
 @router.get("/{id}", response_model=UserSchema)
@@ -32,7 +32,7 @@ def login(user: UserLoginSchema, db: Session = Depends(get_db)):
     controller = UserController(db, User)
     if response := controller.login(user):
         return response
-    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
 
 
 @router.get("/", response_model=list[UserSchema])
