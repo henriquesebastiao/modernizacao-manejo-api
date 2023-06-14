@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.controllers.base_controller import BaseControllers
+from app.controllers.fazendeiro_controller import FazendeiroController
 from app.database import get_db
 from app.models.fazendeiro import Fazendeiro
 from app.schemas.fazendeiro import FazendeiroCreateSchema, FazendeiroSchema, \
@@ -13,7 +14,7 @@ router = APIRouter(prefix="/fazendeiro", tags=["Fazendeiro"])
 @router.post("/", status_code=201)
 async def create(cargo: FazendeiroCreateSchema,
                  db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Fazendeiro)
+    controller = FazendeiroController(db, Fazendeiro)
     if controller.create(cargo):
         return {"mensagem": "Criado com sucesso"}
     raise HTTPException(status_code=404, detail="Nenhum registro criado")

@@ -4,11 +4,13 @@ from pydantic import BaseModel
 
 
 class FazendeiroBaseSchema(BaseModel):
-    user_id: int
+    """Classe para validação de dados do fazendeiro."""
 
 
 class FazendeiroCreateSchema(FazendeiroBaseSchema):
     """Classe para validação de dados de criação do fazendeiro."""
+    password: str
+    email: str
 
 
 class FazendeiroUpdateSchema(FazendeiroBaseSchema):
