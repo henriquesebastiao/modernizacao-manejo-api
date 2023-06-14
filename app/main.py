@@ -11,6 +11,7 @@ app = FastAPI()
 
 origins = [
     "https://site.henriquesebastiao.com",
+    "http://localhost:5173",
     "*",
 ]
 
