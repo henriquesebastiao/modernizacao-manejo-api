@@ -7,8 +7,8 @@ router = APIRouter(prefix="/lote", tags=["Lote"])
 
 
 @router.post("/", response_model=LoteSchema, status_code=201)
-async def create(cargo: LoteCreate, service=Depends(LoteService)):
-    return service.create(cargo)
+async def create(lote: LoteCreate, service=Depends(LoteService)):
+    return service.create(lote)
 
 
 @router.get("/{lote_id}", response_model=LoteSchema)
