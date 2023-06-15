@@ -1,30 +1,24 @@
 from pydantic import BaseModel
 
 
-class LoteBaseSchema(BaseModel):
-    """Classe base para validação de dados de Lote."""
+class LoteBase(BaseModel):
     nome: str
     numero: int
     dieta_id: int | None
     obs: str | None
 
 
-class LoteCreateSchema(LoteBaseSchema):
-    """Classe para validação de dados de criação de Lote."""
+class LoteCreate(LoteBase):
+    ...
 
 
-class LoteUpdateSchema(LoteBaseSchema):
-    """Classe para validação de dados de atualização de Lote."""
+class LoteUpdate(LoteBase):
+    ...
 
 
-class LoteDeleteSchema(LoteBaseSchema):
-    """Classe para validação de dados de remoção de Lote."""
+class LoteDelete(LoteBase):
+    ...
 
 
-class LoteSchema(LoteBaseSchema):
-    """Classe para validação de dados de atualização de Lote."""
+class LoteSchema(LoteBase):
     id: int
-
-    class Config:
-        """Configuração da classe."""
-        orm_mode = True

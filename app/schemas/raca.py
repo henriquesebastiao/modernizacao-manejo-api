@@ -1,29 +1,21 @@
-"""Esquema de validação de dados para o modelo Raca."""
-
 from pydantic import BaseModel
 
 
-class RacaBaseSchema(BaseModel):
-    """Classe base para validação de dados de Raca."""
+class RacaBase(BaseModel):
     nome: str
 
 
-class RacaCreateSchema(RacaBaseSchema):
-    """Classe para validação de dados de criação de Raca."""
+class RacaCreate(RacaBase):
+    ...
 
 
-class RacaUpdateSchema(RacaBaseSchema):
-    """Classe para validação de dados de atualização de Raca."""
+class RacaUpdate(RacaBase):
+    ...
 
 
-class RacaDeleteSchema(RacaBaseSchema):
-    """Classe para validação de dados de remoção de Raca."""
+class RacaDelete(RacaBase):
+    ...
 
 
-class RacaSchema(RacaBaseSchema):
-    """Classe para validação de dados de atualização de Raca."""
+class RacaSchema(RacaBase):
     id: int
-
-    class Config:
-        """Configuração da classe."""
-        orm_mode = True
