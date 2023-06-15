@@ -1,4 +1,4 @@
-from app.controllers.base_controller import BaseControllers
+from app.controllers.base import BaseControllers
 
 from app.models.cargo import Cargo
 

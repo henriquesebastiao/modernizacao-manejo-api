@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.controllers.base_controller import BaseControllers
+from app.controllers.base import BaseControllers
 from app.database import get_db
 from app.models.propriedade import Propriedade
 from app.schemas.propriedade import PropriedadeCreateSchema, PropriedadeSchema, \
