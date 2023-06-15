@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.controllers.base_controller import BaseControllers
-from app.controllers.fazendeiro_controller import FazendeiroController
 from app.database import get_db
 from app.models.fazendeiro import Fazendeiro
 from app.schemas.fazendeiro import FazendeiroCreateSchema, FazendeiroSchema, \

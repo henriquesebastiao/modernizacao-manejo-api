@@ -1,5 +1,3 @@
-"""Modulo principal da aplicação."""
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

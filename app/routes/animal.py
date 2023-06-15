@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.controllers.animal_controller import AnimalController
 from app.database import get_db
 from app.models.animal import Animal
 from app.schemas.animal import AnimalCreateSchema, AnimalSchema, \
