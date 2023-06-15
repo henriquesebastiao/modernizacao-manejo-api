@@ -8,8 +8,8 @@ class Animal(Base):
     __tablename__ = "animal"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    chip: Mapped[str] = Column(String)
-    brinco: Mapped[str] = Column(String)
+    chip: Mapped[str] = Column(String, nullable=True)
+    brinco: Mapped[str] = Column(String, nullable=True)
     origem = Column(String, nullable=True)
     raca_id = Column(Integer, ForeignKey("raca.id"), nullable=True)
     mae_id = Column(Integer, nullable=True)

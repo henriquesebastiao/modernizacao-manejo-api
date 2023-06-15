@@ -8,8 +8,8 @@ class LoteLog(Base):
     __tablename__ = "lote_log"
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    data_entrada = Column(Date)
-    data_saida = Column(Date)
+    data_entrada = Column(Date, nullable=True)
+    data_saida = Column(Date, nullable=True)
     animal_id = Column(Integer, ForeignKey("animal.id"))
     lote_id = Column(Integer, ForeignKey("lote.id"))
 

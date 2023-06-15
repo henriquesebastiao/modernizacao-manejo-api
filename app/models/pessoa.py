@@ -11,9 +11,9 @@ class Pessoa(Base):
 
     id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
     cpf: Mapped[str] = Column(String, unique=True)
-    data_nascimento: Mapped[date] = Column(Date)
+    data_nascimento: Mapped[date] = Column(Date, nullable=True)
     nome = Column(String)
-    sobre_nome: Mapped[str] = Column(String)
+    sobrenome: Mapped[str] = Column(String, nullable=True)
     cargo_id = Column(Integer, ForeignKey('cargo.id'))
 
     cargo = relationship("Cargo")

@@ -14,6 +14,9 @@ class CRUD:
     def rollback(self):
         self.db.rollback()
 
+    def refresh(self, entity):
+        self.db.refresh(entity)
+
     def create(self, entity):
         self.db.add(entity)
 

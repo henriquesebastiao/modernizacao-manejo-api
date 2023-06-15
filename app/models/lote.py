@@ -11,7 +11,7 @@ class Lote(Base):
     nome: Mapped[str] = Column(String)
     numero: Mapped[int] = Column(Integer)
     dieta_id = Column(Integer, ForeignKey("dieta.id"), nullable=True)
-    obs: Mapped[str] = Column(String)
+    obs: Mapped[str] = Column(String, nullable=True)
 
     lote_log = relationship("LoteLog", back_populates="lote")
     animais = relationship("Animal", back_populates="lote")
