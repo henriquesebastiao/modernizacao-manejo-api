@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class FazendeiroBase(BaseModel):
@@ -8,7 +8,7 @@ class FazendeiroBase(BaseModel):
 class FazendeiroCreate(FazendeiroBase):
     nome: str
     password: str
-    email: str
+    email: EmailStr
 
 
 class FazendeiroUpdate(FazendeiroBase):
