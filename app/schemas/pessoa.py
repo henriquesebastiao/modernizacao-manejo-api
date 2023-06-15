@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class PessoaBase(BaseModel):
     nome: str
-    sobre_nome: str
-    cargo_id: int
+    sobrenome: str | None
+    cargo_id: int | None
 
 
 class PessoaCreate(PessoaBase):

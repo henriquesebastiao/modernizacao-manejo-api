@@ -8,8 +8,9 @@ router = APIRouter(prefix="/fazendeiro", tags=["Fazendeiro"])
 
 
 @router.post("/", response_model=FazendeiroSchema, status_code=201)
-async def create(cargo: FazendeiroCreate, service=Depends(FazendeiroService)):
-    return service.create(cargo)
+async def create(fazendeiro: FazendeiroCreate,
+                 service=Depends(FazendeiroService)):
+    return service.create(fazendeiro)
 
 
 @router.get("/{fazendeiro_id}", response_model=FazendeiroSchema)
