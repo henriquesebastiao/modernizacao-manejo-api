@@ -1,7 +1,7 @@
 from app.crud import CRUD
 
 
-class BaseControllers:
+class BaseService:
     def __init__(self, model):
         self.model = model
         self.crud = CRUD(self.model)

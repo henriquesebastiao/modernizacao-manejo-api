@@ -1,50 +1,32 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 
-from app.controllers.base import BaseControllers
-from app.database import get_db
-from app.models.raca import Raca
-from app.schemas.raca import RacaCreateSchema, RacaSchema, RacaUpdateSchema
+from app.schemas.raca import RacaCreate, RacaSchema, RacaUpdate
+from app.services.raca import RacaService
 
 router = APIRouter(prefix="/raca", tags=["Raca"])
 
 
-@router.post("/", status_code=201)
-async def create(raca: RacaCreateSchema, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Raca)
-    if controller.create(raca):
-        return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+@router.post("/", response_model=RacaSchema, status_code=201)
+async def create(cargo: RacaCreate, service=Depends(RacaService)):
+    return service.create(cargo)
 
 
 @router.get("/{raca_id}", response_model=RacaSchema)
-def get(raca_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Raca)
-    if response := controller.get_by_id(raca_id):
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+def get_by_id(raca_id: int, service=Depends(RacaService)):
+    return service.get_by_id(raca_id)
 
 
 @router.get("/", response_model=list[RacaSchema])
-async def get_all(db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Raca)
-    if response := controller.get_all():
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def get_all(service=Depends(RacaService)):
+    return service.get_all()
 
 
 @router.patch("/{raca_id}")
-async def update(raca_id: int, raca: RacaUpdateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Raca)
-    if controller.update(raca_id, raca):
-        return {"mensagem": "Atualizado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def update(raca_id: int, raca: RacaUpdate,
+                 service=Depends(RacaService)):
+    return service.update(raca_id, raca)
 
 
 @router.delete("/{raca_id}")
-async def delete(raca_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Raca)
-    if controller.delete(raca_id):
-        return {"mensagem": "Apagado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def delete(raca_id: int, service=Depends(RacaService)) -> dict:
+    return service.delete(raca_id)

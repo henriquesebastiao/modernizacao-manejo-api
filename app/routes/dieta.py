@@ -1,51 +1,32 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 
-from app.controllers.base import BaseControllers
-from app.database import get_db
-from app.models.dieta import Dieta
-from app.schemas.dieta import DietaCreateSchema, DietaSchema, DietaUpdateSchema
+from app.schemas.dieta import DietaCreate, DietaSchema, DietaUpdate
+from app.services.dieta import DietaService
 
 router = APIRouter(prefix="/dieta", tags=["Dieta"])
 
 
-@router.post("/", status_code=201)
-async def create(dieta: DietaCreateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Dieta)
-    if controller.create(dieta):
-        return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+@router.post("/", response_model=DietaSchema, status_code=201)
+async def create(cargo: DietaCreate, service=Depends(DietaService)):
+    return service.create(cargo)
 
 
 @router.get("/{dieta_id}", response_model=DietaSchema)
-def get(dieta_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Dieta)
-    if response := controller.get_by_id(dieta_id):
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+def get_by_id(dieta_id: int, service=Depends(DietaService)):
+    return service.get_by_id(dieta_id)
 
 
 @router.get("/", response_model=list[DietaSchema])
-async def get_all(db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Dieta)
-    if response := controller.get_all():
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def get_all(service=Depends(DietaService)):
+    return service.get_all()
 
 
 @router.patch("/{dieta_id}")
-async def update(dieta_id: int, dieta: DietaUpdateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Dieta)
-    if controller.update(dieta_id, dieta):
-        return {"mensagem": "Atualizado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def update(dieta_id: int, dieta: DietaUpdate,
+                 service=Depends(DietaService)):
+    return service.update(dieta_id, dieta)
 
 
 @router.delete("/{dieta_id}")
-async def delete(dieta_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Dieta)
-    if controller.delete(dieta_id):
-        return {"mensagem": "Apagado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def delete(dieta_id: int, service=Depends(DietaService)) -> dict:
+    return service.delete(dieta_id)

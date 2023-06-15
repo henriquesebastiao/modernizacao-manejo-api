@@ -1,8 +1,8 @@
-from app.controllers.base import BaseControllers
+from app.services.base import BaseService
 
 from app.models.user import User
 
 
-class UserController(BaseControllers):
+class UserService(BaseService):
     def __init__(self):
         super().__init__(User)

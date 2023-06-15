@@ -1,8 +1,8 @@
-from app.controllers.base import BaseControllers
+from app.services.base import BaseService
 
 from app.models.lote import Lote
 
 
-class LoteController(BaseControllers):
+class LoteService(BaseService):
     def __init__(self):
         super().__init__(Lote)

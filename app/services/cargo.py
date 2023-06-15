@@ -1,8 +1,8 @@
-from app.controllers.base import BaseControllers
+from app.services.base import BaseService
 
 from app.models.cargo import Cargo
 
 
-class CargoController(BaseControllers):
+class CargoService(BaseService):
     def __init__(self):
         super().__init__(Cargo)

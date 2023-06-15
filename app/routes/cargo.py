@@ -1,22 +1,32 @@
 from fastapi import APIRouter, Depends
-from fastapi.responses import JSONResponse
 
-from app.controllers.cargo import CargoController
-from app.errors import erros
-from app.schemas.cargo import CargoCreateSchema, CargoSchema
+from app.schemas.cargo import CargoCreate, CargoSchema, CargoUpdate
+from app.services.cargo import CargoService
 
 router = APIRouter(prefix="/cargo", tags=["Cargo"])
 
 
-@router.post("/", response_model=CargoSchema, status_code=201,
-             responses=erros["status_code"])
-async def create(cargo: CargoCreateSchema,
-                 service: CargoController = Depends(CargoController)):
-    resp = service.create(cargo)
-    return JSONResponse(status_code=resp, content=erros["status_code"][resp])
+@router.post("/", response_model=CargoSchema, status_code=201)
+async def create(cargo: CargoCreate, service=Depends(CargoService)):
+    return service.create(cargo)
 
 
 @router.get("/{cargo_id}", response_model=CargoSchema)
-def get(cargo_id: int, service: CargoController = Depends(CargoController)):
-    resp = service.get_by_id(cargo_id)
-    return JSONResponse(resp)
+def get_by_id(cargo_id: int, service=Depends(CargoService)):
+    return service.get_by_id(cargo_id)
+
+
+@router.get("/", response_model=list[CargoSchema])
+async def get_all(service=Depends(CargoService)):
+    return service.get_all()
+
+
+@router.patch("/{cargo_id}")
+async def update(cargo_id: int, cargo: CargoUpdate,
+                 service=Depends(CargoService)):
+    return service.update(cargo_id, cargo)
+
+
+@router.delete("/{cargo_id}")
+async def delete(cargo_id: int, service=Depends(CargoService)) -> dict:
+    return service.delete(cargo_id)

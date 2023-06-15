@@ -1,8 +1,8 @@
-from app.controllers.base import BaseControllers
+from app.services.base import BaseService
 
 from app.models.raca import Raca
 
 
-class RacaController(BaseControllers):
+class RacaService(BaseService):
     def __init__(self):
         super().__init__(Raca)

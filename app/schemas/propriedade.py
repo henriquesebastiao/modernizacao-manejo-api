@@ -6,15 +6,15 @@ class PropriedadeBase(BaseModel):
     fazendeiro_id: int
 
 
-class PropriedadeCreateSchema(PropriedadeBase):
+class PropriedadeCreate(PropriedadeBase):
     ...
 
 
-class PropriedadeUpdateSchema(PropriedadeBase):
+class PropriedadeUpdate(PropriedadeBase):
     ...
 
 
-class PropriedadeDeleteSchema(PropriedadeBase):
+class PropriedadeDelete(PropriedadeBase):
     ...
 
 

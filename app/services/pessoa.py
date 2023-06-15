@@ -1,8 +1,8 @@
-from app.controllers.base import BaseControllers
+from app.services.base import BaseService
 
 from app.models.pessoa import Pessoa
 
 
-class PessoaController(BaseControllers):
+class PessoaService(BaseService):
     def __init__(self):
         super().__init__(Pessoa)

@@ -27,11 +27,11 @@ class AnimalBase(BaseModel):
     peso: float | None
 
 
-class AnimalCreateSchema(AnimalBase):
+class AnimalCreate(AnimalBase):
     ...
 
 
-class AnimalUpdateSchema(AnimalBase):
+class AnimalUpdate(AnimalBase):
     ...
 
 

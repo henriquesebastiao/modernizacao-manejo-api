@@ -1,8 +1,8 @@
-from app.controllers.base import BaseControllers
+from app.services.base import BaseService
 
 from app.models.fazendeiro import Fazendeiro
 
 
-class FazendeiroController(BaseControllers):
+class FazendeiroService(BaseService):
     def __init__(self):
         super().__init__(Fazendeiro)

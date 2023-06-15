@@ -6,15 +6,15 @@ class FazendaSchemaBase(BaseModel):
     nome: str
 
 
-class FazendaCreateSchema(FazendaSchemaBase):
+class FazendaCreate(FazendaSchemaBase):
     ...
 
 
-class FazendaUpdateSchema(FazendaSchemaBase):
+class FazendaUpdate(FazendaSchemaBase):
     ...
 
 
-class FazendaDeleteSchema(FazendaSchemaBase):
+class FazendaDelete(FazendaSchemaBase):
     ...
 
 
