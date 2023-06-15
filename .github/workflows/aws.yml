@@ -8,10 +8,10 @@
 #    Replace the value of the `ECR_REPOSITORY` environment variable in the workflow below with your repository's name.
 #    Replace the value of the `AWS_REGION` environment variable in the workflow below with your repository's region.
 #
-# 2. Create an ECS task definition, an ECS cluster, and an ECS services.
+# 2. Create an ECS task definition, an ECS cluster, and an ECS service.
 #    For example, follow the Getting Started guide on the ECS console:
 #      https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
-#    Replace the value of the `ECS_SERVICE` environment variable in the workflow below with the name you set for the Amazon ECS services.
+#    Replace the value of the `ECS_SERVICE` environment variable in the workflow below with the name you set for the Amazon ECS service.
 #    Replace the value of the `ECS_CLUSTER` environment variable in the workflow below with the name you set for the cluster.
 #
 # 3. Store your ECS task definition as a JSON file in your repository.
@@ -33,7 +33,7 @@ on:
 env:
   AWS_REGION: sa-east-1                   # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: manejo-api           # set this to your Amazon ECR repository name
-  ECS_SERVICE: Manejo                 # set this to your Amazon ECS services name
+  ECS_SERVICE: Manejo                 # set this to your Amazon ECS service name
   ECS_CLUSTER: Manejo-Dev                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
