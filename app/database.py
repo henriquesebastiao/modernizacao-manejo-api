@@ -1,5 +1,3 @@
-"""Banco de dados configuração e conexão."""
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -16,7 +14,6 @@ SessionLocal = sessionmaker(bind=engine)
 
 
 def get_db():
-    """Obtém uma sessão do banco de dados."""
     db = SessionLocal()
     try:
         yield db

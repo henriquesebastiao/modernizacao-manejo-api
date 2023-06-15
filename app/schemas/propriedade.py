@@ -1,30 +1,22 @@
-"""Esquema de validação de dados de Propriedade."""
-
 from pydantic import BaseModel
 
 
-class PropriedadeBaseSchema(BaseModel):
-    """Classe base para validação de dados de Propriedade."""
+class PropriedadeBase(BaseModel):
     nome: str
     fazendeiro_id: int
 
 
-class PropriedadeCreateSchema(PropriedadeBaseSchema):
-    """Classe para validação de dados de criação de Propriedade."""
+class PropriedadeCreate(PropriedadeBase):
+    ...
 
 
-class PropriedadeUpdateSchema(PropriedadeBaseSchema):
-    """Classe para validação de dados de atualização de Propriedade."""
+class PropriedadeUpdate(PropriedadeBase):
+    ...
 
 
-class PropriedadeDeleteSchema(PropriedadeBaseSchema):
-    """Classe para validação de dados de remoção de Propriedade."""
+class PropriedadeDelete(PropriedadeBase):
+    ...
 
 
-class PropriedadeSchema(PropriedadeBaseSchema):
-    """Classe para validação de dados de Propriedade."""
+class PropriedadeSchema(PropriedadeBase):
     id: int
-
-    class Config:
-        """Classe de configuração do Pydantic."""
-        orm_mode = True

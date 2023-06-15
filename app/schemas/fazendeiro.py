@@ -1,30 +1,23 @@
-"""Esquema de validação de dados do fazendeiro."""
-
 from pydantic import BaseModel
 
 
-class FazendeiroBaseSchema(BaseModel):
-    """Classe para validação de dados do fazendeiro."""
+class FazendeiroBase(BaseModel):
+    ...
 
 
-class FazendeiroCreateSchema(FazendeiroBaseSchema):
-    """Classe para validação de dados de criação do fazendeiro."""
+class FazendeiroCreate(FazendeiroBase):
     nome: str
     password: str
     email: str
 
 
-class FazendeiroUpdateSchema(FazendeiroBaseSchema):
-    """Classe para validação de dados de atualização do fazendeiro."""
+class FazendeiroUpdate(FazendeiroBase):
+    ...
 
 
-class FazendeiroDeleteSchema(FazendeiroBaseSchema):
-    """Classe para validação de dados de remoção do fazendeiro."""
+class FazendeiroDelete(FazendeiroBase):
+    ...
 
 
-class FazendeiroSchema(FazendeiroBaseSchema):
+class FazendeiroSchema(FazendeiroBase):
     id: int
-
-    class Config:
-        """Classe de configuração do Pydantic."""
-        orm_mode = True

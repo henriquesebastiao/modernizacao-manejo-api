@@ -1,30 +1,22 @@
-"""Esquema de validação de dados para o modelo Dieta."""
-
 from pydantic import BaseModel
 
 
-class DietaSchemaBase(BaseModel):
-    """Classe base para validação de dados de Dieta."""
+class DietaBase(BaseModel):
     nome: str | None
-    descricao: str | None
+    desc: str | None
 
 
-class DietaCreateSchema(DietaSchemaBase):
-    """Classe para validação de dados de criação de Dieta."""
+class DietaCreate(DietaBase):
+    ...
 
 
-class DietaUpdateSchema(DietaSchemaBase):
-    """Classe para validação de dados de atualização de Dieta."""
+class DietaUpdate(DietaBase):
+    ...
 
 
-class DietaDeleteSchema(DietaSchemaBase):
-    """Classe para validação de dados de remoção de Dieta."""
+class DietaDelete(DietaBase):
+    ...
 
 
-class DietaSchema(DietaSchemaBase):
-    """Classe para validação de dados de Dieta."""
+class DietaSchema(DietaBase):
     id: int
-
-    class Config:
-        """Classe de configuração do Pydantic."""
-        orm_mode = True

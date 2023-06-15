@@ -1,5 +1,3 @@
-"""Esquema de validação de dados para o modelo Animal."""
-
 from datetime import date
 from enum import Enum
 
@@ -12,13 +10,11 @@ from app.schemas.raca import RacaSchema
 
 
 class Sexo(str, Enum):
-    """Lista de sexos dos quais o animal pode ser."""
-    macho = "Macho"
-    femea = "Fêmea"
+    m = "Macho"
+    f = "Fêmea"
 
 
-class AnimalSchemaBase(BaseModel):
-    """Classe base para validação de dados de Animal."""
+class AnimalBase(BaseModel):
     chip: str | None
     brinco: str | None
     origem: str | None
@@ -31,22 +27,17 @@ class AnimalSchemaBase(BaseModel):
     peso: float | None
 
 
-class AnimalCreateSchema(AnimalSchemaBase):
-    """Classe para validação de dados de criação de Animal."""
+class AnimalCreate(AnimalBase):
+    ...
 
 
-class AnimalUpdateSchema(AnimalSchemaBase):
-    """Classe para validação de dados de atualização de Animal."""
+class AnimalUpdate(AnimalBase):
+    ...
 
 
-class AnimalSchema(AnimalSchemaBase):
-    """Classe para validação de dados de atualização de Animal."""
+class AnimalSchema(AnimalBase):
     id: int | None
     lote: LoteSchema | None
     raca: RacaSchema | None
     peso_log: list[PesoLogSchema] | None
     lote_log: list[LoteLogSchema] | None
-
-    class Config:
-        """Configuração da classe."""
-        orm_mode = True

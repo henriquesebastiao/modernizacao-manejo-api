@@ -1,52 +1,32 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 
-from app.controllers.base_controller import BaseControllers
-from app.database import get_db
-from app.models.fazenda import Fazenda
-from app.schemas.fazenda import FazendaCreateSchema, FazendaSchema, \
-    FazendaUpdateSchema
+from app.schemas.fazenda import FazendaCreate, FazendaSchema, FazendaUpdate
+from app.services.fazenda import FazendaService
 
 router = APIRouter(prefix="/fazenda", tags=["Fazenda"])
 
 
-@router.post("/", status_code=201)
-async def create(fazenda: FazendaCreateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Fazenda)
-    if controller.create(fazenda):
-        return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+@router.post("/", response_model=FazendaSchema, status_code=201)
+async def create(cargo: FazendaCreate, service=Depends(FazendaService)):
+    return service.create(cargo)
 
 
 @router.get("/{fazenda_id}", response_model=FazendaSchema)
-def get(fazenda_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Fazenda)
-    if response := controller.get_by_id(fazenda_id):
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+def get_by_id(fazenda_id: int, service=Depends(FazendaService)):
+    return service.get_by_id(fazenda_id)
 
 
 @router.get("/", response_model=list[FazendaSchema])
-async def get_all(db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Fazenda)
-    if response := controller.get_all():
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def get_all(service=Depends(FazendaService)):
+    return service.get_all()
 
 
 @router.patch("/{fazenda_id}")
-async def update(fazenda_id: int, fazenda: FazendaUpdateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Fazenda)
-    if controller.update(fazenda_id, fazenda):
-        return {"mensagem": "Atualizado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def update(fazenda_id: int, fazenda: FazendaUpdate,
+                 service=Depends(FazendaService)):
+    return service.update(fazenda_id, fazenda)
 
 
 @router.delete("/{fazenda_id}")
-async def delete(fazenda_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Fazenda)
-    if controller.delete(fazenda_id):
-        return {"mensagem": "Apagado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def delete(fazenda_id: int, service=Depends(FazendaService)) -> dict:
+    return service.delete(fazenda_id)

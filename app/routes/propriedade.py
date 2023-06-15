@@ -1,54 +1,34 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 
-from app.controllers.base_controller import BaseControllers
-from app.database import get_db
-from app.models.propriedade import Propriedade
-from app.schemas.propriedade import PropriedadeCreateSchema, PropriedadeSchema, \
-    PropriedadeUpdateSchema
+from app.schemas.propriedade import PropriedadeCreate, PropriedadeSchema, \
+    PropriedadeUpdate
+from app.services.propriedade import PropriedadeService
 
 router = APIRouter(prefix="/propriedade", tags=["Propriedade"])
 
 
-@router.post("/", status_code=201)
-async def create(propriedade: PropriedadeCreateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Propriedade)
-    if controller.create(propriedade):
-        return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+@router.post("/", response_model=PropriedadeSchema, status_code=201)
+async def create(cargo: PropriedadeCreate, service=Depends(PropriedadeService)):
+    return service.create(cargo)
 
 
 @router.get("/{propriedade_id}", response_model=PropriedadeSchema)
-def get(propriedade_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Propriedade)
-    if response := controller.get_by_id(propriedade_id):
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+def get_by_id(propriedade_id: int, service=Depends(PropriedadeService)):
+    return service.get_by_id(propriedade_id)
 
 
 @router.get("/", response_model=list[PropriedadeSchema])
-async def get_all(db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Propriedade)
-    if response := controller.get_all():
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def get_all(service=Depends(PropriedadeService)):
+    return service.get_all()
 
 
 @router.patch("/{propriedade_id}")
-async def update(propriedade_id: int,
-                 propriedade: PropriedadeUpdateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Propriedade)
-    if controller.update(propriedade_id, propriedade):
-        return {"mensagem": "Atualizado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def update(propriedade_id: int, propriedade: PropriedadeUpdate,
+                 service=Depends(PropriedadeService)):
+    return service.update(propriedade_id, propriedade)
 
 
 @router.delete("/{propriedade_id}")
 async def delete(propriedade_id: int,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Propriedade)
-    if controller.delete(propriedade_id):
-        return {"mensagem": "Apagado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+                 service=Depends(PropriedadeService)) -> dict:
+    return service.delete(propriedade_id)

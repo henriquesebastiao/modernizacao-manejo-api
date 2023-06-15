@@ -1,29 +1,21 @@
-"""Esquema de validação de dados para o modelo Cargo."""
-
 from pydantic import BaseModel
 
 
-class CargoSchemaBase(BaseModel):
-    """Classe base para validação de dados de Cargo."""
+class CargoBase(BaseModel):
     nome: str
 
 
-class CargoCreateSchema(CargoSchemaBase):
-    """Classe para validação de dados de criação de Cargo."""
+class CargoCreate(CargoBase):
+    ...
 
 
-class CargoUpdateSchema(CargoSchemaBase):
-    """Classe para validação de dados de atualização de Cargo."""
+class CargoUpdate(CargoBase):
+    ...
 
 
-class CargoDeleteSchema(CargoSchemaBase):
-    """Classe para validação de dados de remoção de Cargo."""
+class CargoDelete(CargoBase):
+    ...
 
 
-class CargoSchema(CargoSchemaBase):
-    """Classe para validação de dados de Cargo."""
+class CargoSchema(CargoBase):
     id: int
-
-    class Config:
-        """Classe de configuração do Pydantic."""
-        orm_mode = True

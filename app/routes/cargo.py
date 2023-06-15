@@ -1,51 +1,32 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
 
-from app.controllers.base_controller import BaseControllers
-from app.database import get_db
-from app.models.cargo import Cargo
-from app.schemas.cargo import CargoCreateSchema, CargoSchema, CargoUpdateSchema
+from app.schemas.cargo import CargoCreate, CargoSchema, CargoUpdate
+from app.services.cargo import CargoService
 
 router = APIRouter(prefix="/cargo", tags=["Cargo"])
 
 
-@router.post("/", status_code=201)
-async def create(cargo: CargoCreateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Cargo)
-    if controller.create(cargo):
-        return {"mensagem": "Criado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro criado")
+@router.post("/", response_model=CargoSchema, status_code=201)
+async def create(cargo: CargoCreate, service=Depends(CargoService)):
+    return service.create(cargo)
 
 
 @router.get("/{cargo_id}", response_model=CargoSchema)
-def get(cargo_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Cargo)
-    if response := controller.get_by_id(cargo_id):
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+def get_by_id(cargo_id: int, service=Depends(CargoService)):
+    return service.get_by_id(cargo_id)
 
 
 @router.get("/", response_model=list[CargoSchema])
-async def get_all(db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Cargo)
-    if response := controller.get_all():
-        return response
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def get_all(service=Depends(CargoService)):
+    return service.get_all()
 
 
 @router.patch("/{cargo_id}")
-async def update(cargo_id: int, cargo: CargoUpdateSchema,
-                 db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Cargo)
-    if controller.update(cargo_id, cargo):
-        return {"mensagem": "Atualizado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def update(cargo_id: int, cargo: CargoUpdate,
+                 service=Depends(CargoService)):
+    return service.update(cargo_id, cargo)
 
 
 @router.delete("/{cargo_id}")
-async def delete(cargo_id: int, db: Session = Depends(get_db)):
-    controller = BaseControllers(db, Cargo)
-    if controller.delete(cargo_id):
-        return {"mensagem": "Apagado com sucesso"}
-    raise HTTPException(status_code=404, detail="Nenhum registro encontrado")
+async def delete(cargo_id: int, service=Depends(CargoService)) -> dict:
+    return service.delete(cargo_id)
