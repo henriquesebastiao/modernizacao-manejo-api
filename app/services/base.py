@@ -14,7 +14,7 @@ class BaseService:
             self.crud.commit()
 
     def update(self, new_value, new_value_id):
-        db_value = self.crud.get_by(new_value_id)
+        db_value = self.crud.get_by("id", new_value_id)
         if db_value:
             for field, value in new_value.dict().items:
                 setattr(db_value, field, value)
