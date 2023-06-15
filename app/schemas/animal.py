@@ -41,3 +41,6 @@ class AnimalSchema(AnimalBase):
     raca: RacaSchema | None
     peso_log: list[PesoLogSchema] | None
     lote_log: list[LoteLogSchema] | None
+
+    class Config:
+        orm_mode = True

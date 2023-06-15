@@ -13,7 +13,7 @@ async def create(lote: LoteCreate, service=Depends(LoteService)):
 
 @router.get("/{lote_id}", response_model=LoteSchema)
 def get_by_id(lote_id: int, service=Depends(LoteService)):
-    return service.get_by_id(lote_id)
+    return service.get(lote_id)
 
 
 @router.get("/", response_model=list[LoteSchema])

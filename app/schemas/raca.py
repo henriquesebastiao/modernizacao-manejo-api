@@ -19,3 +19,6 @@ class RacaDelete(RacaBase):
 
 class RacaSchema(RacaBase):
     id: int
+
+    class Config:
+        orm_mode = True

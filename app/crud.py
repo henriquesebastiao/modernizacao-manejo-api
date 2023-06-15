@@ -8,6 +8,9 @@ class CRUD:
         self.model = model
         self.db = SessionLocal()
 
+    def close(self):
+        self.db.close()
+
     def commit(self):
         self.db.commit()
 
@@ -27,10 +30,15 @@ class CRUD:
         self.db.delete(entity)
 
     def get_by(self, field_name, value):
-        stmt = select(self.model).where(getattr(self.model, field_name) == value)
-        return self.db.scalar(stmt)
+        stmt = select(self.model).where(
+            getattr(self.model, field_name) == value)
+        return self.db.scalar(stmt).first()
+
+    def get_all(self):
+        stmt = select(self.model)
+        return self.db.scalars(stmt).all()
 
     def get_all_by(self, field_name, value):
         stmt = select(self.model).where(
             getattr(self.model, field_name) == value)
-        return self.db.scalars(stmt)
+        return self.db.scalars(stmt).all()

@@ -13,7 +13,7 @@ async def create(cargo: PesoLogCreate, service=Depends(PesoLogService)):
 
 @router.get("/{peso_log_id}", response_model=PesoLogSchema)
 def get_by_id(peso_log_id: int, service=Depends(PesoLogService)):
-    return service.get_by_id(peso_log_id)
+    return service.get(peso_log_id)
 
 
 @router.get("/", response_model=list[PesoLogSchema])

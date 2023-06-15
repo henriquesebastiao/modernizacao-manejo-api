@@ -13,7 +13,7 @@ async def create(cargo: AnimalCreate, service=Depends(AnimalService)):
 
 @router.get("/{animal_id}", response_model=AnimalSchema)
 def get_by_id(animal_id: int, service=Depends(AnimalService)):
-    return service.get_by_id(animal_id)
+    return service.get(animal_id)
 
 
 @router.get("/{brinco}", response_model=AnimalSchema)
@@ -26,7 +26,7 @@ def get_by_chip(chip: str, service=Depends(AnimalService)):
     return service.get_by_field("chip", chip)
 
 
-@router.get("/", response_model=list[AnimalSchema])
+@router.get("/")
 async def get_all(service=Depends(AnimalService)):
     return service.get_all()
 

@@ -20,3 +20,6 @@ class PropriedadeDelete(PropriedadeBase):
 
 class PropriedadeSchema(PropriedadeBase):
     id: int
+
+    class Config:
+        orm_mode = True

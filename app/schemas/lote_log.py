@@ -23,3 +23,6 @@ class LoteLogDelete(LoteLogBase):
 
 class LoteLogSchema(LoteLogBase):
     id: int
+
+    class Config:
+        orm_mode = True

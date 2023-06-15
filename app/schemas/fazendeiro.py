@@ -21,3 +21,6 @@ class FazendeiroDelete(FazendeiroBase):
 
 class FazendeiroSchema(FazendeiroBase):
     id: int
+
+    class Config:
+        orm_mode = True

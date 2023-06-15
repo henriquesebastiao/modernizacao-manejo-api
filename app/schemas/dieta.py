@@ -20,3 +20,6 @@ class DietaDelete(DietaBase):
 
 class DietaSchema(DietaBase):
     id: int
+
+    class Config:
+        orm_mode = True

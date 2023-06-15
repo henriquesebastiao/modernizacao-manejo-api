@@ -22,3 +22,6 @@ class PesoLogDelete(PesoLogBase):
 
 class PesoLogSchema(PesoLogBase):
     id: int
+
+    class Config:
+        orm_mode = True

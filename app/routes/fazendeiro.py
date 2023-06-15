@@ -14,7 +14,7 @@ async def create(cargo: FazendeiroCreate, service=Depends(FazendeiroService)):
 
 @router.get("/{fazendeiro_id}", response_model=FazendeiroSchema)
 def get_by_id(fazendeiro_id: int, service=Depends(FazendeiroService)):
-    return service.get_by_id(fazendeiro_id)
+    return service.get(fazendeiro_id)
 
 
 @router.get("/", response_model=list[FazendeiroSchema])

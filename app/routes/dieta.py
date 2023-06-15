@@ -13,7 +13,7 @@ async def create(cargo: DietaCreate, service=Depends(DietaService)):
 
 @router.get("/{dieta_id}", response_model=DietaSchema)
 def get_by_id(dieta_id: int, service=Depends(DietaService)):
-    return service.get_by_id(dieta_id)
+    return service.get(dieta_id)
 
 
 @router.get("/", response_model=list[DietaSchema])

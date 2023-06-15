@@ -13,7 +13,7 @@ async def create(cargo: CargoCreate, service=Depends(CargoService)):
 
 @router.get("/{cargo_id}", response_model=CargoSchema)
 def get_by_id(cargo_id: int, service=Depends(CargoService)):
-    return service.get_by_id(cargo_id)
+    return service.get(cargo_id)
 
 
 @router.get("/", response_model=list[CargoSchema])

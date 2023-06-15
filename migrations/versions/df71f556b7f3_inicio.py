@@ -1,8 +1,8 @@
 """inicio
 
-Revision ID: d3680270937b
+Revision ID: df71f556b7f3
 Revises: 
-Create Date: 2023-06-14 16:43:41.624538
+Create Date: 2023-06-15 17:42:22.894692
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd3680270937b'
+revision = 'df71f556b7f3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,7 +26,7 @@ def upgrade() -> None:
     op.create_table('dieta',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('nome', sa.String(), nullable=True),
-    sa.Column('descricao', sa.String(), nullable=True),
+    sa.Column('desc', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('propriedade',
@@ -38,8 +38,7 @@ def upgrade() -> None:
     op.create_table('raca',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('nome', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('nome')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('lote',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
@@ -55,7 +54,7 @@ def upgrade() -> None:
     sa.Column('cpf', sa.String(), nullable=True),
     sa.Column('data_nascimento', sa.Date(), nullable=True),
     sa.Column('nome', sa.String(), nullable=True),
-    sa.Column('sobre_nome', sa.String(), nullable=True),
+    sa.Column('sobrenome', sa.String(), nullable=True),
     sa.Column('cargo_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['cargo_id'], ['cargo.id'], ),
     sa.PrimaryKeyConstraint('id'),

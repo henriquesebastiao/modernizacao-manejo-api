@@ -21,3 +21,6 @@ class PessoaDelete(PessoaBase):
 
 class PessoaSchema(PessoaBase):
     id: int
+
+    class Config:
+        orm_mode = True

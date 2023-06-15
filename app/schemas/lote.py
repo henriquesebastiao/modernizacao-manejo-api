@@ -22,3 +22,6 @@ class LoteDelete(LoteBase):
 
 class LoteSchema(LoteBase):
     id: int
+
+    class Config:
+        orm_mode = True

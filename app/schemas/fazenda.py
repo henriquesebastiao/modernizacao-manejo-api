@@ -20,3 +20,6 @@ class FazendaDelete(FazendaSchemaBase):
 
 class FazendaSchema(FazendaSchemaBase):
     id: int
+
+    class Config:
+        orm_mode = True

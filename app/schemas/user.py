@@ -20,3 +20,6 @@ class UserDelete(UserBase):
 
 class UserSchema(UserBase):
     id: int
+
+    class Config:
+        orm_mode = True

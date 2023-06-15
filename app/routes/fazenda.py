@@ -13,7 +13,7 @@ async def create(cargo: FazendaCreate, service=Depends(FazendaService)):
 
 @router.get("/{fazenda_id}", response_model=FazendaSchema)
 def get_by_id(fazenda_id: int, service=Depends(FazendaService)):
-    return service.get_by_id(fazenda_id)
+    return service.get(fazenda_id)
 
 
 @router.get("/", response_model=list[FazendaSchema])

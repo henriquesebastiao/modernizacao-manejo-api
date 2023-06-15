@@ -14,7 +14,7 @@ async def create(cargo: PropriedadeCreate, service=Depends(PropriedadeService)):
 
 @router.get("/{propriedade_id}", response_model=PropriedadeSchema)
 def get_by_id(propriedade_id: int, service=Depends(PropriedadeService)):
-    return service.get_by_id(propriedade_id)
+    return service.get(propriedade_id)
 
 
 @router.get("/", response_model=list[PropriedadeSchema])

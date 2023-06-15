@@ -19,3 +19,6 @@ class CargoDelete(CargoBase):
 
 class CargoSchema(CargoBase):
     id: int
+
+    class Config:
+        orm_mode = True
