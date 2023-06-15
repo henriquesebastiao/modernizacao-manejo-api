@@ -7,11 +7,9 @@ class BaseService:
         self.crud = CRUD(self.model)
 
     def create(self, entity):
-        try:
-            obj = self.model(**entity.dict())
-            self.crud.create(obj)
-        finally:
-            self.crud.commit()
+        obj = self.model(**entity.dict())
+        self.crud.create(obj)
+        self.crud.commit()
 
     def update(self, new_value, new_value_id):
         db_value = self.crud.get_by("id", new_value_id)
