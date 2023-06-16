@@ -32,7 +32,7 @@ class CRUD:
     def get_by(self, field_name, value):
         stmt = select(self.model).where(
             getattr(self.model, field_name) == value)
-        return self.db.scalar(stmt).first()
+        return self.db.scalar(stmt)
 
     def get_all(self):
         stmt = select(self.model)
