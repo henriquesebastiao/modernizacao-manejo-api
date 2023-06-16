@@ -16,6 +16,8 @@ app.add_middleware(
 )
 
 
+
+
 @app.get("/")
 async def root():
     """Rota principal."""
