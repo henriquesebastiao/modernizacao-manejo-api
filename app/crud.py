@@ -23,9 +23,6 @@ class CRUD:
     def create(self, entity):
         self.db.add(entity)
 
-    def update(self, entity):
-        self.db.refresh(entity)
-
     def delete(self, entity):
         self.db.delete(entity)
 

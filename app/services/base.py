@@ -7,21 +7,14 @@ class BaseService:
         self.crud = CRUD(self.model)
 
     def create(self, entity):
-        obj = self.model(**entity.dict())
-        self.crud.create(obj)
+        obj = self.crud.create(entity)
         self.crud.commit()
-        self.crud.refresh(obj)
         self.crud.close()
         return obj
 
-    def update(self, new_value, new_value_id):
-        db_value = self.crud.get_by("id", new_value_id)
-        if db_value:
-            for field, value in new_value.dict().items:
-                setattr(db_value, field, value)
-                self.crud.update(db_value)
-            self.crud.commit()
-            self.crud.close()
+    def update(self, new_value):
+        self.crud.commit()
+        self.crud.close()
 
     def delete(self, value_id):
         db_value = self.crud.get_by("id", value_id)
@@ -29,6 +22,8 @@ class BaseService:
             self.crud.delete(db_value)
             self.crud.commit()
             self.crud.close()
+            return {"message": "Registro excluído com sucesso!"}
+        return {"message": "Registro não encontrado!"}
 
     def get(self, value_id):
         db_value = self.crud.get_by("id", value_id)

@@ -6,9 +6,9 @@ from app.services.peso_log import PesoLogService
 router = APIRouter(prefix="/peso_log", tags=["PesoLog"])
 
 
-@router.post("/", response_model=PesoLogSchema, status_code=201)
-async def create(cargo: PesoLogCreate, service=Depends(PesoLogService)):
-    return service.create(cargo)
+@router.post("/")
+async def create(peso: PesoLogCreate, service=Depends(PesoLogService)):
+    return service.create(peso)
 
 
 @router.get("/{peso_log_id}", response_model=PesoLogSchema)

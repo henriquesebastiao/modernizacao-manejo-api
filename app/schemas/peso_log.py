@@ -9,7 +9,7 @@ class PesoLogBase(BaseModel):
 
 
 class PesoLogCreate(PesoLogBase):
-    animal_id: int
+    ref: str
 
 
 class PesoLogUpdate(PesoLogBase):
