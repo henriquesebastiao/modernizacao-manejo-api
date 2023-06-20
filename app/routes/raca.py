@@ -19,7 +19,7 @@ async def get_by_id(raca_id: int, session=Depends(get_session)):
     return await service.get_by_id(raca_id)
 
 
-@router.get("/")
+@router.get("/", response_model=list[RacaSchema])
 async def get_all(session=Depends(get_session)):
     service = RacaService(session)
     return await service.get_all()
