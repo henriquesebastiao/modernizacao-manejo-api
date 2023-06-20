@@ -1,30 +1,35 @@
 from fastapi import APIRouter, Depends
 
+from app.database import get_session
 from app.schemas.user import UserCreate, UserSchema, UserUpdate
 from app.services.user import UserService
 
 router = APIRouter(prefix="/user", tags=["User"])
 
 
-@router.post("/", response_model=UserSchema, status_code=201)
-async def create(cargo: UserCreate, service=Depends(UserService)):
-    return service.create(cargo)
+@router.post("/", status_code=201)
+async def create(cargo: UserCreate, session=Depends(get_session)):
+    service = UserService(session)
+    return await service.create(cargo)
 
 
-@router.get("/{user_id}", response_model=UserSchema)
-def get_by_id(user_id: int, service=Depends(UserService)):
-    return service.get(user_id)
+@router.get("/{user_id}")
+async def get_by_id(user_id: int, session=Depends(get_session)):
+    service = UserService(session)
+    return await service.get_by_id(user_id)
 
 
-@router.get("/", response_model=list[UserSchema])
-async def get_all(service=Depends(UserService)):
-    return service.get_all()
+@router.get("/")
+async def get_all(session=Depends(get_session)):
+    service = UserService(session)
+    return await service.get_all()
 
 
 @router.patch("/{user_id}")
 async def update(user_id: int, user: UserUpdate,
-                 service=Depends(UserService)):
-    return service.update(user_id, user)
+                 session=Depends(get_session)):
+    service = UserService(session)
+    return await service.update(user_id, user)
 
 
 @router.delete("/{user_id}")

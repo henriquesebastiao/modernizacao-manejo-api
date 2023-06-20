@@ -11,10 +11,10 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     email: Mapped[str] = mapped_column(String(60), nullable=False)
-    senha: Mapped[str] = mapped_column(String(60))
-    primeiro_nome: Mapped[str] = mapped_column(String(40))
-    ultimo_nome: Mapped[Optional[str]] = mapped_column(String(20))
-    telefone: Mapped[str] = mapped_column(String(24))
+    password: Mapped[str] = mapped_column(String(60))
+    first_name: Mapped[str] = mapped_column(String(40))
+    last_name: Mapped[Optional[str]] = mapped_column(String(20))
+    phone: Mapped[str] = mapped_column(String(24))
 
 
 class UserType(Base):

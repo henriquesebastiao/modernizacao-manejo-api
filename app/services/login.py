@@ -1,13 +1,14 @@
+from app.schemas.login import LoginSchema
 from app.services.base import BaseService
 
 from app.models.user import User
 
 
 class LoginService(BaseService):
-    def __init__(self):
-        super().__init__(User)
+    def __init__(self, session):
+        super().__init__(User, LoginSchema, session)
 
-    def login(self, user):
-        user = self.get_by_field("email", user.email)
-        if user.password == user.password:
-            return user
+    async def login(self, login):
+        user_db = await self.get_by_field("email", login.email)
+        if user_db.password == login.password:
+            return login
