@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.database import get_session
-from app.schemas.animal import AnimalCreate, AnimalSchema, AnimalUpdate
+from app.schemas.animal import AnimalCreate, AnimalUpdate
 from app.services.animal import AnimalService
 
 router = APIRouter(prefix="/animal", tags=["Animal"])
