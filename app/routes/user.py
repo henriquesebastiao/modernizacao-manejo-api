@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.database import get_session
-from app.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserSchema, UserUpdate
 from app.services.user import UserService
 
 router = APIRouter(prefix="/user", tags=["User"])
@@ -13,13 +13,13 @@ async def create(cargo: UserCreate, session=Depends(get_session)):
     return await service.create(cargo)
 
 
-@router.get("/{user_id}")
+@router.get("/{user_id}", response_model=UserSchema)
 async def get_by_id(user_id: int, session=Depends(get_session)):
     service = UserService(session)
     return await service.get_by_id(user_id)
 
 
-@router.get("/")
+@router.get("/", response_model=list[UserSchema])
 async def get_all(session=Depends(get_session)):
     service = UserService(session)
     return await service.get_all()

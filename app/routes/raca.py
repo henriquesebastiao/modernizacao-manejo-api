@@ -13,7 +13,7 @@ async def create(cargo: RacaCreate, session=Depends(get_session)):
     return await service.create(cargo)
 
 
-@router.get("/{raca_id}")
+@router.get("/{raca_id}", response_model=RacaSchema)
 async def get_by_id(raca_id: int, session=Depends(get_session)):
     service = RacaService(session)
     return await service.get_by_id(raca_id)

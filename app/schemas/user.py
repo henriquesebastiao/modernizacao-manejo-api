@@ -3,18 +3,17 @@ from pydantic import BaseModel, EmailStr
 
 class UserBase(BaseModel):
     email: EmailStr
-    password: str
     first_name: str
     last_name: str
     phone: str
 
 
 class UserCreate(UserBase):
-    ...
+    password: str
 
 
 class UserUpdate(UserBase):
-    ...
+    password: str
 
 
 class UserDelete(UserBase):

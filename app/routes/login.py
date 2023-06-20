@@ -7,7 +7,7 @@ from app.services.login import LoginService
 router = APIRouter(prefix="/login", tags=["Login"])
 
 
-@router.post("/", status_code=201)
+@router.post("/", status_code=200)
 async def login(user: LoginSchema, session=Depends(get_session)):
     service = LoginService(session)
     return await service.login(user)
