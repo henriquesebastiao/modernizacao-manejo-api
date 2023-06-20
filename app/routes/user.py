@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.database import get_session
-from app.schemas.user import UserCreate, UserSchema, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate
 from app.services.user import UserService
 
 router = APIRouter(prefix="/user", tags=["User"])
