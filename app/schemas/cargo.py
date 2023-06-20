@@ -6,19 +6,14 @@ class CargoBase(BaseModel):
 
 
 class CargoCreate(CargoBase):
-    ...
+    user_id: int
 
 
 class CargoUpdate(CargoBase):
     ...
 
 
-class CargoDelete(CargoBase):
-    ...
-
-
 class CargoSchema(CargoBase):
-    id: int
 
     class Config:
         orm_mode = True

@@ -1,41 +1,18 @@
-from sqlalchemy import select
-
-from app.database import SessionLocal
-
-
 class CRUD:
-    def __init__(self, model):
-        self.model = model
-        self.db = SessionLocal()
+    def __init__(self, session):
+        self.session = session
 
-    def close(self):
-        self.db.close()
+    async def create(self, entity):
+        return self.session.add(entity)
 
-    def commit(self):
-        self.db.commit()
+    async def delete(self, entity):
+        return await self.session.delete(entity)
 
-    def rollback(self):
-        self.db.rollback()
+    async def get(self, stmt):
+        return await self.session.scalar(stmt)
 
-    def refresh(self, entity):
-        self.db.refresh(entity)
+    async def get_all(self, stmt):
+        return await self.session.scalars(stmt)
 
-    def create(self, entity):
-        self.db.add(entity)
-
-    def delete(self, entity):
-        self.db.delete(entity)
-
-    def get_by(self, field_name, value):
-        stmt = select(self.model).where(
-            getattr(self.model, field_name) == value)
-        return self.db.scalar(stmt)
-
-    def get_all(self):
-        stmt = select(self.model)
-        return self.db.scalars(stmt).all()
-
-    def get_all_by(self, field_name, value):
-        stmt = select(self.model).where(
-            getattr(self.model, field_name) == value)
-        return self.db.scalars(stmt).all()
+    async def commit(self):
+        return await self.session.commit()

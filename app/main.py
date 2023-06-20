@@ -6,7 +6,6 @@ from app.routes import animal, cargo, dieta, fazenda, fazendeiro, login, lote, \
 
 app = FastAPI()
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -14,8 +13,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
 
 
 @app.get("/")

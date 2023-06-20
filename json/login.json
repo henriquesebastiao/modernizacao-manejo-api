@@ -1,0 +1,109 @@
+{
+  "errors": false,
+  "data": {
+    "user": {
+      "id": 5416,
+      "name": "grgrs",
+      "email": "vokoko9558@anomgo.com",
+      "TipoUsuario": "0",
+      "created_at": "2023-06-17 05:09:54",
+      "updated_at": "2023-06-17 05:10:17",
+      "CodPessoa": "bf4d61c4-385f-4c7a-8611-c1fd36e837f9",
+      "token_reset_password": null,
+      "avatar": null,
+      "email_verified": "1",
+      "email_verification_code": "RSFrZGooL61RS9GT1zthwYnMwRGWyfzYGffv1gmm",
+      "CodPlano": "0",
+      "bd": "diana_esteio"
+    },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3Npc3RlbWEuZXN0ZWlvZ2VzdGFvLmNvbS5ici9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTY4Njk3ODYyNCwiZXhwIjoxNjg3MDE0NjI0LCJuYmYiOjE2ODY5Nzg2MjQsImp0aSI6InRUNzBZNjZPTzdHN0VTZnAiLCJzdWIiOjU0MTYsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.uCjakDCchKK5WngYbVqm-V9_jsONjTEQU8jPUdVQSsI",
+    "abilities": {
+      "admin": [
+        "gerenciar.usuarios",
+        "gerenciar.papeis",
+        "gerenciar.permissoes",
+        "cadastros.gestor",
+        "relatorios.gestor",
+        "modulo.admin"
+      ],
+      "consultor": [
+        "cadastros.rebanho",
+        "relatorios.rebanho",
+        "cadastros.reprodutivo",
+        "relatorios.reprodutivo",
+        "cadastros.produtivo",
+        "relatorios.produtivo",
+        "cadastros.qualidade",
+        "relatorios.qualidade",
+        "cadastros.sanitario",
+        "relatorios.sanitario",
+        "cadastros.financeiro",
+        "relatorios.financeiro",
+        "ficha.animal",
+        "configuracao.fazenda",
+        "modulo.zootecnico",
+        "modulo.financeiro",
+        "cadastro.fazenda",
+        "gerenciar.planos"
+      ],
+      "produtor": [
+        "cadastros.rebanho",
+        "relatorios.rebanho",
+        "cadastros.reprodutivo",
+        "relatorios.reprodutivo",
+        "cadastros.produtivo",
+        "relatorios.produtivo",
+        "cadastros.qualidade",
+        "relatorios.qualidade",
+        "cadastros.sanitario",
+        "relatorios.sanitario",
+        "cadastros.financeiro",
+        "relatorios.financeiro",
+        "ficha.animal",
+        "configuracao.fazenda",
+        "modulo.zootecnico",
+        "modulo.financeiro",
+        "cadastro.fazenda",
+        "gerenciar.planos"
+      ],
+      "gestor": [
+        "cadastros.gestor",
+        "relatorios.gestor",
+        "modulo.oportunidades",
+        "modulo.zootecnico",
+        "modulo.financeiro"
+      ],
+      "gerente": [ ],
+      "central": [
+        "cadastros.rebanho",
+        "relatorios.rebanho",
+        "cadastros.reprodutivo",
+        "relatorios.reprodutivo",
+        "cadastros.produtivo",
+        "relatorios.produtivo",
+        "cadastros.qualidade",
+        "relatorios.qualidade",
+        "cadastros.sanitario",
+        "relatorios.sanitario",
+        "cadastros.financeiro",
+        "relatorios.financeiro",
+        "ficha.animal",
+        "configuracao.fazenda",
+        "modulo.zootecnico",
+        "modulo.financeiro",
+        "gerenciar.planos"
+      ]
+    },
+    "papeisUsuario": [
+      3
+    ],
+    "papeisObj": [
+      {
+        "id": 3,
+        "slug": "produtor",
+        "name": "Produtor"
+      }
+    ],
+    "versao": "2.1.12"
+  }
+}

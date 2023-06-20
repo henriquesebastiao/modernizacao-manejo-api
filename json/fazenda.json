@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "CodNotificacao": 167,
+      "Titulo": "Aditivos Alimentares: potencializando a produ\u00e7\u00e3o e o desempenho dos bovinos",
+      "Descricao": null,
+      "Url": "https:\/\/esteiogestao.com.br\/?p=9957",
+      "Data": "2023-06-14",
+      "Excluido": "0",
+      "created_at": "2023-06-15 08:00:04",
+      "updated_at": "2023-06-15 08:00:04"
+    },
+    {
+      "CodNotificacao": 166,
+      "Titulo": "Girolando, uma ra\u00e7a tipicamente brasileira",
+      "Descricao": null,
+      "Url": "https:\/\/esteiogestao.com.br\/?p=9849",
+      "Data": "2023-06-07",
+      "Excluido": "0",
+      "created_at": "2023-06-08 08:00:03",
+      "updated_at": "2023-06-08 08:00:03"
+    },
+    {
+      "CodNotificacao": 165,
+      "Titulo": "TMR e seu impacto na alimenta\u00e7\u00e3o de vacas leiteiras",
+      "Descricao": null,
+      "Url": "https:\/\/esteiogestao.com.br\/?p=9788",
+      "Data": "2023-05-31",
+      "Excluido": "0",
+      "created_at": "2023-06-01 08:00:04",
+      "updated_at": "2023-06-01 08:00:04"
+    },
+    {
+      "CodNotificacao": 164,
+      "Titulo": "Principais doen\u00e7as no p\u00f3s-parto de vacas leiteiras",
+      "Descricao": null,
+      "Url": "https:\/\/esteiogestao.com.br\/?p=9721",
+      "Data": "2023-05-24",
+      "Excluido": "0",
+      "created_at": "2023-05-25 08:00:04",
+      "updated_at": "2023-05-25 08:00:04"
+    },
+    {
+      "CodNotificacao": 163,
+      "Titulo": "Estrat\u00e9gias para o per\u00edodo de transi\u00e7\u00e3o \u00e1gua x seca",
+      "Descricao": null,
+      "Url": "https:\/\/esteiogestao.com.br\/?p=9623",
+      "Data": "2023-05-17",
+      "Excluido": "0",
+      "created_at": "2023-05-18 08:00:04",
+      "updated_at": "2023-05-18 08:00:04"
+    }
+  ],
+  "errors": false
+}
