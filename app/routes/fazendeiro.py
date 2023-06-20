@@ -1,35 +1,42 @@
 from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.database import get_session
+from app.repositories.fazendeiro import FazendeiroRepository
 from app.schemas.fazendeiro import FazendeiroCreate, FazendeiroSchema, \
     FazendeiroUpdate
-from app.services.fazendeiro import FazendeiroService
 
 router = APIRouter(prefix="/fazendeiro", tags=["Fazendeiro"])
 
 
 @router.post("/", response_model=FazendeiroSchema, status_code=201)
 async def create(fazendeiro: FazendeiroCreate,
-                 service=Depends(FazendeiroService)):
-    return service.create(fazendeiro)
+                 db: AsyncSession = Depends(get_session)):
+    repository = FazendeiroRepository(db)
+    return await repository.create(fazendeiro)
 
 
 @router.get("/{fazendeiro_id}", response_model=FazendeiroSchema)
-def get_by_id(fazendeiro_id: int, service=Depends(FazendeiroService)):
-    return service.get(fazendeiro_id)
+async def get_by_id(fazendeiro_id: int, db: AsyncSession = Depends(get_session)):
+    repository = FazendeiroRepository(db)
+    return await repository.get_by_id(fazendeiro_id)
 
 
 @router.get("/", response_model=list[FazendeiroSchema])
-async def get_all(service=Depends(FazendeiroService)):
-    return service.get_all()
+async def get_all(db: AsyncSession = Depends(get_session)):
+    repository = FazendeiroRepository(db)
+    return await repository.get_all()
 
 
 @router.patch("/{fazendeiro_id}")
 async def update(fazendeiro_id: int, fazendeiro: FazendeiroUpdate,
-                 service=Depends(FazendeiroService)):
-    return service.update(fazendeiro_id, fazendeiro)
+                 db: AsyncSession = Depends(get_session)):
+    repository = FazendeiroRepository(db)
+    return await repository.update(fazendeiro_id, fazendeiro)
 
 
 @router.delete("/{fazendeiro_id}")
 async def delete(fazendeiro_id: int,
-                 service=Depends(FazendeiroService)) -> dict:
-    return service.delete(fazendeiro_id)
+                 db: AsyncSession = Depends(get_session)):
+    repository = FazendeiroRepository(db)
+    return await repository.delete(fazendeiro_id)

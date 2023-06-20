@@ -1,32 +1,39 @@
 from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.database import get_session
+from app.repositories.peso_log import PesoLogRepository
 from app.schemas.peso_log import PesoLogCreate, PesoLogSchema, PesoLogUpdate
-from app.services.peso_log import PesoLogService
 
 router = APIRouter(prefix="/peso_log", tags=["PesoLog"])
 
 
 @router.post("/")
-async def create(peso: PesoLogCreate, service=Depends(PesoLogService)):
-    return service.create(peso)
+async def create(peso: PesoLogCreate, db: AsyncSession = Depends(get_session)):
+    repository = PesoLogRepository(db)
+    return await repository.create(peso)
 
 
 @router.get("/{peso_log_id}", response_model=PesoLogSchema)
-def get_by_id(peso_log_id: int, service=Depends(PesoLogService)):
-    return service.get(peso_log_id)
+async def get_by_id(peso_log_id: int, db: AsyncSession = Depends(get_session)):
+    repository = PesoLogRepository(db)
+    return await repository.get_by_id(peso_log_id)
 
 
 @router.get("/", response_model=list[PesoLogSchema])
-async def get_all(service=Depends(PesoLogService)):
-    return service.get_all()
+async def get_all(db: AsyncSession = Depends(get_session)):
+    repository = PesoLogRepository(db)
+    return await repository.get_all()
 
 
 @router.patch("/{peso_log_id}")
 async def update(peso_log_id: int, peso_log: PesoLogUpdate,
-                 service=Depends(PesoLogService)):
-    return service.update(peso_log_id, peso_log)
+                 db: AsyncSession = Depends(get_session)):
+    repository = PesoLogRepository(db)
+    return await repository.update(peso_log_id, peso_log)
 
 
 @router.delete("/{peso_log_id}")
-async def delete(peso_log_id: int, service=Depends(PesoLogService)) -> dict:
-    return service.delete(peso_log_id)
+async def delete(peso_log_id: int, db: AsyncSession = Depends(get_session)):
+    repository = PesoLogRepository(db)
+    return await repository.delete(peso_log_id)
