@@ -7,19 +7,19 @@ from app.services.raca import RacaService
 router = APIRouter(prefix="/raca", tags=["Raca"])
 
 
-@router.post("/", response_model=RacaSchema, status_code=201)
+@router.post("/", status_code=201)
 async def create(cargo: RacaCreate, session=Depends(get_session)):
     service = RacaService(session)
     return await service.create(cargo)
 
 
-@router.get("/{raca_id}", response_model=RacaSchema)
+@router.get("/{raca_id}")
 async def get_by_id(raca_id: int, session=Depends(get_session)):
     service = RacaService(session)
     return await service.get_by_id(raca_id)
 
 
-@router.get("/", response_model=list[RacaSchema])
+@router.get("/")
 async def get_all(session=Depends(get_session)):
     service = RacaService(session)
     return await service.get_all()
