@@ -1,26 +1,20 @@
-from sqlalchemy import Column, Date, Float, ForeignKey, Integer, String
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy import Integer
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
 
 
 class Animal(Base):
-    __tablename__ = "animal"
+    __tablename__ = 'animal'
 
-    id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
-    chip: Mapped[str] = Column(String, nullable=True)
-    brinco: Mapped[str] = Column(String, nullable=True)
-    origem = Column(String, nullable=True)
-    raca_id = Column(Integer, ForeignKey("raca.id"), nullable=True)
-    mae_id = Column(Integer, nullable=True)
-    pai_id = Column(Integer, nullable=True)
-    sexo: Mapped[str] = Column(String)
-    data_entrada = Column(Date, nullable=True)
-    data_nascimento = Column(Date, nullable=True)
-    peso = Column(Float, nullable=True)
-    lote_id = Column(Integer, ForeignKey("lote.id"), nullable=True)
-
-    lote_log = relationship("LoteLog", back_populates="animal")
-    lote = relationship("Lote", back_populates="animais")
-    peso_log = relationship("PesoLog", back_populates="animal")
-    raca = relationship("Raca", back_populates="animais")
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
+    tag: Mapped[str] = mapped_column(Integer, nullable=False)
+    sisbov: Mapped[str] = mapped_column(Integer, nullable=False)
+    gender: Mapped[str] = mapped_column(Integer, nullable=False)
+    breed_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    father_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    mother_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    origin_id: Mapped[str] = mapped_column(Integer, nullable=False)
+    birth_date: Mapped[str] = mapped_column(Integer, nullable=False)
+    buy_date: Mapped[str] = mapped_column(Integer, nullable=False)
+    sell_date: Mapped[str] = mapped_column(Integer, nullable=False)

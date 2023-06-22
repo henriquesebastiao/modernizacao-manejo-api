@@ -3,10 +3,6 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from app.schemas.lote import LoteSchema
-from app.schemas.lote_log import LoteLogSchema
-from app.schemas.peso_log import PesoLogSchema
-from app.schemas.raca import RacaSchema
 
 
 class Sexo(str, Enum):
@@ -37,10 +33,6 @@ class AnimalUpdate(AnimalBase):
 
 class AnimalSchema(AnimalBase):
     id: int | None
-    lote: LoteSchema | None
-    raca: RacaSchema | None
-    peso_log: list[PesoLogSchema] | None
-    lote_log: list[LoteLogSchema] | None
 
     class Config:
         orm_mode = True

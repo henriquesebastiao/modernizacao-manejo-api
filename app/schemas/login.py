@@ -1,11 +1,9 @@
 from pydantic import BaseModel, EmailStr
 
 
-class LoginBase(BaseModel):
+class LoginSchema(BaseModel):
     email: EmailStr
     password: str
 
-
-class LoginSchema(LoginBase):
     class Config:
         orm_mode = True

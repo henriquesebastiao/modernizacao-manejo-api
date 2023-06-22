@@ -1,51 +1,52 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.crud import Repository
 from app.database import get_session
-from app.repositories.animal import AnimalRepository
-from app.schemas.animal import AnimalCreate, AnimalUpdate
+from app.models.animal import Animal
+from app.schemas.animal import AnimalSchema
 
 router = APIRouter(prefix="/animal", tags=["Animal"])
 
 
 @router.post("/")
-async def create(cargo: AnimalCreate, db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
-    return await repository.create(cargo)
+async def create(animal: AnimalSchema, db: AsyncSession = Depends(get_session)):
+    repository = Repository(Animal, AnimalSchema, db)
+    return await repository.create(animal)
 
 
 @router.get("/{animal_id}")
 async def get_by_id(animal_id: int, db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
-    return await repository.get_by_id(animal_id)
+    repository = Repository(Animal, AnimalSchema, db)
+    return await repository.get(animal_id)
 
 
-@router.get("/{brinco}")
-async def get_by_brinco(brinco: str, db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
-    return await repository.get_by_field("brinco", brinco)
+@router.get("/{tag}")
+async def get_by_tag(tag: str, db: AsyncSession = Depends(get_session)):
+    repository = Repository(Animal, AnimalSchema, db)
+    return await repository.get("tag", tag)
 
 
-@router.get("/{chip}")
-async def get_by_chip(chip: str, db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
-    return await repository.get_by_field("chip", chip)
+@router.get("/{sisbov}")
+async def get_by_sisbov(sisbov: str, db: AsyncSession = Depends(get_session)):
+    repository = Repository(Animal, AnimalSchema, db)
+    return await repository.get("SISBOV", sisbov)
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
+    repository = Repository(Animal, AnimalSchema, db)
     return await repository.get_all()
 
 
 @router.patch("/{animal_id}")
-async def update(animal_id: int, animal: AnimalUpdate,
+async def update(animal_id: int, animal: AnimalSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
+    repository = Repository(Animal, AnimalSchema, db)
     return await repository.update(animal_id, animal)
 
 
 @router.delete("/{animal_id}")
 async def delete(animal_id: int, db: AsyncSession = Depends(get_session)):
-    repository = AnimalRepository(db)
+    repository = Repository(Animal, AnimalSchema, db)
     return await repository.delete(animal_id)
