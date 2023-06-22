@@ -16,7 +16,7 @@ async def login(schema: LoginSchema, db: AsyncSession = Depends(get_session)):
     db_user = await repository.get(schema.email, "email")
     if not db_user:
         return None
-    if db_user.password == schema.password:
-        return db_user
-    else:
+    if db_user.password != schema.password:
         return None
+    else:
+        return db_user
