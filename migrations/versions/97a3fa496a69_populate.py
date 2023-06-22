@@ -41,6 +41,16 @@ def upgrade() -> None:
         {"id": 5, "name": "Personalizado"},
     ])
 
+    breed = sa.sql.table("breed",
+                         sa.sql.column("id", sa.Integer),
+                         sa.sql.column("name", sa.String))
+
+    op.bulk_insert(breed, [
+        {"id": 1, "name": "Nelore"},
+        {"id": 2, "name": "Angus"},
+        {"id": 3, "name": "Brahman"},
+    ])
+
     farmer_plan = sa.sql.table("farmer_plan", sa.sql.column("id", sa.Integer),
                                sa.sql.column("plan", sa.String))
 
