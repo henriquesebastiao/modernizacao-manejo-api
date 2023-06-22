@@ -1,11 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.routing import APIRoute
 
 from app.routes import animal, animal_weight, animal_weight_type, batch, \
     batch_log, breed, employment, employment_position, farm, farmer, \
     farmer_plan, login, user, user_type
 
-app = FastAPI()
+
+def custom_generate_unique_id(route: APIRoute):
+    return f"{route.tags[0]}-{route.name}"
+
+
+app = FastAPI(generate_unique_id_function=custom_generate_unique_id)
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,7 +22,7 @@ app.add_middleware(
 )
 
 
-@app.get("/")
+@app.get("/", tags=["Root"])
 async def root():
     """Rota principal."""
     return {"message": "Hello World"}

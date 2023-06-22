@@ -11,7 +11,7 @@ router = APIRouter(prefix="/login", tags=["Login"])
 
 
 @router.post("/")
-async def login(schema: LoginSchema, db: AsyncSession = Depends(get_session)):
+async def email(schema: LoginSchema, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, UserSchema, db)
     db_user = await repository.get(schema.email, "email")
     if not db_user:
