@@ -17,7 +17,7 @@ async def create(user: FarmSchema,
 
 
 @router.get("/{farm_id}")
-async def get_by_id(farm_id: int, db: AsyncSession = Depends(get_session)):
+async def get_by(farm_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(Farm, FarmSchema, db)
     return await repository.get(farm_id)
 

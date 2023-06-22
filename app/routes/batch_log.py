@@ -18,7 +18,7 @@ async def create(user: BatchLogSchema,
 
 
 @router.get("/{batch_log_id}")
-async def get_by_id(batch_log_id: int,
+async def get_by(batch_log_id: int,
                     db: AsyncSession = Depends(get_session)):
     repository = Repository(BatchLog, BatchLogSchema, db)
     return await repository.get(batch_log_id)

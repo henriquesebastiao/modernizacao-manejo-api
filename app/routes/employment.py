@@ -18,7 +18,7 @@ async def create(user: EmploymentSchema,
 
 
 @router.get("/{employment_id}")
-async def get_by_id(employment_id: int,
+async def get_by(employment_id: int,
                     db: AsyncSession = Depends(get_session)):
     repository = Repository(Employment, EmploymentSchema, db)
     return await repository.get(employment_id)

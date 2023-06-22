@@ -16,21 +16,9 @@ async def create(animal: AnimalSchema, db: AsyncSession = Depends(get_session)):
 
 
 @router.get("/{animal_id}")
-async def get_by_id(animal_id: int, db: AsyncSession = Depends(get_session)):
+async def get_by(animal_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(Animal, AnimalSchema, db)
     return await repository.get(animal_id)
-
-
-@router.get("/{tag}")
-async def get_by_tag(tag: str, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Animal, AnimalSchema, db)
-    return await repository.get("tag", tag)
-
-
-@router.get("/{sisbov}")
-async def get_by_sisbov(sisbov: str, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Animal, AnimalSchema, db)
-    return await repository.get("SISBOV", sisbov)
 
 
 @router.get("/")

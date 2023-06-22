@@ -11,15 +11,15 @@ router = APIRouter(prefix="/employment/position",
 
 
 @router.post("/")
-async def create(user: EmploymentPositionSchema,
+async def create(employment_position: EmploymentPositionSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
-    return await repository.create(user)
+    return await repository.create(employment_position)
 
 
 @router.get("/{employment_position_id}")
-async def get_by_id(employment_position_id: int,
-                    db: AsyncSession = Depends(get_session)):
+async def get_by(employment_position_id: int,
+                 db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
     return await repository.get(employment_position_id)
 
