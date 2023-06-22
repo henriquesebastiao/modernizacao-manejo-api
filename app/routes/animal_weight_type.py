@@ -19,7 +19,7 @@ async def create(user: AnimalWeightTypeSchema,
 
 @router.get("/{animal_weight_type_id}")
 async def get_by(animal_weight_type_id: int,
-                    db: AsyncSession = Depends(get_session)):
+                 db: AsyncSession = Depends(get_session)):
     repository = Repository(AnimalWeightType, AnimalWeightTypeSchema, db)
     return await repository.get(animal_weight_type_id)
 

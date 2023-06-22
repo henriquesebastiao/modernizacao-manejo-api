@@ -6,8 +6,8 @@ from app.database import get_session
 from app.models.employment import Employment
 from app.schemas.employment import EmploymentSchema
 
-router = APIRouter(prefix="/animal/weight",
-                   tags=["Animal Weight"])
+router = APIRouter(prefix="/employment",
+                   tags=["Employment"])
 
 
 @router.post("/")

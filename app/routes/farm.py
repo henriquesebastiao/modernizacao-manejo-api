@@ -6,7 +6,7 @@ from app.database import get_session
 from app.models.farm import Farm
 from app.schemas.farm import FarmSchema
 
-router = APIRouter(prefix="/farmer", tags=["Farmer"])
+router = APIRouter(prefix="/farm", tags=["Farm"])
 
 
 @router.post("/")

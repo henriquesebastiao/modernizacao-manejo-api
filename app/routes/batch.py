@@ -6,8 +6,8 @@ from app.database import get_session
 from app.models.batch import Batch
 from app.schemas.batch import BatchSchema
 
-router = APIRouter(prefix="/animal/weight",
-                   tags=["Animal Weight"])
+router = APIRouter(prefix="/animal/batch",
+                   tags=["Animal batch"])
 
 
 @router.post("/")
