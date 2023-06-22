@@ -44,5 +44,6 @@ async def update(farmer_plan_id: int, user: FarmerSchema,
 @router.delete("/{farmer_id}")
 async def delete(farmer_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(Farmer, FarmerSchema, db)
-    await repository.commit()
     db_farmer = repository.delete(farmer_id)
+    await repository.commit()
+    return db_farmer
