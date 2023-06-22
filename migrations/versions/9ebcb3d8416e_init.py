@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 8348701904be
+Revision ID: 9ebcb3d8416e
 Revises: 
-Create Date: 2023-06-21 20:18:50.545367
+Create Date: 2023-06-22 00:46:30.480547
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8348701904be'
+revision = '9ebcb3d8416e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,7 +36,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('weight_type_id', sa.Integer(), nullable=False),
     sa.Column('animal_id', sa.Integer(), nullable=False),
-    sa.Column('weight', sa.Integer(), nullable=False),
+    sa.Column('weight', sa.Float(), nullable=False),
     sa.Column('weight_date', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -60,9 +60,9 @@ def upgrade() -> None:
     sa.Column('plan', sa.String(length=20), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('user_category',
+    op.create_table('user_type',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('category', sa.String(length=20), nullable=False),
+    sa.Column('type', sa.String(length=20), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('weight_type',
@@ -87,10 +87,10 @@ def upgrade() -> None:
     sa.Column('create_at', sa.DateTime(), nullable=False),
     sa.Column('update_at', sa.DateTime(), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=False),
-    sa.Column('category_id', sa.Integer(), nullable=False),
+    sa.Column('type_id', sa.Integer(), nullable=False),
     sa.Column('manager_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['category_id'], ['user_category.id'], ),
     sa.ForeignKeyConstraint(['manager_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['type_id'], ['user_type.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('batch_log',
@@ -134,7 +134,7 @@ def downgrade() -> None:
     op.drop_table('user')
     op.drop_table('batch')
     op.drop_table('weight_type')
-    op.drop_table('user_category')
+    op.drop_table('user_type')
     op.drop_table('farmer_plan')
     op.drop_table('farm')
     op.drop_table('employment_position')
