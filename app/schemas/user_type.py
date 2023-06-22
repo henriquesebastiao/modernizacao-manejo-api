@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 
 class UserTypeSchema(BaseModel):
-    id: int
-    type: str
+    id: int | None
+    type: str | None
 
     class Config:
         orm_mode = True

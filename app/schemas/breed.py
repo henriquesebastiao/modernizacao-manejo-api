@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 
 class BreedSchema(BaseModel):
-    id: int
-    name: str
+    id: int | None
+    name: str | None
 
     class Config:
         orm_mode = True

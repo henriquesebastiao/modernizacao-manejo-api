@@ -4,11 +4,11 @@ from pydantic import BaseModel
 
 
 class BatchLogSchema(BaseModel):
-    id: int
-    batch_id: int
-    animal_id: int
-    entry_date: datetime
-    departure_date: datetime
+    id: int | None
+    batch_id: int | None
+    animal_id: int | None
+    entry_date: datetime | None
+    departure_date: datetime | None
 
     class Config:
         orm_mode = True
