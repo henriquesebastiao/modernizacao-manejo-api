@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
@@ -9,10 +11,23 @@ from app.schemas.animal import AnimalSchema
 router = APIRouter(prefix="/animal", tags=["Animal"])
 
 
-@router.post("/")
+class Message(BaseModel):
+    detail: str
+
+
+@router.post("/", response_model=AnimalSchema,
+             responses={404: {"model": Message,
+                              "description": "Animal already exists"},
+                        500: {"model": Message,
+                              "description": "Internal Server Error"}})
 async def create(schema: AnimalSchema, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Animal, AnimalSchema, db)
-    db_animal = await repository.create(schema)
+    try:
+        repository = Repository(Animal, AnimalSchema, db)
+        db_animal = await repository.create(schema)
+    except IntegrityError:
+        raise HTTPException(status_code=404, detail="Animal already exists")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     await repository.commit()
     return db_animal
 
