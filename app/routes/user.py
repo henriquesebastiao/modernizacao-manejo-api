@@ -10,31 +10,39 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.post("/")
-async def create(user: UserSchema, db: AsyncSession = Depends(get_session)):
+async def create(schema: UserSchema, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, UserSchema, db)
-    return await repository.create(user)
+    db_user = await repository.create(schema)
+    await repository.commit()
+    return db_user
 
 
 @router.get("/{user_id}")
 async def get_by(user_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, UserSchema, db)
-    return await repository.get(user_id)
+    db_user = await repository.get(user_id)
+    return db_user
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
     repository = Repository(User, UserSchema, db)
-    return await repository.get_all()
+    db_user = await repository.get_all()
+    return db_user
 
 
 @router.patch("/{user_id}")
 async def update(user_id: int, user: UserSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(User, UserSchema, db)
-    return await repository.update(user_id, user)
+    db_user = await repository.update(user_id, user)
+    await repository.commit()
+    return db_user
 
 
 @router.delete("/{user_id}")
 async def delete(user_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, UserSchema, db)
-    return repository.delete(user_id)
+    db_user = repository.delete(user_id)
+    await repository.commit()
+    return db_user

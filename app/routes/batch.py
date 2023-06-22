@@ -11,34 +11,42 @@ router = APIRouter(prefix="/animal/batch",
 
 
 @router.post("/")
-async def create(user: BatchSchema,
+async def create(schema: BatchSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Batch, BatchSchema, db)
-    return await repository.create(user)
+    db_batch = await repository.create(schema)
+    await repository.commit()
+    return db_batch
 
 
 @router.get("/{batch_id}")
 async def get_by(batch_id: int,
-                    db: AsyncSession = Depends(get_session)):
+                 db: AsyncSession = Depends(get_session)):
     repository = Repository(Batch, BatchSchema, db)
-    return await repository.get(batch_id)
+    db_batch = await repository.get(batch_id)
+    await repository.commit()
+    return db_batch
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
     repository = Repository(Batch, BatchSchema, db)
-    return await repository.get_all()
+    db_batch = await repository.get_all()
+    return db_batch
 
 
 @router.patch("/{batch_id}")
 async def update(batch_id: int, user: BatchSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Batch, BatchSchema, db)
-    return await repository.update(batch_id, user)
+    db_batch = await repository.update(batch_id, user)
+    return db_batch
 
 
 @router.delete("/{batch_id}")
 async def delete(batch_id: int,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Batch, BatchSchema, db)
-    return repository.delete(batch_id)
+    db_batch = repository.delete(batch_id)
+    await repository.commit()
+    return db_batch

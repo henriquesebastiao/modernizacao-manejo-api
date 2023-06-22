@@ -11,34 +11,43 @@ router = APIRouter(prefix="/employment/position",
 
 
 @router.post("/")
-async def create(employment_position: EmploymentPositionSchema,
+async def create(schema: EmploymentPositionSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
-    return await repository.create(employment_position)
+    db_employment_position = await repository.create(schema)
+    await repository.commit()
+    return db_employment_position
 
 
 @router.get("/{employment_position_id}")
 async def get_by(employment_position_id: int,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
-    return await repository.get(employment_position_id)
+    db_employment_position = await repository.get(employment_position_id)
+    return db_employment_position
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
-    return await repository.get_all()
+    db_employment_position = await repository.get_all()
+    return db_employment_position
 
 
 @router.patch("/{employment_position_id}")
 async def update(employment_position_id: int, user: EmploymentPositionSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
-    return await repository.update(employment_position_id, user)
+    db_employment_position = await repository.update(employment_position_id,
+                                                     user)
+    await repository.commit()
+    return db_employment_position
 
 
 @router.delete("/{employment_position_id}")
 async def delete(employment_position_id: int,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, EmploymentPositionSchema, db)
-    return repository.delete(employment_position_id)
+    db_employment_position = repository.delete(employment_position_id)
+    await repository.commit()
+    return db_employment_position

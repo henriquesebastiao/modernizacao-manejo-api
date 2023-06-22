@@ -10,32 +10,40 @@ router = APIRouter(prefix="/farmer/plan", tags=["Farmer plan"])
 
 
 @router.post("/")
-async def create(user: FarmerPlanSchema,
+async def create(schema: FarmerPlanSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, FarmerPlanSchema, db)
-    return await repository.create(user)
+    await repository.commit()
+    db_farmer_plan = await repository.create(schema)
+    return db_farmer_plan
 
 
 @router.get("/{farmer_plan_id}")
 async def get_by(farmer_plan_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, FarmerPlanSchema, db)
-    return await repository.get(farmer_plan_id)
+    db_farmer_plan = await repository.get(farmer_plan_id)
+    return db_farmer_plan
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, FarmerPlanSchema, db)
-    return await repository.get_all()
+    db_farmer_plan = await repository.get_all()
+    return db_farmer_plan
 
 
 @router.patch("/{farmer_plan_id}")
 async def update(farmer_plan_id: int, user: FarmerPlanSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, FarmerPlanSchema, db)
-    return await repository.update(farmer_plan_id, user)
+    await repository.commit()
+    db_farmer_plan = await repository.update(farmer_plan_id, user)
+    return db_farmer_plan
 
 
 @router.delete("/{farmer_plan_id}")
 async def delete(farmer_plan_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, FarmerPlanSchema, db)
-    return repository.delete(farmer_plan_id)
+    await repository.commit()
+    db_farmer_plan = repository.delete(farmer_plan_id)
+    return db_farmer_plan
