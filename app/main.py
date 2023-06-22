@@ -11,7 +11,9 @@ def custom_generate_unique_id(route: APIRoute):
     return f"{route.tags[0]}-{route.name}"
 
 
-app = FastAPI(generate_unique_id_function=custom_generate_unique_id)
+app = FastAPI(generate_unique_id_function=custom_generate_unique_id,
+              title="Manejo API", description="Modernização manejo",
+              version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
