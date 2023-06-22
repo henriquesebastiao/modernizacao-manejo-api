@@ -65,9 +65,9 @@ def upgrade() -> None:
     sa.Column('type', sa.String(length=20), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('weight_type',
+    op.create_table('animal_weight_type',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('batch',

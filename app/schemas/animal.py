@@ -5,15 +5,15 @@ from pydantic import BaseModel
 
 
 class Sexo(str, Enum):
-    m = "Macho"
-    f = "Fêmea"
+    M = "Macho"
+    F = "Fêmea"
 
 
 class AnimalSchema(BaseModel):
     id: int | None
     tag: int | None
     sisbov: int | None
-    gender: str | None
+    gender: Sexo | None
     breed_id: int | None
     father_id: int | None
     mother_id: int | None
