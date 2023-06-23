@@ -1,16 +1,12 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 
 class FarmerCreate(BaseModel):
-    first_name: str
-    last_name: str
-    email: EmailStr
-    password: str
+    user_id: int | None
 
 
 class FarmerSchema(BaseModel):
     id: int | None
-    user_id: int | None
     farmer_plan_id: int | None
 
     class Config:
