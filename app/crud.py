@@ -15,9 +15,9 @@ class Repository:
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 
-    async def update(self, value_id: int, new_value):
+    async def update(self, value_id: int, **kwargs):
         stmt = update(self.model).where(self.model.id == value_id).values(
-            **new_value.dict())
+            **kwargs)
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 

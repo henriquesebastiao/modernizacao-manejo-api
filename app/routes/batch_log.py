@@ -35,10 +35,10 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 
 @router.patch("/{batch_log_id}")
-async def update(batch_log_id: int, user: BatchLogSchema,
+async def update(batch_log_id: int, schema: BatchLogSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(BatchLog, db)
-    db_batch_log = await repository.update(batch_log_id, user)
+    db_batch_log = await repository.update(batch_log_id, **schema.dict())
     await repository.commit()
     return db_batch_log
 

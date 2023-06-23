@@ -4,9 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import Repository
 from app.database import get_session
 from app.models.farmer import Farmer
-from app.schemas.farmer import FarmerSchema, FarmerCreate
-
 from app.models.user import User
+from app.schemas.farmer import FarmerCreate, FarmerSchema
 
 router = APIRouter(prefix="/farmer", tags=["Farmer"])
 
@@ -37,10 +36,10 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 
 @router.patch("/{farmer_plan_id}")
-async def update(farmer_plan_id: int, user: FarmerSchema,
+async def update(farmer_plan_id: int, schema: FarmerSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Farmer, db)
-    db_farmer = await repository.update(farmer_plan_id, user)
+    db_farmer = await repository.update(farmer_plan_id, **schema.dict())
     await repository.commit()
     return db_farmer
 

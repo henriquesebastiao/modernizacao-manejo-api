@@ -35,10 +35,10 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 
 @router.patch("/{breed_id}")
-async def update(breed_id: int, user: BreedSchema,
+async def update(breed_id: int, schema: BreedSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Breed, db)
-    db_breed = await repository.update(breed_id, user)
+    db_breed = await repository.update(breed_id, **schema.dict())
     await repository.commit()
     return db_breed
 

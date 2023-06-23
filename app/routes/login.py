@@ -5,7 +5,6 @@ from app.crud import Repository
 from app.database import get_session
 from app.models.user import User
 from app.schemas.login import LoginSchema
-from app.schemas.user import UserSchema
 
 router = APIRouter(prefix="/login", tags=["Login"])
 
