@@ -13,7 +13,16 @@ def custom_generate_unique_id(route: APIRoute):
 
 app = FastAPI(generate_unique_id_function=custom_generate_unique_id,
               title="Manejo API", description="Modernização manejo",
-              version="0.1.0")
+              version="0.1.0", terms_of_service="https://noleto.tech/",
+              contact={
+                  "name": "Ivan Noleto",
+                  "url": "https://noleto.tech/",
+                  "email": "ivan@noleto.tech",
+              },
+              license_info={
+                  "name": "Apache 2.0",
+                  "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
+              })
 
 app.add_middleware(
     CORSMiddleware,
