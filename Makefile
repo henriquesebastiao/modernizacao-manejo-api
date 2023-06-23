@@ -2,6 +2,7 @@
 
 .PHONY: export-requirements
 export-requirements:
+	rm requirements.txt
 	poetry export -f requirements.txt --output requirements.txt --without-hashes
 
 .PHONY: up-db
