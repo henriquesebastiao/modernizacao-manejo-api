@@ -1,9 +1,20 @@
 from pydantic import BaseModel
 
 
-class UserTypeSchema(BaseModel):
+class UserTypeBase(BaseModel):
+    type: str
+
+
+class UserTypeCreate(UserTypeBase):
+    pass
+
+
+class UserTypeUpdate(UserTypeBase):
+    pass
+
+
+class UserTypeSchema(UserTypeBase):
     id: int | None
-    type: str | None
 
     class Config:
         orm_mode = True

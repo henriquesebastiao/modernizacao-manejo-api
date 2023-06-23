@@ -13,7 +13,7 @@ router = APIRouter(prefix="/animal/batch",
 @router.post("/")
 async def create(schema: BatchSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, BatchSchema, db)
+    repository = Repository(Batch, db)
     db_batch = await repository.create(schema)
     await repository.commit()
     return db_batch
@@ -22,7 +22,7 @@ async def create(schema: BatchSchema,
 @router.get("/{batch_id}")
 async def get_by(batch_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, BatchSchema, db)
+    repository = Repository(Batch, db)
     db_batch = await repository.get(batch_id)
     await repository.commit()
     return db_batch
@@ -30,7 +30,7 @@ async def get_by(batch_id: int,
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, BatchSchema, db)
+    repository = Repository(Batch, db)
     db_batch = await repository.get_all()
     return db_batch
 
@@ -38,7 +38,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 @router.patch("/{batch_id}")
 async def update(batch_id: int, user: BatchSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, BatchSchema, db)
+    repository = Repository(Batch, db)
     db_batch = await repository.update(batch_id, user)
     return db_batch
 
@@ -46,7 +46,7 @@ async def update(batch_id: int, user: BatchSchema,
 @router.delete("/{batch_id}")
 async def delete(batch_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, BatchSchema, db)
+    repository = Repository(Batch, db)
     db_batch = repository.delete(batch_id)
     await repository.commit()
     return db_batch

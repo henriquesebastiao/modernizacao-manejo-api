@@ -12,7 +12,7 @@ router = APIRouter(prefix="/farm", tags=["Farm"])
 @router.post("/")
 async def create(schema: FarmSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Farm, FarmSchema, db)
+    repository = Repository(Farm, db)
     db_farm = await repository.create(schema)
     await repository.commit()
     return db_farm
@@ -20,14 +20,14 @@ async def create(schema: FarmSchema,
 
 @router.get("/{farm_id}")
 async def get_by(farm_id: int, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Farm, FarmSchema, db)
+    repository = Repository(Farm, db)
     db_farm = await repository.get(farm_id)
     return db_farm
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(Farm, FarmSchema, db)
+    repository = Repository(Farm, db)
     db_farm = await repository.get_all()
     return db_farm
 
@@ -35,7 +35,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 @router.patch("/{farm_id}")
 async def update(farm_id: int, user: FarmSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Farm, FarmSchema, db)
+    repository = Repository(Farm, db)
     db_farm = await repository.update(farm_id, user)
     await repository.commit()
     return db_farm
@@ -43,7 +43,7 @@ async def update(farm_id: int, user: FarmSchema,
 
 @router.delete("/{farm_id}")
 async def delete(farm_id: int, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Farm, FarmSchema, db)
+    repository = Repository(Farm, db)
     db_farm = repository.delete(farm_id)
     await repository.commit()
     return db_farm

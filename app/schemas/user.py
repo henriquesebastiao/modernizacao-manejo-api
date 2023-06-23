@@ -3,20 +3,24 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr
 
 
-class UserCreate(BaseModel):
+class UserBase(BaseModel):
     first_name: str
     last_name: str
     email: EmailStr
+
+
+class UserCreate(UserBase):
     password: str
 
 
-class UserSchema(BaseModel):
-    id: int | None
-    first_name: str | None
-    last_name: str | None
+class UserUpdate(UserBase):
     phone: str | None
-    email: EmailStr
-    password: str
+    active: bool | None
+
+
+class UserSchema(UserBase):
+    id: int | None
+    phone: str | None
     create_at: datetime | None = datetime.now()
     update_at: datetime | None = datetime.now()
     user_type_id: int | None

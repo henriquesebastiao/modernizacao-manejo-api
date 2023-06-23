@@ -13,7 +13,7 @@ router = APIRouter(prefix="/animal/breed",
 @router.post("/")
 async def create(schema: BreedSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Breed, BreedSchema, db)
+    repository = Repository(Breed, db)
     db_breed = await repository.create(schema)
     await repository.commit()
     return db_breed
@@ -22,14 +22,14 @@ async def create(schema: BreedSchema,
 @router.get("/{breed_id}")
 async def get_by(breed_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Breed, BreedSchema, db)
+    repository = Repository(Breed, db)
     db_breed = await repository.get(breed_id)
     return db_breed
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(Breed, BreedSchema, db)
+    repository = Repository(Breed, db)
     db_breed = await repository.get_all()
     return db_breed
 
@@ -37,7 +37,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 @router.patch("/{breed_id}")
 async def update(breed_id: int, user: BreedSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Breed, BreedSchema, db)
+    repository = Repository(Breed, db)
     db_breed = await repository.update(breed_id, user)
     await repository.commit()
     return db_breed
@@ -46,7 +46,7 @@ async def update(breed_id: int, user: BreedSchema,
 @router.delete("/{breed_id}")
 async def delete(breed_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(Breed, BreedSchema, db)
+    repository = Repository(Breed, db)
     db_breed = repository.delete(breed_id)
     await repository.commit()
     return db_breed

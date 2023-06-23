@@ -13,7 +13,7 @@ router = APIRouter(prefix="/animal/weight",
 @router.post("/")
 async def create(schema: AnimalWeightSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeight, AnimalWeightSchema, db)
+    repository = Repository(AnimalWeight, db)
     await repository.commit()
     db_animal_weight = await repository.create(schema)
     return db_animal_weight
@@ -22,14 +22,14 @@ async def create(schema: AnimalWeightSchema,
 @router.get("/{animal_weight_id}")
 async def get_by(animal_weight_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeight, AnimalWeightSchema, db)
+    repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.get(animal_weight_id)
     return db_animal_weight
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeight, AnimalWeightSchema, db)
+    repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.get_all()
     return db_animal_weight
 
@@ -37,7 +37,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 @router.patch("/{animal_weight_id}")
 async def update(animal_weight_id: int, user: AnimalWeightSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeight, AnimalWeightSchema, db)
+    repository = Repository(AnimalWeight, db)
     await repository.commit()
     db_animal_weight = await repository.update(animal_weight_id, user)
     return db_animal_weight
@@ -46,7 +46,7 @@ async def update(animal_weight_id: int, user: AnimalWeightSchema,
 @router.delete("/{animal_weight_id}")
 async def delete(animal_weight_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeight, AnimalWeightSchema, db)
+    repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.delete(animal_weight_id)
     await repository.commit()
     return db_animal_weight

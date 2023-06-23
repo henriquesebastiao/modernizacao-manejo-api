@@ -3,26 +3,25 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class Repository:
-    def __init__(self, model, schema, db: AsyncSession):
+    def __init__(self, model, db: AsyncSession):
         self.model = model
-        self.schema = schema
         self.session: AsyncSession = db
 
     async def commit(self):
         await self.session.commit()
 
-    async def create(self, entity):
-        stmt = insert(self.model).values(**entity.dict())
+    async def create(self, entity, **kwargs):
+        stmt = insert(self.model).values(**entity.dict(), **kwargs)
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 
-    async def update(self, value_id, new_value):
+    async def update(self, value_id: int, new_value):
         stmt = update(self.model).where(self.model.id == value_id).values(
             **new_value.dict())
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 
-    async def delete(self, value_id):
+    async def delete(self, value_id: int):
         stmt = delete(self.model).where(self.model.id == value_id)
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value

@@ -13,7 +13,7 @@ router = APIRouter(prefix="/animal/weight/type",
 @router.post("/")
 async def create(schema: AnimalWeightTypeSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeightType, AnimalWeightTypeSchema, db)
+    repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.create(schema)
     await repository.commit()
     return db_animal_weight_type
@@ -22,14 +22,14 @@ async def create(schema: AnimalWeightTypeSchema,
 @router.get("/{animal_weight_type_id}")
 async def get_by(animal_weight_type_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeightType, AnimalWeightTypeSchema, db)
+    repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.get(animal_weight_type_id)
     return db_animal_weight_type
 
 
 @router.get("/")
 async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeightType, AnimalWeightTypeSchema, db)
+    repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.get_all()
     return db_animal_weight_type
 
@@ -37,7 +37,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 @router.patch("/{animal_weight_type_id}")
 async def update(animal_weight_type_id: int, user: AnimalWeightTypeSchema,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeightType, AnimalWeightTypeSchema, db)
+    repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.update(animal_weight_type_id, user)
     await repository.commit()
     return db_animal_weight_type
@@ -46,7 +46,7 @@ async def update(animal_weight_type_id: int, user: AnimalWeightTypeSchema,
 @router.delete("/{animal_weight_type_id}")
 async def delete(animal_weight_type_id: int,
                  db: AsyncSession = Depends(get_session)):
-    repository = Repository(AnimalWeightType, AnimalWeightTypeSchema, db)
+    repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = repository.delete(animal_weight_type_id)
     await repository.commit()
     return db_animal_weight_type
