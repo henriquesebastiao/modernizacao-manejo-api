@@ -12,7 +12,7 @@ router = APIRouter(prefix="/user", tags=["User"])
 @router.post("/", response_model=UserSchema)
 async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, db)
-    db_user = await repository.create(schema, user_type_id=1, active=False)
+    db_user = await repository.create(**schema.dict(), user_type_id=1)
     await repository.commit()
     return db_user
 

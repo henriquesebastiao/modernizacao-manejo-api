@@ -15,7 +15,7 @@ async def create(schema: AnimalWeightSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(AnimalWeight, db)
     await repository.commit()
-    db_animal_weight = await repository.create(schema)
+    db_animal_weight = await repository.create(**schema.dict())
     return db_animal_weight
 
 

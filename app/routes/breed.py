@@ -14,7 +14,7 @@ router = APIRouter(prefix="/animal/breed",
 async def create(schema: BreedSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Breed, db)
-    db_breed = await repository.create(schema)
+    db_breed = await repository.create(**schema.dict())
     await repository.commit()
     return db_breed
 

@@ -1,16 +1,16 @@
 """populate
 
-Revision ID: 97a3fa496a69
-Revises: 2f21bb73462a
-Create Date: 2023-06-22 12:47:53.692413
+Revision ID: 9ed4b7b0a70d
+Revises: 05684a1d1ae5
+Create Date: 2023-06-23 16:13:15.232701
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '97a3fa496a69'
-down_revision = '2f21bb73462a'
+revision = '9ed4b7b0a70d'
+down_revision = '05684a1d1ae5'
 branch_labels = None
 depends_on = None
 

@@ -13,7 +13,7 @@ router = APIRouter(prefix="/farm", tags=["Farm"])
 async def create(schema: FarmSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Farm, db)
-    db_farm = await repository.create(schema)
+    db_farm = await repository.create(**schema.dict())
     await repository.commit()
     return db_farm
 

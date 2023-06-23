@@ -13,7 +13,7 @@ router = APIRouter(prefix="/user/type", tags=["User Type"])
 async def create(schema: UserTypeCreate,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(UserType, db)
-    db_user_type = await repository.create(schema)
+    db_user_type = await repository.create(**schema.dict())
     await repository.commit()
     return db_user_type
 

@@ -14,7 +14,7 @@ async def create(schema: FarmerPlanSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, db)
     await repository.commit()
-    db_farmer_plan = await repository.create(schema)
+    db_farmer_plan = await repository.create(**schema.dict())
     return db_farmer_plan
 
 

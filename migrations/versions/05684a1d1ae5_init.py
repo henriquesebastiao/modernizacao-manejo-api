@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 2f21bb73462a
+Revision ID: 05684a1d1ae5
 Revises: 
-Create Date: 2023-06-22 03:52:55.951417
+Create Date: 2023-06-23 16:12:32.673693
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2f21bb73462a'
+revision = '05684a1d1ae5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,6 +40,11 @@ def upgrade() -> None:
     sa.Column('weight_date', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('animal_weight_type',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('breed',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=20), nullable=False),
@@ -65,11 +70,6 @@ def upgrade() -> None:
     sa.Column('type', sa.String(length=20), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('animal_weight_type',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('batch',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('reg', sa.String(length=20), nullable=False),
@@ -81,16 +81,16 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('first_name', sa.String(length=40), nullable=True),
     sa.Column('last_name', sa.String(length=20), nullable=True),
-    sa.Column('phone', sa.String(length=24), nullable=False),
+    sa.Column('phone', sa.String(length=24), nullable=True),
     sa.Column('email', sa.String(length=60), nullable=False),
     sa.Column('password', sa.String(length=60), nullable=False),
     sa.Column('create_at', sa.DateTime(), nullable=False),
     sa.Column('update_at', sa.DateTime(), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=False),
-    sa.Column('type_id', sa.Integer(), nullable=False),
+    sa.Column('user_type_id', sa.Integer(), nullable=False),
     sa.Column('manager_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['manager_id'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['type_id'], ['user_type.id'], ),
+    sa.ForeignKeyConstraint(['user_type_id'], ['user_type.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('batch_log',
@@ -133,12 +133,12 @@ def downgrade() -> None:
     op.drop_table('batch_log')
     op.drop_table('user')
     op.drop_table('batch')
-    op.drop_table('weight_type')
     op.drop_table('user_type')
     op.drop_table('farmer_plan')
     op.drop_table('farm')
     op.drop_table('employment_position')
     op.drop_table('breed')
+    op.drop_table('animal_weight_type')
     op.drop_table('animal_weight')
     op.drop_table('animal')
     # ### end Alembic commands ###

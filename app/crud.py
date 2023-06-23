@@ -10,8 +10,8 @@ class Repository:
     async def commit(self):
         await self.session.commit()
 
-    async def create(self, entity, **kwargs):
-        stmt = insert(self.model).values(**entity.dict(), **kwargs)
+    async def create(self, **kwargs):
+        stmt = insert(self.model).values(**kwargs)
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 

@@ -23,7 +23,7 @@ class Message(BaseModel):
 async def create(schema: AnimalSchema, db: AsyncSession = Depends(get_session)):
     try:
         repository = Repository(Animal, db)
-        db_animal = await repository.create(schema)
+        db_animal = await repository.create(**schema.dict())
     except IntegrityError:
         raise HTTPException(status_code=404, detail="Animal already exists")
     except Exception as e:

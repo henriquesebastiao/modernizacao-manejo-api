@@ -14,7 +14,7 @@ router = APIRouter(prefix="/animal/batch_log",
 async def create(schema: BatchLogSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(BatchLog, db)
-    db_batch_log = await repository.create(schema)
+    db_batch_log = await repository.create(**schema.dict())
     await repository.commit()
     return db_batch_log
 

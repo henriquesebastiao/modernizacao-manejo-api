@@ -6,14 +6,18 @@ from app.database import get_session
 from app.models.farmer import Farmer
 from app.schemas.farmer import FarmerSchema, FarmerCreate
 
+from app.models.user import User
+
 router = APIRouter(prefix="/farmer", tags=["Farmer"])
 
 
-@router.post("/")
+@router.post("/", response_model=FarmerSchema)
 async def create(schema: FarmerCreate,
                  db: AsyncSession = Depends(get_session)):
+    repository_user = Repository(User, db)
+    db_user = await repository_user.create(**schema.dict(), user_type_id=2)
     repository = Repository(Farmer, db)
-    db_farmer = await repository.create(schema)
+    db_farmer = await repository.create(user_id=db_user.id, farmer_plan_id=1)
     await repository.commit()
     return db_farmer
 

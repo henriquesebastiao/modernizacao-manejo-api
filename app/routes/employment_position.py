@@ -14,7 +14,7 @@ router = APIRouter(prefix="/employment/position",
 async def create(schema: EmploymentPositionSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, db)
-    db_employment_position = await repository.create(schema)
+    db_employment_position = await repository.create(**schema.dict())
     await repository.commit()
     return db_employment_position
 

@@ -14,7 +14,7 @@ router = APIRouter(prefix="/animal/weight/type",
 async def create(schema: AnimalWeightTypeSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(AnimalWeightType, db)
-    db_animal_weight_type = await repository.create(schema)
+    db_animal_weight_type = await repository.create(**schema.dict())
     await repository.commit()
     return db_animal_weight_type
 
