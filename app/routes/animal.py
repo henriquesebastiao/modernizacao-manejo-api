@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import Repository
 from app.database import get_session
 from app.models.animal import Animal
-from app.schemas.animal import AnimalSchema
+from app.schemas.animal import AnimalSchema, AnimalCreate, AnimalUpdate
 
 router = APIRouter(prefix="/animal", tags=["Animal"])
 
@@ -17,10 +17,11 @@ class Message(BaseModel):
 
 @router.post("/", response_model=AnimalSchema,
              responses={404: {"model": Message,
-                              "description": "Animal already exists"},
+                              "description": "Animal already exists",
+                              "example": {"detail": "Animal already exists"}},
                         500: {"model": Message,
                               "description": "Internal Server Error"}})
-async def create(schema: AnimalSchema, db: AsyncSession = Depends(get_session)):
+async def create(schema: AnimalCreate, db: AsyncSession = Depends(get_session)):
     try:
         repository = Repository(Animal, db)
         db_animal = await repository.create(**schema.dict())
@@ -47,7 +48,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 
 @router.patch("/{animal_id}")
-async def update(animal_id: int, schema: AnimalSchema,
+async def update(animal_id: int, schema: AnimalUpdate,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(Animal, db)
     db_animal = await repository.update(animal_id, **schema.dict())

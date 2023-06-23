@@ -9,8 +9,7 @@ class Sexo(str, Enum):
     F = "F"
 
 
-class AnimalSchema(BaseModel):
-    id: int | None
+class AnimalBase(BaseModel):
     tag: int | None
     sisbov: int | None
     gender: Sexo | None
@@ -21,6 +20,18 @@ class AnimalSchema(BaseModel):
     birth_date: date | None
     buy_date: date | None
     sell_date: date | None
+
+
+class AnimalCreate(AnimalBase):
+    pass
+
+
+class AnimalUpdate(AnimalBase):
+    pass
+
+
+class AnimalSchema(AnimalBase):
+    id: int | None
 
     class Config:
         orm_mode = True
