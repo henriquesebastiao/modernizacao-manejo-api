@@ -11,7 +11,8 @@ def custom_generate_unique_id(route: APIRoute):
     return f"{route.tags[0]}-{route.name}"
 
 
-app = FastAPI(generate_unique_id_function=custom_generate_unique_id,
+app = FastAPI(docs_url="/",
+              generate_unique_id_function=custom_generate_unique_id,
               title="Manejo API", description="Modernização manejo",
               version="0.1.0", terms_of_service="https://noleto.tech/",
               contact={
@@ -31,13 +32,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/", tags=["Root"])
-async def root():
-    """Rota principal."""
-    return {"message": "Hello World"}
-
 
 app.include_router(animal.router)
 app.include_router(animal_weight.router)
