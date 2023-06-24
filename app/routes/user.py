@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -5,7 +7,7 @@ from app.crud import Repository
 from app.database import get_session
 from app.models.user import User
 from app.schemas.user import UserCreate, UserSchema, UserUpdate
-from app.security import get_password_hash
+from app.security import get_current_active_user, get_password_hash
 
 router = APIRouter(prefix="/user", tags=["User"])
 
@@ -48,3 +50,10 @@ async def delete(user_id: int, db: AsyncSession = Depends(get_session)):
     db_user = repository.delete(user_id)
     await repository.commit()
     return db_user
+
+
+@router.get("/me/", response_model=UserSchema)
+async def read_users_me(
+        current_user: Annotated[UserSchema, Depends(get_current_active_user)]
+):
+    return current_user
