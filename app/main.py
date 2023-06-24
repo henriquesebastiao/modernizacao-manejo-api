@@ -4,7 +4,7 @@ from fastapi.routing import APIRoute
 
 from app.routes import animal, animal_weight, animal_weight_type, batch, \
     batch_log, breed, employment, employment_position, farm, farmer, \
-    farmer_plan, login, user, user_type
+    farmer_plan, token, user, user_type
 
 
 def custom_generate_unique_id(route: APIRoute):
@@ -44,6 +44,6 @@ app.include_router(employment_position.router)
 app.include_router(farm.router)
 app.include_router(farmer.router)
 app.include_router(farmer_plan.router)
-app.include_router(login.router)
+app.include_router(token.router)
 app.include_router(user_type.router)
 app.include_router(user.router)

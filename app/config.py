@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     db_port: int | None
     db_name: str | None
     db_ssl: str | None
+    secret_key: str | None
+    algorithm: str | None
+    access_token_expire_minutes: int | None
 
     class Config:
         env_file = ".env"
