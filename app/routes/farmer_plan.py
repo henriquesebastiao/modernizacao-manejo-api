@@ -9,7 +9,7 @@ from app.schemas.farmer_plan import FarmerPlanSchema
 router = APIRouter(prefix="/farmer/plan", tags=["Farmer plan"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create(schema: FarmerPlanSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(FarmerPlan, db)

@@ -10,7 +10,7 @@ router = APIRouter(prefix="/employment/position",
                    tags=["Employment Position"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create(schema: EmploymentPositionSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(EmploymentPosition, db)

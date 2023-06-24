@@ -9,7 +9,7 @@ from app.schemas.user import UserCreate, UserSchema, UserUpdate
 router = APIRouter(prefix="/user", tags=["User"])
 
 
-@router.post("/", response_model=UserSchema)
+@router.post("/", response_model=UserSchema, status_code=201)
 async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, db)
     db_user = await repository.create(**schema.dict(), user_type_id=1)

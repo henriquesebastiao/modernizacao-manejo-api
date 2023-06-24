@@ -10,7 +10,7 @@ router = APIRouter(prefix="/animal/batch_log",
                    tags=["Animal Batch Log"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create(schema: BatchLogSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(BatchLog, db)

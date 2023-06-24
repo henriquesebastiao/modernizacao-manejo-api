@@ -15,7 +15,7 @@ class Message(BaseModel):
     detail: str
 
 
-@router.post("/", response_model=AnimalSchema,
+@router.post("/", response_model=AnimalSchema, status_code=201,
              responses={404: {"model": Message,
                               "description": "Animal already exists",
                               "example": {"detail": "Animal already exists"}},

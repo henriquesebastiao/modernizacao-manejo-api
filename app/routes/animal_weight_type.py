@@ -10,7 +10,7 @@ router = APIRouter(prefix="/animal/weight/type",
                    tags=["Animal Weight Type"])
 
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def create(schema: AnimalWeightTypeSchema,
                  db: AsyncSession = Depends(get_session)):
     repository = Repository(AnimalWeightType, db)
