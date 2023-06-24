@@ -5,6 +5,7 @@ from app.crud import Repository
 from app.database import get_session
 from app.models.user import User
 from app.schemas.user import UserCreate, UserSchema, UserUpdate
+from app.security import get_password_hash
 
 router = APIRouter(prefix="/user", tags=["User"])
 
@@ -12,6 +13,7 @@ router = APIRouter(prefix="/user", tags=["User"])
 @router.post("/", response_model=UserSchema, status_code=201)
 async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, db)
+    schema.password = get_password_hash(schema.password)
     db_user = await repository.create(**schema.dict(), user_type_id=1)
     await repository.commit()
     return db_user
