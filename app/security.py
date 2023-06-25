@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Annotated
+from typing import Annotated, Optional
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -53,13 +53,16 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],
-                           db: AsyncSession = Depends(get_session)):
+async def get_current_user(
+        token: Optional[Annotated[str, Depends(oauth2_scheme)]] = None,
+        db: AsyncSession = Depends(get_session)):
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    if token is None:
+        return None
     try:
         payload = jwt.decode(token, settings.secret_key,
                              algorithms=[settings.algorithm])

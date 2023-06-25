@@ -7,16 +7,21 @@ from app.crud import Repository
 from app.database import get_session
 from app.models.user import User
 from app.schemas.user import UserCreate, UserSchema, UserUpdate
-from app.security import get_current_active_user, get_password_hash
+from app.security import get_current_active_user, get_current_user, \
+    get_password_hash
 
 router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.post("/", response_model=UserSchema, status_code=201)
-async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
+async def create(schema: UserCreate, db: AsyncSession = Depends(get_session),
+                 current_user=Depends(get_current_user)):
     repository = Repository(User, db)
     schema.password = get_password_hash(schema.password)
-    db_user = await repository.create(**schema.dict(), user_type_id=1)
+    if current_user is None:
+        db_user = await repository.create(**schema.dict(), user_type_id=2)
+    else:
+        db_user = await repository.create(**schema.dict(), user_type_id=3)
     await repository.commit()
     return db_user
 
@@ -52,7 +57,7 @@ async def delete(user_id: int, db: AsyncSession = Depends(get_session)):
     return db_user
 
 
-@router.get("/me/", response_model=UserSchema)
+@router.get("/me", response_model=UserSchema)
 async def read_users_me(
         current_user: Annotated[UserSchema, Depends(get_current_active_user)]
 ):
