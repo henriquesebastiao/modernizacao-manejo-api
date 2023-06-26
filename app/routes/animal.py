@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
@@ -22,11 +21,22 @@ class Message(BaseModel):
                         500: {"model": Message,
                               "description": "Internal Server Error"}})
 async def create(schema: AnimalCreate, db: AsyncSession = Depends(get_session)):
+    # Verifica se o animal já existe com base na tag
+    repository = Repository(Animal, db)
+    if await repository.get(schema.tag, "tag"):
+        raise HTTPException(status_code=404, detail="Animal already exists")
+    elif not await repository.get(schema.mother_id, "id"):
+        raise HTTPException(status_code=404, detail="Mother not exists")
+    elif not await repository.get(schema.father_id, "id"):
+        raise HTTPException(status_code=404, detail="Father not exists")
+    elif schema.mother_id == schema.father_id:
+        raise HTTPException(status_code=404,
+                            detail="Mother and Father are the same")
+
+    # Cria o animal caso não exista
     try:
         repository = Repository(Animal, db)
         db_animal = await repository.create(**schema.dict())
-    except IntegrityError:
-        raise HTTPException(status_code=404, detail="Animal already exists")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     await repository.commit()

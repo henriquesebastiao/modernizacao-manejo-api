@@ -19,20 +19,24 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_password(plain_password, hashed_password):
+    """Verifica se o hash da senha é igual ao hash do banco de dados"""
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password):
+    """Gera o hash da senha"""
     return pwd_context.hash(password)
 
 
 async def get_user(db, username: str):
+    """Retorna o usuário do banco de dados"""
     db_user = await Repository(User, db).get(username, "email")
     if db_user:
         return db_user
 
 
 async def authenticate_user(db, username: str, password: str):
+    """Verifica se o usuário existe e se a senha está correta"""
     user = await get_user(db, username)
     if not user:
         return False
@@ -42,6 +46,7 @@ async def authenticate_user(db, username: str, password: str):
 
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    """Cria o token de acesso"""
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -56,6 +61,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 async def get_current_user(
         token: Optional[Annotated[str, Depends(oauth2_scheme)]] = None,
         db: AsyncSession = Depends(get_session)):
+    """Retorna o usuário atual"""
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
@@ -81,4 +87,5 @@ async def get_current_user(
 async def get_current_active_user(
         current_user: Annotated[User, Depends(get_current_user)]
 ):
+    """Retorna o usuário atual se ele estiver ativo"""
     return current_user
