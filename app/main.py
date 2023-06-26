@@ -13,11 +13,12 @@ def custom_generate_unique_id(route: APIRoute):
 
 app = FastAPI(docs_url="/",
               generate_unique_id_function=custom_generate_unique_id,
-              title="Manejo API", description="Modernização manejo",
-              version="0.1.0", terms_of_service="https://noleto.tech/",
+              title="Manejo API", description="Modernização Manejo",
+              version="0.1.0",
+              terms_of_service="https://site.henriquesebastiao.com/",
               contact={
-                  "name": "Ivan Noleto",
-                  "url": "https://noleto.tech/",
+                  "name": "Manejo API",
+                  "url": "https://api.henriquesebastiao.com/",
                   "email": "ivan@noleto.tech",
               },
               license_info={
