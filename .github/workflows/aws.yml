@@ -81,10 +81,11 @@ jobs:
       id: list-image-tags
       run: |
         aws ecr list-images --repository-name $ECR_REPOSITORY --query 'imageIds[].imageTag' --output text | sort -r > existing_image_tags.txt
+
     - name: Delete old image tags
       id: delete-old-image-tags
       run: |
-        cat existing_image_tags.txt | awk 'NR>3' | while read tag; do aws ecr batch-delete-image --repository-name my-repo --image-ids imageTag=$tag; done
+        while read -r tag; do aws ecr batch-delete-image --repository-name my-repo --image-ids imageTag="$tag"; done < <(tail -n +4 existing_image_tags.txt)
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
