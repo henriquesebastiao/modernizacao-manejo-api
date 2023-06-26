@@ -85,7 +85,7 @@ jobs:
     - name: Delete old image tags
       id: delete-old-image-tags
       run: |
-        while read -r tag; do aws ecr batch-delete-image --repository-name my-repo --image-ids imageTag="$tag"; done < <(tail -n +4 existing_image_tags.txt)
+        while read -r tag; do aws ecr batch-delete-image --repository-name $ECR_REPOSITORY --image-ids imageTag="$tag"; done < <(tail -n +4 existing_image_tags.txt)
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
