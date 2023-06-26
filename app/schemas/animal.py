@@ -13,17 +13,16 @@ class AnimalBase(BaseModel):
     tag: int | None
     sisbov: int | None
     gender: Sexo | None
-    breed_id: int | None
-    father_id: int | None
-    mother_id: int | None
-    origin_id: int | None
     birth_date: date | None
     buy_date: date | None
     sell_date: date | None
 
 
 class AnimalCreate(AnimalBase):
-    pass
+    breed: str | None
+    father_tag: int | None
+    mother_tag: int | None
+    origin: str | None
 
 
 class AnimalUpdate(AnimalBase):
@@ -31,7 +30,10 @@ class AnimalUpdate(AnimalBase):
 
 
 class AnimalSchema(AnimalBase):
-    id: int | None
+    breed_id: int | None
+    father_id: int | None
+    mother_id: int | None
+    origin_id: int | None
 
     class Config:
         orm_mode = True
