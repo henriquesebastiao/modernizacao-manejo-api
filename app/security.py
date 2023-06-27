@@ -60,7 +60,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 
 async def get_current_user(
-        token: Optional[Annotated[str, Depends(oauth2_scheme)]] = None,
+        token: Annotated[str, Depends(oauth2_scheme)],
         db: AsyncSession = Depends(get_session)):
     """Retorna o usuário atual"""
     credentials_exception = HTTPException(
@@ -68,12 +68,10 @@ async def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    if token is None:
-        return None
     try:
         payload = jwt.decode(token, settings.secret_key,
                              algorithms=[settings.algorithm])
-        username: str = payload.get("sub")
+        username: str = payload.get("email")
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
