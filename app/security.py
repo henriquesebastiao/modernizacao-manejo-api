@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Annotated, Optional
+from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
