@@ -2,10 +2,9 @@ from datetime import datetime, timedelta
 from typing import Annotated, Optional
 
 from fastapi import Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer, SecurityScopes
+from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
@@ -91,39 +90,3 @@ async def get_current_active_user(
 ):
     """Retorna o usuário atual se ele estiver ativo"""
     return current_user
-
-
-async def get_current_user(
-        security_scopes: SecurityScopes,
-        token: Annotated[str, Depends(oauth2_scheme)],
-        db: AsyncSession = Depends(get_session)):
-    if security_scopes.scopes:
-        authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
-    else:
-        authenticate_value = "Bearer"
-    credentials_exception = HTTPException(
-        status_code=401,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": authenticate_value},
-    )
-    try:
-        payload = jwt.decode(token, settings.secret_key,
-                             algorithms=[settings.algorithm])
-        username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-        token_scopes = payload.get("scopes", [])
-        token_data = TokenData(scopes=token_scopes, username=username)
-    except (JWTError, ValidationError):
-        raise credentials_exception
-    user = get_user(db, username=token_data.username)
-    if user is None:
-        raise credentials_exception
-    for scope in security_scopes.scopes:
-        if scope not in token_data.scopes:
-            raise HTTPException(
-                status_code=401,
-                detail="Not enough permissions",
-                headers={"WWW-Authenticate": authenticate_value},
-            )
-    return user
