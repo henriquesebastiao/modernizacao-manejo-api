@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import Repository
 from app.database import get_session
 from app.models.animal import Animal
-from app.schemas.animal import AnimalSchema, AnimalCreate, AnimalUpdate
+from app.schemas.animal import AnimalCreate, AnimalSchema, AnimalUpdate
+from app.security import get_current_user
 
 router = APIRouter(prefix="/animal", tags=["Animal"])
 
@@ -20,7 +21,8 @@ class Message(BaseModel):
                               "example": {"detail": "Animal already exists"}},
                         500: {"model": Message,
                               "description": "Internal Server Error"}})
-async def create(schema: AnimalCreate, db: AsyncSession = Depends(get_session)):
+async def create(schema: AnimalCreate, db: AsyncSession = Depends(get_session),
+                 current_user=Depends(get_current_user)):
     # Verifica se o animal já existe com base na tag
     repository = Repository(Animal, db)
     animal = AnimalSchema(**schema.dict())
@@ -48,14 +50,16 @@ async def create(schema: AnimalCreate, db: AsyncSession = Depends(get_session)):
 
 
 @router.get("/{animal_id}")
-async def get_by(animal_id: int, db: AsyncSession = Depends(get_session)):
+async def get_by(animal_id: int, db: AsyncSession = Depends(get_session),
+                 current_user=Depends(get_current_user)):
     repository = Repository(Animal, db)
     db_animal = await repository.get(animal_id)
     return db_animal
 
 
 @router.get("/")
-async def get_all(db: AsyncSession = Depends(get_session)):
+async def get_all(db: AsyncSession = Depends(get_session),
+                  current_user=Depends(get_current_user)):
     repository = Repository(Animal, db)
     db_animal = await repository.get_all()
     return db_animal
@@ -63,7 +67,8 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch("/{animal_id}")
 async def update(animal_id: int, schema: AnimalUpdate,
-                 db: AsyncSession = Depends(get_session)):
+                 db: AsyncSession = Depends(get_session),
+                 current_user=Depends(get_current_user)):
     repository = Repository(Animal, db)
     db_animal = await repository.update(animal_id, **schema.dict())
     await repository.commit()
@@ -71,7 +76,8 @@ async def update(animal_id: int, schema: AnimalUpdate,
 
 
 @router.delete("/{animal_id}")
-async def delete(animal_id: int, db: AsyncSession = Depends(get_session)):
+async def delete(animal_id: int, db: AsyncSession = Depends(get_session),
+                 current_user=Depends(get_current_user)):
     repository = Repository(Animal, db)
     db_animal = await repository.delete(animal_id)
     await repository.commit()
