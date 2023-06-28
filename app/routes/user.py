@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, Security
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,14 +14,10 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.post("/", response_model=UserSchema, status_code=201)
-async def create(schema: UserCreate, db: AsyncSession = Depends(get_session),
-                 current_user=Depends(get_current_user)):
+async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, db)
     schema.password = get_password_hash(schema.password)
-    if current_user is None:
-        db_user = await repository.create(**schema.dict(), user_type_id=2)
-    else:
-        db_user = await repository.create(**schema.dict(), user_type_id=3)
+    db_user = await repository.create(**schema.dict(), user_type_id=2)
     await repository.commit()
     return db_user
 
