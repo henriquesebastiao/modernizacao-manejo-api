@@ -15,6 +15,7 @@ class UserCreate(UserBase):
 
 class UserUpdate(UserBase):
     phone: str | None
+    password: str | None
     active: bool | None
 
 
