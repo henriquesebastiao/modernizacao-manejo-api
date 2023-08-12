@@ -11,9 +11,15 @@ def custom_generate_unique_id(route: APIRoute):
     return f"{route.tags[0]}-{route.name}"
 
 
+description = """
+Modernização Manejo
+#### Documentação alternativa: [Redoc](https://api.henriquesebastiao.com/redoc)
+"""
+
 app = FastAPI(docs_url="/",
               generate_unique_id_function=custom_generate_unique_id,
-              title="Manejo API", description="Modernização Manejo",
+              title="Manejo API",
+              description=description,
               version="0.1.0",
               terms_of_service="https://site.henriquesebastiao.com/",
               contact={
