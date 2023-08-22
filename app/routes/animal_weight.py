@@ -6,13 +6,13 @@ from app.database import get_session
 from app.models.animal_weight import AnimalWeight
 from app.schemas.animal_weight import AnimalWeightSchema
 
-router = APIRouter(prefix="/animal/weight",
-                   tags=["Animal Weight"])
+router = APIRouter(prefix='/animal/weight', tags=['Animal Weight'])
 
 
-@router.post("/", status_code=201)
-async def create(schema: AnimalWeightSchema,
-                 db: AsyncSession = Depends(get_session)):
+@router.post('/', status_code=201)
+async def create(
+        schema: AnimalWeightSchema, db: AsyncSession = Depends(get_session)
+):
     """
     Registra um novo peso para um animal
 
@@ -28,16 +28,17 @@ async def create(schema: AnimalWeightSchema,
     return db_animal_weight
 
 
-@router.get("/{animal_weight_id}")
-async def get_by(animal_weight_id: int,
-                 db: AsyncSession = Depends(get_session)):
+@router.get('/{animal_weight_id}')
+async def get_by(
+        animal_weight_id: int, db: AsyncSession = Depends(get_session)
+):
     """Retorna um peso de um animal com base no seu identificador"""
     repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.get(animal_weight_id)
     return db_animal_weight
 
 
-@router.get("/")
+@router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todos os pesos de todos os animais"""
     repository = Repository(AnimalWeight, db)
@@ -45,9 +46,12 @@ async def get_all(db: AsyncSession = Depends(get_session)):
     return db_animal_weight
 
 
-@router.patch("/{animal_weight_id}")
-async def update(animal_weight_id: int, schema: AnimalWeightSchema,
-                 db: AsyncSession = Depends(get_session)):
+@router.patch('/{animal_weight_id}')
+async def update(
+        animal_weight_id: int,
+        schema: AnimalWeightSchema,
+        db: AsyncSession = Depends(get_session),
+):
     """
     Atualiza um peso de um animal com base no seu identificador
 
@@ -59,14 +63,16 @@ async def update(animal_weight_id: int, schema: AnimalWeightSchema,
     """
     repository = Repository(AnimalWeight, db)
     await repository.commit()
-    db_animal_weight = await repository.update(animal_weight_id,
-                                               **schema.dict())
+    db_animal_weight = await repository.update(
+        animal_weight_id, **schema.dict()
+    )
     return db_animal_weight
 
 
-@router.delete("/{animal_weight_id}")
-async def delete(animal_weight_id: int,
-                 db: AsyncSession = Depends(get_session)):
+@router.delete('/{animal_weight_id}')
+async def delete(
+        animal_weight_id: int, db: AsyncSession = Depends(get_session)
+):
     """Deleta um peso de um animal com base no seu identificador"""
     repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.delete(animal_weight_id)

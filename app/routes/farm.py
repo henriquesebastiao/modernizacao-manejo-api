@@ -6,12 +6,11 @@ from app.database import get_session
 from app.models.farm import Farm
 from app.schemas.farm import FarmSchema
 
-router = APIRouter(prefix="/farm", tags=["Farm"])
+router = APIRouter(prefix='/farm', tags=['Farm'])
 
 
-@router.post("/", status_code=201)
-async def create(schema: FarmSchema,
-                 db: AsyncSession = Depends(get_session)):
+@router.post('/', status_code=201)
+async def create(schema: FarmSchema, db: AsyncSession = Depends(get_session)):
     """
     Adiciona uma nova fazenda
 
@@ -23,7 +22,7 @@ async def create(schema: FarmSchema,
     return db_farm
 
 
-@router.get("/{farm_id}")
+@router.get('/{farm_id}')
 async def get_by(farm_id: int, db: AsyncSession = Depends(get_session)):
     """Retorna uma fazenda pelo seu ID."""
     repository = Repository(Farm, db)
@@ -31,7 +30,7 @@ async def get_by(farm_id: int, db: AsyncSession = Depends(get_session)):
     return db_farm
 
 
-@router.get("/")
+@router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todas as fazendas."""
     repository = Repository(Farm, db)
@@ -39,9 +38,10 @@ async def get_all(db: AsyncSession = Depends(get_session)):
     return db_farm
 
 
-@router.patch("/{farm_id}")
-async def update(farm_id: int, schema: FarmSchema,
-                 db: AsyncSession = Depends(get_session)):
+@router.patch('/{farm_id}')
+async def update(
+        farm_id: int, schema: FarmSchema, db: AsyncSession = Depends(get_session)
+):
     """
     Atualiza uma fazenda pelo seu ID.
 
@@ -53,7 +53,7 @@ async def update(farm_id: int, schema: FarmSchema,
     return db_farm
 
 
-@router.delete("/{farm_id}")
+@router.delete('/{farm_id}')
 async def delete(farm_id: int, db: AsyncSession = Depends(get_session)):
     """Deleta uma fazenda pelo seu ID."""
     repository = Repository(Farm, db)

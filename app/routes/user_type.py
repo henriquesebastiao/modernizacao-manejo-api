@@ -4,14 +4,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import Repository
 from app.database import get_session
 from app.models.user_type import UserType
-from app.schemas.user_type import UserTypeCreate, UserTypeSchema, UserTypeUpdate
+from app.schemas.user_type import (
+    UserTypeCreate,
+    UserTypeSchema,
+    UserTypeUpdate,
+)
 
-router = APIRouter(prefix="/user/type", tags=["User Type"])
+router = APIRouter(prefix='/user/type', tags=['User Type'])
 
 
-@router.post("/", response_model=UserTypeSchema, status_code=201)
-async def create(schema: UserTypeCreate,
-                 db: AsyncSession = Depends(get_session)):
+@router.post('/', response_model=UserTypeSchema, status_code=201)
+async def create(
+        schema: UserTypeCreate, db: AsyncSession = Depends(get_session)
+):
     """
     Adiciona um novo tipo de usuário.
 
@@ -23,7 +28,7 @@ async def create(schema: UserTypeCreate,
     return db_user_type
 
 
-@router.get("/{user_type_id}", response_model=UserTypeSchema)
+@router.get('/{user_type_id}', response_model=UserTypeSchema)
 async def get_by(user_type_id: int, db: AsyncSession = Depends(get_session)):
     """Retorna um tipo de usuário pelo seu ID."""
     repository = Repository(UserType, db)
@@ -31,7 +36,7 @@ async def get_by(user_type_id: int, db: AsyncSession = Depends(get_session)):
     return db_user_type
 
 
-@router.get("/", response_model=list[UserTypeSchema])
+@router.get('/', response_model=list[UserTypeSchema])
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todos os tipos de usuário."""
     repository = Repository(UserType, db)
@@ -39,9 +44,12 @@ async def get_all(db: AsyncSession = Depends(get_session)):
     return db_user_type
 
 
-@router.patch("/{user_type_id}", response_model=UserTypeSchema)
-async def update(user_type_id: int, schema: UserTypeUpdate,
-                 db: AsyncSession = Depends(get_session)):
+@router.patch('/{user_type_id}', response_model=UserTypeSchema)
+async def update(
+        user_type_id: int,
+        schema: UserTypeUpdate,
+        db: AsyncSession = Depends(get_session),
+):
     """
     Atualiza um tipo de usuário.
 
@@ -53,7 +61,7 @@ async def update(user_type_id: int, schema: UserTypeUpdate,
     return db_user_type
 
 
-@router.delete("/{user_type_id}", response_model=UserTypeSchema)
+@router.delete('/{user_type_id}', response_model=UserTypeSchema)
 async def delete(user_type_id: int, db: AsyncSession = Depends(get_session)):
     """Deleta um tipo de usuário."""
     repository = Repository(UserType, db)

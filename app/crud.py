@@ -16,8 +16,11 @@ class Repository:
         return db_value
 
     async def update(self, value_id: int, **kwargs):
-        stmt = update(self.model).where(self.model.id == value_id).values(
-            **kwargs)
+        stmt = (
+            update(self.model)
+            .where(self.model.id == value_id)
+            .values(**kwargs)
+        )
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 
@@ -26,9 +29,10 @@ class Repository:
         db_value = await self.session.scalar(stmt.returning(self.model))
         return db_value
 
-    async def get(self, value: str | int, field_name: str = "id"):
+    async def get(self, value: str | int, field_name: str = 'id'):
         stmt = select(self.model).where(
-            getattr(self.model, field_name) == value)
+            getattr(self.model, field_name) == value
+        )
         db_value = await self.session.scalar(stmt)
         return db_value
 

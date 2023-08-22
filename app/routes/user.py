@@ -7,13 +7,16 @@ from app.crud import Repository
 from app.database import get_session
 from app.models.user import User
 from app.schemas.user import UserCreate, UserSchema, UserUpdate
-from app.security import get_current_active_user, get_current_user, \
-    get_password_hash
+from app.security import (
+    get_current_active_user,
+    get_current_user,
+    get_password_hash,
+)
 
-router = APIRouter(prefix="/user", tags=["User"])
+router = APIRouter(prefix='/user', tags=['User'])
 
 
-@router.post("/", response_model=UserSchema, status_code=201)
+@router.post('/', response_model=UserSchema, status_code=201)
 async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, db)
     schema.password = get_password_hash(schema.password)
@@ -22,7 +25,7 @@ async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     return db_user
 
 
-@router.get("/{user_id}")
+@router.get('/{user_id}')
 async def get_by(user_id: int, db: AsyncSession = Depends(get_session)):
     """
     Registra um usuário no banco de dados
@@ -43,7 +46,7 @@ async def get_by(user_id: int, db: AsyncSession = Depends(get_session)):
     return db_user
 
 
-@router.get("/")
+@router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todos os usuários cadastrados no banco de dados."""
     repository = Repository(User, db)
@@ -51,9 +54,10 @@ async def get_all(db: AsyncSession = Depends(get_session)):
     return db_user
 
 
-@router.patch("/{user_id}")
-async def update(user_id: int, schema: UserUpdate,
-                 db: AsyncSession = Depends(get_session)):
+@router.patch('/{user_id}')
+async def update(
+        user_id: int, schema: UserUpdate, db: AsyncSession = Depends(get_session)
+):
     """
     Atualiza um usuário no banco de dados
 
@@ -70,7 +74,7 @@ async def update(user_id: int, schema: UserUpdate,
     return db_user
 
 
-@router.delete("/{user_id}")
+@router.delete('/{user_id}')
 async def delete(user_id: int, db: AsyncSession = Depends(get_session)):
     """Deleta um usuário do banco de dados."""
     repository = Repository(User, db)
@@ -79,22 +83,24 @@ async def delete(user_id: int, db: AsyncSession = Depends(get_session)):
     return db_user
 
 
-@router.get("/me", response_model=UserSchema)
+@router.get('/me', response_model=UserSchema)
 async def read_users_me(
         current_user: Annotated[UserSchema, Depends(get_current_active_user)]
 ):
     return current_user
 
 
-@router.get("/me/items/")
+@router.get('/me/items/')
 async def read_own_items(
         current_user: Annotated[
-            User, Security(get_current_active_user, scopes=["items"])]
+            User, Security(get_current_active_user, scopes=['items'])
+        ]
 ):
-    return [{"item_id": "Foo", "owner": current_user}]
+    return [{'item_id': 'Foo', 'owner': current_user}]
 
 
-@router.get("/status/")
+@router.get('/status/')
 async def read_system_status(
-        current_user: Annotated[User, Depends(get_current_user)]):
-    return {"status": "ok"}
+        current_user: Annotated[User, Depends(get_current_user)]
+):
+    return {'status': 'ok'}

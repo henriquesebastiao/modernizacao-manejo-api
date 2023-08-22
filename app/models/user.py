@@ -16,12 +16,15 @@ class User(Base):
     phone: Mapped[str] = mapped_column(String(24), nullable=True)
     email: Mapped[str] = mapped_column(String(60), nullable=False)
     password: Mapped[str] = mapped_column(String(60))
-    create_at: Mapped[datetime] = mapped_column(DateTime,
-                                                default=datetime.now())
-    update_at: Mapped[datetime] = mapped_column(DateTime,
-                                                default=datetime.now())
+    create_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.now()
+    )
+    update_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.now()
+    )
     active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     user_type_id: Mapped[int] = mapped_column(ForeignKey('user_type.id'))
-    manager_id: Mapped[int | None] = mapped_column(ForeignKey('user.id'),
-                                                   nullable=True)
+    manager_id: Mapped[int | None] = mapped_column(
+        ForeignKey('user.id'), nullable=True
+    )

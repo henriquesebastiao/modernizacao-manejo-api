@@ -5,7 +5,7 @@ from app.models.base import Base
 
 
 class Batch(Base):
-    __tablename__ = "batch"
+    __tablename__ = 'batch'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     reg: Mapped[str] = mapped_column(String(20), nullable=False)

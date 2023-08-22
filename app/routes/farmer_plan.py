@@ -6,12 +6,13 @@ from app.database import get_session
 from app.models.farmer_plan import FarmerPlan
 from app.schemas.farmer_plan import FarmerPlanSchema
 
-router = APIRouter(prefix="/farmer/plan", tags=["Farmer plan"])
+router = APIRouter(prefix='/farmer/plan', tags=['Farmer plan'])
 
 
-@router.post("/", status_code=201)
-async def create(schema: FarmerPlanSchema,
-                 db: AsyncSession = Depends(get_session)):
+@router.post('/', status_code=201)
+async def create(
+        schema: FarmerPlanSchema, db: AsyncSession = Depends(get_session)
+):
     """
     Adiciona um plano de assinatura para o agricultor
 
@@ -23,7 +24,7 @@ async def create(schema: FarmerPlanSchema,
     return db_farmer_plan
 
 
-@router.get("/{farmer_plan_id}")
+@router.get('/{farmer_plan_id}')
 async def get_by(farmer_plan_id: int, db: AsyncSession = Depends(get_session)):
     """Retorna um plano de assinatura pelo ID."""
     repository = Repository(FarmerPlan, db)
@@ -31,7 +32,7 @@ async def get_by(farmer_plan_id: int, db: AsyncSession = Depends(get_session)):
     return db_farmer_plan
 
 
-@router.get("/")
+@router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todos os planos de assinatura."""
     repository = Repository(FarmerPlan, db)
@@ -39,9 +40,12 @@ async def get_all(db: AsyncSession = Depends(get_session)):
     return db_farmer_plan
 
 
-@router.patch("/{farmer_plan_id}")
-async def update(farmer_plan_id: int, schema: FarmerPlanSchema,
-                 db: AsyncSession = Depends(get_session)):
+@router.patch('/{farmer_plan_id}')
+async def update(
+        farmer_plan_id: int,
+        schema: FarmerPlanSchema,
+        db: AsyncSession = Depends(get_session),
+):
     """
     Atualiza um plano de assinatura pelo ID.
 
@@ -49,12 +53,11 @@ async def update(farmer_plan_id: int, schema: FarmerPlanSchema,
     """
     repository = Repository(FarmerPlan, db)
     await repository.commit()
-    db_farmer_plan = await repository.update(farmer_plan_id,
-                                             **schema.dict())
+    db_farmer_plan = await repository.update(farmer_plan_id, **schema.dict())
     return db_farmer_plan
 
 
-@router.delete("/{farmer_plan_id}")
+@router.delete('/{farmer_plan_id}')
 async def delete(farmer_plan_id: int, db: AsyncSession = Depends(get_session)):
     """Deleta um plano de assinatura pelo ID."""
     repository = Repository(FarmerPlan, db)

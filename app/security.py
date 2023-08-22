@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt, JWTError
+from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,9 +13,9 @@ from app.database import get_session
 from app.models.user import User
 from app.schemas.token import TokenData
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 
 def verify_password(plain_password, hashed_password):
@@ -30,7 +30,7 @@ def get_password_hash(password):
 
 async def get_user(db, username: str):
     """Retorna o usuário do banco de dados"""
-    db_user = await Repository(User, db).get(username, "email")
+    db_user = await Repository(User, db).get(username, 'email')
     if db_user:
         return db_user
 
@@ -52,26 +52,30 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(
-            minutes=settings.access_token_expire_minutes)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, settings.secret_key,
-                             algorithm=settings.algorithm)
+            minutes=settings.access_token_expire_minutes
+        )
+    to_encode.update({'exp': expire})
+    encoded_jwt = jwt.encode(
+        to_encode, settings.secret_key, algorithm=settings.algorithm
+    )
     return encoded_jwt
 
 
 async def get_current_user(
         token: Annotated[str, Depends(oauth2_scheme)],
-        db: AsyncSession = Depends(get_session)):
+        db: AsyncSession = Depends(get_session),
+):
     """Retorna o usuário atual"""
     credentials_exception = HTTPException(
         status_code=401,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
+        detail='Could not validate credentials',
+        headers={'WWW-Authenticate': 'Bearer'},
     )
     try:
-        payload = jwt.decode(token, settings.secret_key,
-                             algorithms=[settings.algorithm])
-        username: str = payload.get("email")
+        payload = jwt.decode(
+            token, settings.secret_key, algorithms=[settings.algorithm]
+        )
+        username: str = payload.get('email')
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)

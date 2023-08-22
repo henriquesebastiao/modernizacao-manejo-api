@@ -7,7 +7,7 @@ from app.models.base import Base
 
 
 class BatchLog(Base):
-    __tablename__ = "batch_log"
+    __tablename__ = 'batch_log'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
     batch_id: Mapped[int] = mapped_column(Integer, ForeignKey('batch.id'))

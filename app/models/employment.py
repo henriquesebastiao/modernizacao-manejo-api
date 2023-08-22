@@ -11,5 +11,6 @@ class Employment(Base):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('user.id'))
     farmer_id: Mapped[int] = mapped_column(Integer, ForeignKey('farmer.id'))
     farm_id: Mapped[int] = mapped_column(Integer, ForeignKey('farm.id'))
-    employment_position_id: Mapped[int] = mapped_column(Integer, ForeignKey(
-        'employment_position.id'))
+    employment_position_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey('employment_position.id')
+    )

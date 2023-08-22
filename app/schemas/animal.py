@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class Sexo(str, Enum):
-    M = "M"
-    F = "F"
+    M = 'M'
+    F = 'F'
 
 
 class AnimalBase(BaseModel):
