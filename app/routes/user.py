@@ -56,7 +56,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{user_id}')
 async def update(
-        user_id: int, schema: UserUpdate, db: AsyncSession = Depends(get_session)
+    user_id: int, schema: UserUpdate, db: AsyncSession = Depends(get_session)
 ):
     """
     Atualiza um usuário no banco de dados
@@ -85,22 +85,22 @@ async def delete(user_id: int, db: AsyncSession = Depends(get_session)):
 
 @router.get('/me', response_model=UserSchema)
 async def read_users_me(
-        current_user: Annotated[UserSchema, Depends(get_current_active_user)]
+    current_user: Annotated[UserSchema, Depends(get_current_active_user)]
 ):
     return current_user
 
 
 @router.get('/me/items/')
 async def read_own_items(
-        current_user: Annotated[
-            User, Security(get_current_active_user, scopes=['items'])
-        ]
+    current_user: Annotated[
+        User, Security(get_current_active_user, scopes=['items'])
+    ]
 ):
     return [{'item_id': 'Foo', 'owner': current_user}]
 
 
 @router.get('/status/')
 async def read_system_status(
-        current_user: Annotated[User, Depends(get_current_user)]
+    current_user: Annotated[User, Depends(get_current_user)]
 ):
     return {'status': 'ok'}

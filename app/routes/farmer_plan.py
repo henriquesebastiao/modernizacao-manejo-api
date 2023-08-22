@@ -11,7 +11,7 @@ router = APIRouter(prefix='/farmer/plan', tags=['Farmer plan'])
 
 @router.post('/', status_code=201)
 async def create(
-        schema: FarmerPlanSchema, db: AsyncSession = Depends(get_session)
+    schema: FarmerPlanSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um plano de assinatura para o agricultor
@@ -42,9 +42,9 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{farmer_plan_id}')
 async def update(
-        farmer_plan_id: int,
-        schema: FarmerPlanSchema,
-        db: AsyncSession = Depends(get_session),
+    farmer_plan_id: int,
+    schema: FarmerPlanSchema,
+    db: AsyncSession = Depends(get_session),
 ):
     """
     Atualiza um plano de assinatura pelo ID.

@@ -29,9 +29,9 @@ class Message(BaseModel):
     },
 )
 async def create(
-        schema: AnimalCreate,
-        db: AsyncSession = Depends(get_session),
-        current_user=Depends(get_current_user),
+    schema: AnimalCreate,
+    db: AsyncSession = Depends(get_session),
+    current_user=Depends(get_current_user),
 ):
     """
     Cria um animal no banco de dados
@@ -75,9 +75,9 @@ async def create(
 
 @router.get('/{animal_id}')
 async def get_by(
-        animal_id: int,
-        db: AsyncSession = Depends(get_session),
-        current_user=Depends(get_current_user),
+    animal_id: int,
+    db: AsyncSession = Depends(get_session),
+    current_user=Depends(get_current_user),
 ):
     """Retorna um animal do banco de dados com base no ID"""
     repository = Repository(Animal, db)
@@ -87,8 +87,8 @@ async def get_by(
 
 @router.get('/')
 async def get_all(
-        db: AsyncSession = Depends(get_session),
-        current_user=Depends(get_current_user),
+    db: AsyncSession = Depends(get_session),
+    current_user=Depends(get_current_user),
 ):
     """Retorna todos os animais do banco de dados"""
     repository = Repository(Animal, db)
@@ -98,10 +98,10 @@ async def get_all(
 
 @router.patch('/{animal_id}')
 async def update(
-        animal_id: int,
-        schema: AnimalUpdate,
-        db: AsyncSession = Depends(get_session),
-        current_user=Depends(get_current_user),
+    animal_id: int,
+    schema: AnimalUpdate,
+    db: AsyncSession = Depends(get_session),
+    current_user=Depends(get_current_user),
 ):
     """
     Atualiza um animal no banco de dados com base no ID
@@ -122,9 +122,9 @@ async def update(
 
 @router.delete('/{animal_id}')
 async def delete(
-        animal_id: int,
-        db: AsyncSession = Depends(get_session),
-        current_user=Depends(get_current_user),
+    animal_id: int,
+    db: AsyncSession = Depends(get_session),
+    current_user=Depends(get_current_user),
 ):
     """Deleta um animal do banco de dados com base no ID"""
     repository = Repository(Animal, db)

@@ -15,7 +15,7 @@ router = APIRouter(prefix='/user/type', tags=['User Type'])
 
 @router.post('/', response_model=UserTypeSchema, status_code=201)
 async def create(
-        schema: UserTypeCreate, db: AsyncSession = Depends(get_session)
+    schema: UserTypeCreate, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um novo tipo de usuário.
@@ -46,9 +46,9 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{user_type_id}', response_model=UserTypeSchema)
 async def update(
-        user_type_id: int,
-        schema: UserTypeUpdate,
-        db: AsyncSession = Depends(get_session),
+    user_type_id: int,
+    schema: UserTypeUpdate,
+    db: AsyncSession = Depends(get_session),
 ):
     """
     Atualiza um tipo de usuário.

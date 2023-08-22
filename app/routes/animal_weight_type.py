@@ -11,7 +11,7 @@ router = APIRouter(prefix='/animal/weight/type', tags=['Animal Weight Type'])
 
 @router.post('/', status_code=201)
 async def create(
-        schema: AnimalWeightTypeSchema, db: AsyncSession = Depends(get_session)
+    schema: AnimalWeightTypeSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um novo tipo de peso de animal.
@@ -26,7 +26,7 @@ async def create(
 
 @router.get('/{animal_weight_type_id}')
 async def get_by(
-        animal_weight_type_id: int, db: AsyncSession = Depends(get_session)
+    animal_weight_type_id: int, db: AsyncSession = Depends(get_session)
 ):
     """Retorna um tipo de peso de animal pelo seu ID."""
     repository = Repository(AnimalWeightType, db)
@@ -44,9 +44,9 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{animal_weight_type_id}')
 async def update(
-        animal_weight_type_id: int,
-        schema: AnimalWeightTypeSchema,
-        db: AsyncSession = Depends(get_session),
+    animal_weight_type_id: int,
+    schema: AnimalWeightTypeSchema,
+    db: AsyncSession = Depends(get_session),
 ):
     """
     Atualiza um tipo de peso de animal com base no seu ID.
@@ -63,7 +63,7 @@ async def update(
 
 @router.delete('/{animal_weight_type_id}')
 async def delete(
-        animal_weight_type_id: int, db: AsyncSession = Depends(get_session)
+    animal_weight_type_id: int, db: AsyncSession = Depends(get_session)
 ):
     """Deleta um tipo de peso de animal com base no seu ID."""
     repository = Repository(AnimalWeightType, db)

@@ -62,8 +62,8 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 
 async def get_current_user(
-        token: Annotated[str, Depends(oauth2_scheme)],
-        db: AsyncSession = Depends(get_session),
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: AsyncSession = Depends(get_session),
 ):
     """Retorna o usuário atual"""
     credentials_exception = HTTPException(
@@ -88,7 +88,7 @@ async def get_current_user(
 
 
 async def get_current_active_user(
-        current_user: Annotated[User, Depends(get_current_user)]
+    current_user: Annotated[User, Depends(get_current_user)]
 ):
     """Retorna o usuário atual se ele estiver ativo"""
     return current_user

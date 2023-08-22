@@ -11,7 +11,7 @@ router = APIRouter(prefix='/employment', tags=['Employment'])
 
 @router.post('/', status_code=201)
 async def create(
-        schema: EmploymentSchema, db: AsyncSession = Depends(get_session)
+    schema: EmploymentSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um novo funcionário
@@ -45,9 +45,9 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{employment_id}')
 async def update(
-        employment_id: int,
-        schema: EmploymentSchema,
-        db: AsyncSession = Depends(get_session),
+    employment_id: int,
+    schema: EmploymentSchema,
+    db: AsyncSession = Depends(get_session),
 ):
     """
     Atualiza um funcionário

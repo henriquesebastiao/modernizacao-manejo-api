@@ -40,7 +40,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{breed_id}')
 async def update(
-        breed_id: int, schema: BreedSchema, db: AsyncSession = Depends(get_session)
+    breed_id: int, schema: BreedSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Atualiza uma raça de animal pelo seu ID.

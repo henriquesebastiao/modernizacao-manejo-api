@@ -11,7 +11,7 @@ router = APIRouter(prefix='/employment/position', tags=['Employment Position'])
 
 @router.post('/', status_code=201)
 async def create(
-        schema: EmploymentPositionSchema, db: AsyncSession = Depends(get_session)
+    schema: EmploymentPositionSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um novo cargo
@@ -26,7 +26,7 @@ async def create(
 
 @router.get('/{employment_position_id}')
 async def get_by(
-        employment_position_id: int, db: AsyncSession = Depends(get_session)
+    employment_position_id: int, db: AsyncSession = Depends(get_session)
 ):
     """Retorna um cargo pelo seu ID."""
     repository = Repository(EmploymentPosition, db)
@@ -44,9 +44,9 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{employment_position_id}')
 async def update(
-        employment_position_id: int,
-        schema: EmploymentPositionSchema,
-        db: AsyncSession = Depends(get_session),
+    employment_position_id: int,
+    schema: EmploymentPositionSchema,
+    db: AsyncSession = Depends(get_session),
 ):
     """
     Atualiza um cargo
@@ -63,7 +63,7 @@ async def update(
 
 @router.delete('/{employment_position_id}')
 async def delete(
-        employment_position_id: int, db: AsyncSession = Depends(get_session)
+    employment_position_id: int, db: AsyncSession = Depends(get_session)
 ):
     """Deleta um cargo pelo seu ID."""
     repository = Repository(EmploymentPosition, db)

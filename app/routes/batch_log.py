@@ -11,7 +11,7 @@ router = APIRouter(prefix='/animal/batch_log', tags=['Animal Batch Log'])
 
 @router.post('/', status_code=201)
 async def create(
-        schema: BatchLogSchema, db: AsyncSession = Depends(get_session)
+    schema: BatchLogSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um novo registro ao log de lotes de animais.
@@ -45,9 +45,9 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{batch_log_id}')
 async def update(
-        batch_log_id: int,
-        schema: BatchLogSchema,
-        db: AsyncSession = Depends(get_session),
+    batch_log_id: int,
+    schema: BatchLogSchema,
+    db: AsyncSession = Depends(get_session),
 ):
     """
     Atualiza um registro do log de lotes de animais com base no ID.

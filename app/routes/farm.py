@@ -40,7 +40,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{farm_id}')
 async def update(
-        farm_id: int, schema: FarmSchema, db: AsyncSession = Depends(get_session)
+    farm_id: int, schema: FarmSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Atualiza uma fazenda pelo seu ID.

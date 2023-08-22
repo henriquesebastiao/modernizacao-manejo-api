@@ -42,7 +42,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
 @router.patch('/{batch_id}')
 async def update(
-        batch_id: int, schema: BatchSchema, db: AsyncSession = Depends(get_session)
+    batch_id: int, schema: BatchSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Atualiza um lote de animais
