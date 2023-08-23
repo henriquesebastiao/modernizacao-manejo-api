@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: animals-psql
+    container_name: postgres
     environment:
       - POSTGRES_DB=db-manejo
       - POSTGRES_USER=postgres
@@ -11,9 +11,10 @@ services:
     volumes:
       - db:/var/lib/psql/data
   app:
+    container_name: fastapi
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
     depends_on:
       - postgres
     environment:
@@ -24,5 +25,7 @@ services:
       DB_PORT: 5432
       DB_NAME: db-manejo
       DB_SSL: disable
+    volumes:
+      - ./app:/app
 volumes:
   db:
