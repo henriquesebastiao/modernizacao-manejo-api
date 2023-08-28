@@ -7,4 +7,4 @@ class BatchSchema(BaseModel):
     farm_id: int | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

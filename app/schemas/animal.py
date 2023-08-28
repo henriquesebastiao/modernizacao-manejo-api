@@ -36,4 +36,4 @@ class AnimalSchema(AnimalBase):
     origin_id: int | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

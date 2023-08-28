@@ -8,16 +8,18 @@ packages = [{include = "modernizacao_manejo_api"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = {extras = ["all"], version = "^0.98.0"}
+fastapi = "0.103.0"
 uvicorn = "^0.22.0"
 sqlalchemy = "^2.0.15"
-pydantic = {extras = ["dotenv", "email"], version = "^1.10.9"}
+pydantic = {extras = ["email"], version = "^2.3.0"}
 alembic = "^1.11.1"
 asyncpg = "^0.27.0"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 
 # Ferramentas de desenvolvimento
+pydantic-settings = "^2.0.3"
+python-multipart = "^0.0.6"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
