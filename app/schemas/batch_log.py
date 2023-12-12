@@ -11,4 +11,4 @@ class BatchLogSchema(BaseModel):
     departure_date: datetime | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

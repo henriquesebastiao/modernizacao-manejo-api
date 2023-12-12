@@ -10,4 +10,4 @@ class FarmerSchema(BaseModel):
     farmer_plan_id: int | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
