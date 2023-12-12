@@ -3,21 +3,11 @@
 [![Deploy to Amazon ECS](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/aws.yml/badge.svg)](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/aws.yml)
 [![Ruff](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/ruff.yml/badge.svg)](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/ruff.yml)
 
-API para o backend do prejeto de modernização do manejo desenvolvida com FastAPI.
+API para o backend do projeto de modernização do manejo desenvolvida com FastAPI.
 
 <hr>
 
 ### Configurando ambiente:
-
-Ligar o banco de dados:
-```bash
-make up-db
-```
-
-Desligar o banco de dados:
-```bash
-make down-db
-```
 
 Criar migração:
 ```bash

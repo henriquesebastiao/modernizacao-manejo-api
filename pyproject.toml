@@ -29,7 +29,6 @@ ruff = "^0.0.285"
 httpx = "^0.24.1"
 isort = "^5.12.0"
 
-## Início das configurações de desenvolvimento ##
 [tool.ruff]
 line-length = 79
 exclude = ['.venv', 'migrations']
@@ -44,7 +43,6 @@ pythonpath = "."
 [tool.blue]
 extend-exclude = '(migrations/)'
 
-# Tasks
 [tool.taskipy.tasks]
 lint = 'ruff . && blue --check . --diff'
 format = 'blue .  && isort .'
@@ -52,7 +50,6 @@ run = 'uvicorn app.main:app --reload'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=app -vv'
 post_test = 'coverage html'
-## Fim das configurações de desenvolvimento ##
 
 [build-system]
 requires = ["poetry-core"]
