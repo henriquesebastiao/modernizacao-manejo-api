@@ -1,7 +1,6 @@
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
 
 from app.models import (  # noqa
     animal,
@@ -74,16 +73,29 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+
+    from sqlalchemy import create_engine
+    import re
+    import os
+
+    url_tokens = {
+        "DB_TYPE": os.getenv("DB_TYPE", ""),
+        "DB_USER": os.getenv("DB_USER", ""),
+        "DB_PASSWORD": os.getenv("DB_PASSWORD", ""),
+        "DB_HOST": os.getenv("DB_HOST", ""),
+        "DB_NAME": os.getenv("DB_NAME", "")
+    }
+
+    url = config.get_main_option("sqlalchemy.url")
+    url = re.sub(r"\${(.+?)}", lambda m: url_tokens[m.group(1)], url)
+    connectable = create_engine(url)
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata,
+            connection=connection,
+            target_metadata=target_metadata,
             compare_type=True,
+            compare_server_default=True,
         )
 
         with context.begin_transaction():
