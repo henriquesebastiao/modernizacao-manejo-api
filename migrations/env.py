@@ -74,9 +74,10 @@ def run_migrations_online() -> None:
 
     """
 
-    from sqlalchemy import create_engine
-    import re
     import os
+    import re
+
+    from sqlalchemy import create_engine
 
     url_tokens = {
         "DB_TYPE": os.getenv("DB_TYPE", ""),

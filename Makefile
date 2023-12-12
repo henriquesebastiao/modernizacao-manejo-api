@@ -5,14 +5,6 @@ export-requirements:
 	rm requirements.txt
 	poetry export -f requirements.txt --output requirements.txt --without-hashes
 
-.PHONY: up-db
-up-db:
-	docker-compose up -d postgres
-
-.PHONY: down-db
-down-db:
-	docker-compose down
-
 .PHONY: revert-migration
 revert-migration:
 	@read -p "Por favor, forneça o número de migrações ou enter para base: " N; \
