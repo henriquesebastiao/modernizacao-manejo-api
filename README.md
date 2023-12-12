@@ -1,52 +1,29 @@
 ## API - Projeto de Modernização do Manejo
+[![CI](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/ci.yml/badge.svg)](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/ci.yml)
 
-[![Deploy to Amazon ECS](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/aws.yml/badge.svg)](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/aws.yml)
-[![Ruff](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/ruff.yml/badge.svg)](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/ruff.yml)
+[Deploy to Render](https://manejo-api.onrender.com)
+
 
 API para o backend do projeto de modernização do manejo desenvolvida com FastAPI.
 
-<hr>
+Esta API, construída com FastAPI, é a espinha dorsal de um projeto voltado para o setor agropecuário. Nosso objetivo é viabilizar uma gestão de informações sobre o gado e seu desempenho, auxiliando os produtores rurais a tomar decisões mais assertivas e estratégicas.
+Sobre o Projeto
 
-### Configurando ambiente:
+A API visa proporcionar uma solução abrangente para o controle eficiente de informações relacionadas ao gado. Através dela, oferecemos funcionalidades robustas para realizar operações de CRUD no banco de dados, abrangendo desde o registro inicial até as análises avançadas de desempenho.
+Principais Recursos
 
-Criar migração:
+CRUD Completo: Gerencie suas informações sobre o gado com facilidade, desde a adição de novos registros até a atualização e exclusão de dados existentes.
+
+Análises de Desempenho: Utilize recursos avançados para avaliar o desempenho do gado, possibilitando a tomada de decisões mais estratégicas no manejo.
+
+### Execução local:
+
 ```bash
-make create-migration
+git clone https://github.com/henriquesebastiao/modernizacao-manejo-api.git
+cd modernizacao-manejo-api
+poetry install && poetry shell
+alembic upgrade head # Aplica as migrações
+uvicorn app.main:app --reload
 ```
 
-Rodar migração:
-```bash
-make apply-migration
-```
-
-Reverter migração:
-```bash
-make revert-migration
-```
-
-### Utilizando as tasks:
-
-Rodando o projeto:
-```bash
-task run
-```
-
-Analisando o código com linter:
-```bash
-task lint
-```
-
-Reformatando o código automaticamente:
-```bash
-task format
-```
-
-Rodando testes:
-```bash
-task test
-```
-
-Gerando relatório HTML de cobertura de testes:
-```bash
-task post_test
-```
+Abra o navegador em [http://localhost:8000/docs](http://localhost:8000/docs) para acessar a documentação da API.
