@@ -2,6 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Security
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.crud import Repository
 from app.database import get_session
@@ -49,10 +50,12 @@ async def get_by(user_id: int, db: AsyncSession = Depends(get_session)):
 @router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todos os usuários cadastrados no banco de dados."""
-    repository = Repository(User, db)
-    db_user = await repository.get_all()
-    return db_user
+    # repository = Repository(User, db)
+    # db_user = await repository.get_all()
+    # return db_user
 
+    users = await db.scalars(select(User))
+    return users.all()
 
 @router.patch('/{user_id}')
 async def update(

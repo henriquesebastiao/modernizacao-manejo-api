@@ -55,6 +55,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
+app.include_router(user.router)
 app.include_router(animal.router)
 app.include_router(animal_weight.router)
 app.include_router(animal_weight_type.router)
@@ -68,4 +69,3 @@ app.include_router(farmer.router)
 app.include_router(farmer_plan.router)
 app.include_router(token.router)
 app.include_router(user_type.router)
-app.include_router(user.router)

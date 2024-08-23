@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.config import settings
+from app.config import Settings
 from app.database import get_session
 from app.schemas.token import Token
 from app.security import authenticate_user, create_access_token
@@ -27,7 +27,7 @@ async def login_for_access_token(
             headers={'WWW-Authenticate': 'Bearer'},
         )
     access_token_expires = timedelta(
-        minutes=settings.access_token_expire_minutes
+        minutes=Settings().ACCESS_TOKEN_EXPIRE_MINUTES
     )
     access_token = create_access_token(
         data={'email': user.email, 'user_type': user.user_type_id},
