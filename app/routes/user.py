@@ -1,8 +1,8 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Security
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
 from app.database import get_session
@@ -56,6 +56,7 @@ async def get_all(db: AsyncSession = Depends(get_session)):
 
     users = await db.scalars(select(User))
     return users.all()
+
 
 @router.patch('/{user_id}')
 async def update(
