@@ -1,10 +1,9 @@
 [tool.poetry]
-name = "modernizacao-manejo-api"
+name = "app"
 version = "0.1.0"
 description = ""
 authors = ["Henrique Sebastião <henriquesebastiao.web@gmail.com>"]
 readme = "README.md"
-packages = [{include = "modernizacao_manejo_api"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
