@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
 from app.database import get_session
-from app.models.animal import AnimalWeightType
+from app.models import AnimalWeightType
 from app.schemas.animal import AnimalWeightTypeSchema
 
 router = APIRouter(prefix='/animal/weight/type', tags=['Animal Weight Type'])

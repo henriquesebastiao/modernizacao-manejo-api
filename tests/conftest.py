@@ -11,13 +11,13 @@ from testcontainers.postgres import PostgresContainer
 
 from app.database import get_session
 from app.main import app
-from app.models.animal import table_registry
+from app.models import table_registry
 
 
 @pytest.fixture(scope='session')
 def engine():
     with PostgresContainer('postgres:16-alpine', driver='psycopg') as postgres:
-        yield create_async_engine(postgres.get_connection_url(), echo=True)
+        yield create_async_engine(postgres.get_connection_url())
 
 
 @pytest_asyncio.fixture

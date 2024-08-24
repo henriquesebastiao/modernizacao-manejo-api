@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
 from app.database import get_session
-from app.models.animal import Animal
+from app.models import Animal
 from app.schemas.animal import AnimalCreate, AnimalSchema, AnimalUpdate
 from app.security import get_current_user
 

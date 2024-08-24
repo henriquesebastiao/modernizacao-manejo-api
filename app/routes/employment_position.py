@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
 from app.database import get_session
-from app.models.employment import EmploymentPosition
+from app.models import EmploymentPosition
 from app.schemas.employment import EmploymentPositionSchema
 
 router = APIRouter(prefix='/employment/position', tags=['Employment Position'])

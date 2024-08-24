@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
 from app.database import get_session
-from app.models.breed import Breed
+from app.models import Breed
 from app.schemas.breed import BreedSchema
 
 router = APIRouter(prefix='/animal/breed', tags=['Animal Breed'])

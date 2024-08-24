@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
 from app.database import get_session
-from app.models.farm import Farm
+from app.models import Farm
 from app.schemas.farm import FarmSchema
 
 router = APIRouter(prefix='/farm', tags=['Farm'])
