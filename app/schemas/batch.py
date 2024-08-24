@@ -1,11 +1,10 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class BatchSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     reg: str | None
@@ -13,8 +12,7 @@ class BatchSchema(BaseModel):
 
 
 class BatchLogSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     batch_id: int | None

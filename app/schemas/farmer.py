@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class FarmerCreate(BaseModel):
@@ -6,16 +6,14 @@ class FarmerCreate(BaseModel):
 
 
 class FarmerSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     farmer_plan_id: int | None
 
 
 class FarmerPlanSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     plan: str | None

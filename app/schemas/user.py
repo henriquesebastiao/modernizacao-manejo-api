@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserBase(BaseModel):
@@ -20,8 +20,7 @@ class UserUpdate(UserBase):
 
 
 class UserSchema(UserBase):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     phone: str | None
@@ -37,8 +36,7 @@ class UserTypeSchema(BaseModel):
 
 
 class UserTypePublic(UserTypeSchema):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int
 

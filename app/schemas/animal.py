@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class Sexo(str, Enum):
@@ -30,18 +30,15 @@ class AnimalUpdate(AnimalBase):
 
 
 class AnimalSchema(AnimalBase):
+    model_config = ConfigDict(from_attributes=True)
     breed_id: int | None
     father_id: int | None
     mother_id: int | None
     origin_id: int | None
 
-    class Config:
-        from_attributes = True
-
 
 class AnimalWeightSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     weight_type_id: int | None
@@ -51,8 +48,7 @@ class AnimalWeightSchema(BaseModel):
 
 
 class AnimalWeightTypeSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     type: str | None

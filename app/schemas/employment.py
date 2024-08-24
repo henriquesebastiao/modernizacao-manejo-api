@@ -1,9 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class EmploymentSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     user_id: int | None
@@ -13,8 +12,7 @@ class EmploymentSchema(BaseModel):
 
 
 class EmploymentPositionSchema(BaseModel):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     name: int | None

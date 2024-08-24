@@ -7,11 +7,11 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.config import Settings
 from app.crud import Repository
 from app.database import get_session
 from app.models import User
 from app.schemas.token import TokenData
+from app.settings import Settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
 
