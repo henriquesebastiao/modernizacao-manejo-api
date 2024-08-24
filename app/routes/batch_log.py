@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import Repository
 from app.database import get_session
 from app.models.batch import BatchLog
-from app.schemas.batch_log import BatchLogSchema
+from app.schemas.batch import BatchLogSchema
 
 router = APIRouter(prefix='/animal/batch_log', tags=['Animal Batch Log'])
 

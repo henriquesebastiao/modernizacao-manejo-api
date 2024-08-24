@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from enum import Enum
 
 from pydantic import BaseModel
@@ -37,3 +37,22 @@ class AnimalSchema(AnimalBase):
 
     class Config:
         from_attributes = True
+
+
+class AnimalWeightSchema(BaseModel):
+    class Config:
+        from_attributes = True
+
+    id: int | None
+    weight_type_id: int | None
+    animal_id: int | None
+    weight: float | None
+    weight_date: datetime | None
+
+
+class AnimalWeightTypeSchema(BaseModel):
+    class Config:
+        from_attributes = True
+
+    id: int | None
+    type: str | None

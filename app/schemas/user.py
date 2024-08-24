@@ -20,6 +20,9 @@ class UserUpdate(UserBase):
 
 
 class UserSchema(UserBase):
+    class Config:
+        from_attributes = True
+
     id: int | None
     phone: str | None
     create_at: datetime | None = datetime.now()
@@ -28,5 +31,17 @@ class UserSchema(UserBase):
     manager_id: int | None
     active: bool | None = True
 
+
+class UserTypeSchema(BaseModel):
+    type: str
+
+
+class UserTypePublic(UserTypeSchema):
     class Config:
         from_attributes = True
+
+    id: int
+
+
+class UserTypeList(BaseModel):
+    user_types: list[UserTypePublic]
