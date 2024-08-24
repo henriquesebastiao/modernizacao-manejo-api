@@ -2,29 +2,37 @@ from datetime import datetime
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.types import Boolean, DateTime, Integer, String
 
-from app.models.base import Base
+from app.models.base import table_registry
 
 
-class User(Base):
+@table_registry.mapped_as_dataclass
+class User:
     __tablename__ = 'user'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
-    first_name: Mapped[str] = mapped_column(String(40), nullable=True)
-    last_name: Mapped[str | None] = mapped_column(String(20), nullable=True)
-    phone: Mapped[str] = mapped_column(String(24), nullable=True)
-    email: Mapped[str] = mapped_column(String(60), nullable=False)
-    password: Mapped[str] = mapped_column(String(60))
-    create_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.now()
-    )
+    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    first_name: Mapped[str]
+    last_name: Mapped[str | None]
+    phone: Mapped[str]
+    email: Mapped[str]
+    password: Mapped[str]
+    create_at: Mapped[datetime] = mapped_column(default=datetime.now())
     update_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.now()
+        default=datetime.now(), onupdate=datetime.now()
     )
-    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    active: Mapped[bool] = mapped_column(default=True)
 
-    user_type_id: Mapped[int] = mapped_column(ForeignKey('user_type.id'))
-    manager_id: Mapped[int | None] = mapped_column(
-        ForeignKey('user.id'), nullable=True
+    user_type_id: Mapped[int] = mapped_column(
+        ForeignKey('user_type.id'), default=1
     )
+    manager_id: Mapped[int | None] = mapped_column(
+        ForeignKey('user.id'), nullable=True, default=1
+    )
+
+
+@table_registry.mapped_as_dataclass
+class UserType:
+    __tablename__ = 'user_type'
+
+    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    type: Mapped[str]

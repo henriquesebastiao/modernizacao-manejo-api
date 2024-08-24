@@ -1,5 +1,3 @@
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import registry
 
-
-class Base(DeclarativeBase):
-    pass
+table_registry = registry()

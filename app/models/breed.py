@@ -1,11 +1,11 @@
-from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models.base import Base
+from app.models.base import table_registry
 
 
-class Breed(Base):
+@table_registry.mapped_as_dataclass
+class Breed:
     __tablename__ = 'breed'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
-    name: Mapped[str] = mapped_column(String(20), nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    name: Mapped[str]

@@ -11,25 +11,25 @@ from testcontainers.postgres import PostgresContainer
 
 from app.database import get_session
 from app.main import app
-from app.models.base import Base
+from app.models.animal import table_registry
 
 
 @pytest.fixture(scope='session')
 def engine():
     with PostgresContainer('postgres:16-alpine', driver='psycopg') as postgres:
-        yield create_async_engine(postgres.get_connection_url())
+        yield create_async_engine(postgres.get_connection_url(), echo=True)
 
 
 @pytest_asyncio.fixture
 async def session(engine: AsyncEngine):
     async with engine.begin() as connection:
-        await connection.run_sync(Base.metadata.create_all)
+        await connection.run_sync(table_registry.metadata.create_all)
 
     async with AsyncSession(engine, expire_on_commit=False) as _session:
         yield _session
 
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(table_registry.metadata.drop_all)
 
 
 @pytest_asyncio.fixture
