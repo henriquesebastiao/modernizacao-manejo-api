@@ -1,19 +1,8 @@
-# from http import HTTPStatus
-
-# import pytest
+from http import HTTPStatus
 
 
-# @pytest.mark.asyncio
-# async def test_create_user_deve_retornar_201(client):
-#     response = await client.post(
-#         '/user/',
-#         json={
-#             'first_name': 'Test',
-#             'last_name': 'Pytest',
-#             'email': 'test@pytest.com',
-#             'password': 'segura123',
-#             'user_type_id': 2
-#         },
-#     )
+def test_read_users(client):
+    response = client.get('/user/')
 
-#     assert response.status_code == HTTPStatus.CREATED
+    assert response.json() == []
+    assert response.status_code == HTTPStatus.OK

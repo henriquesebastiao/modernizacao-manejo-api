@@ -1,7 +1,6 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Security
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import Repository
@@ -13,6 +12,7 @@ from app.security import (
     get_current_user,
     get_password_hash,
 )
+from app.utils import T_Session
 
 router = APIRouter(prefix='/user', tags=['User'])
 
@@ -47,15 +47,12 @@ async def get_by(user_id: int, db: AsyncSession = Depends(get_session)):
     return db_user
 
 
-@router.get('/')
-async def get_all(db: AsyncSession = Depends(get_session)):
+@router.get('/', response_model=list[UserSchema])
+async def get_all(db: T_Session):
     """Retorna todos os usuários cadastrados no banco de dados."""
-    # repository = Repository(User, db)
-    # db_user = await repository.get_all()
-    # return db_user
-
-    users = await db.scalars(select(User))
-    return users.all()
+    repository = Repository(User, db)
+    db_user = await repository.get_all()
+    return db_user
 
 
 @router.patch('/{user_id}')
