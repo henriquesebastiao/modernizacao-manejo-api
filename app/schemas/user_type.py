@@ -1,20 +1,16 @@
 from pydantic import BaseModel
 
 
-class UserTypeBase(BaseModel):
+class UserTypeSchema(BaseModel):
     type: str
 
 
-class UserTypeCreate(UserTypeBase):
-    pass
-
-
-class UserTypeUpdate(UserTypeBase):
-    pass
-
-
-class UserTypeSchema(UserTypeBase):
-    id: int | None
+class UserTypePublic(UserTypeSchema):
+    id: int
 
     class Config:
         from_attributes = True
+
+
+class UserTypeList(BaseModel):
+    user_types: list[UserTypePublic]

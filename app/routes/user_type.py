@@ -4,18 +4,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud import Repository
 from app.database import get_session
 from app.models.user_type import UserType
-from app.schemas.user_type import (
-    UserTypeCreate,
-    UserTypeSchema,
-    UserTypeUpdate,
-)
+from app.schemas.user_type import UserTypeList, UserTypePublic, UserTypeSchema
 
 router = APIRouter(prefix='/user/type', tags=['User Type'])
 
 
-@router.post('/', response_model=UserTypeSchema, status_code=201)
+@router.post('/', response_model=UserTypePublic, status_code=201)
 async def create(
-    schema: UserTypeCreate, db: AsyncSession = Depends(get_session)
+    schema: UserTypeSchema, db: AsyncSession = Depends(get_session)
 ):
     """
     Adiciona um novo tipo de usuário.
@@ -28,7 +24,7 @@ async def create(
     return db_user_type
 
 
-@router.get('/{user_type_id}', response_model=UserTypeSchema)
+@router.get('/{user_type_id}', response_model=UserTypePublic)
 async def get_by(user_type_id: int, db: AsyncSession = Depends(get_session)):
     """Retorna um tipo de usuário pelo seu ID."""
     repository = Repository(UserType, db)
@@ -36,7 +32,7 @@ async def get_by(user_type_id: int, db: AsyncSession = Depends(get_session)):
     return db_user_type
 
 
-@router.get('/', response_model=list[UserTypeSchema])
+@router.get('/', response_model=UserTypeList)
 async def get_all(db: AsyncSession = Depends(get_session)):
     """Retorna todos os tipos de usuário."""
     repository = Repository(UserType, db)
@@ -44,10 +40,10 @@ async def get_all(db: AsyncSession = Depends(get_session)):
     return db_user_type
 
 
-@router.patch('/{user_type_id}', response_model=UserTypeSchema)
+@router.patch('/{user_type_id}', response_model=UserTypePublic)
 async def update(
     user_type_id: int,
-    schema: UserTypeUpdate,
+    schema: UserTypeSchema,
     db: AsyncSession = Depends(get_session),
 ):
     """
@@ -61,7 +57,7 @@ async def update(
     return db_user_type
 
 
-@router.delete('/{user_type_id}', response_model=UserTypeSchema)
+@router.delete('/{user_type_id}', response_model=UserTypePublic)
 async def delete(user_type_id: int, db: AsyncSession = Depends(get_session)):
     """Deleta um tipo de usuário."""
     repository = Repository(UserType, db)
