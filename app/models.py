@@ -119,12 +119,12 @@ class FarmerPlan:
 class User:
     __tablename__ = 'user'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
-    first_name: Mapped[str | None]
-    last_name: Mapped[str | None]
-    phone: Mapped[str | None]
-    email: Mapped[str | None]
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
+    email: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
+    first_name: Mapped[str | None] = mapped_column(default=None)
+    last_name: Mapped[str | None] = mapped_column(default=None)
+    phone: Mapped[str | None] = mapped_column(default=None)
     create_at: Mapped[datetime] = mapped_column(default=datetime.now())
     update_at: Mapped[datetime] = mapped_column(
         default=datetime.now(), onupdate=datetime.now()
