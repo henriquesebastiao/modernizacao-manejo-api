@@ -11,13 +11,12 @@ uvicorn = "^0.30.6"
 sqlalchemy = "^2.0.32"
 pydantic = {extras = ["email"], version = "^2.8.2"}
 alembic = "^1.13.2"
-passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 pydantic-settings = "^2.4.0"
 fastapi = {extras = ["standard"], version = "^0.112.1"}
 python-multipart = "^0.0.9"
 psycopg = {extras = ["binary"], version = "^3.2.1"}
-aiosqlite = "^0.20.0"
+pyjwt = "^2.9.0"
+pwdlib = {extras = ["argon2"], version = "^0.2.1"}
 
 [tool.poetry.group.dev.dependencies]
 pytest-cov = "^5.0.0"
@@ -36,7 +35,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 line-length = 79
-extend-exclude = ['migrations', 'data']
+extend-exclude = ['migrations']
 
 [tool.ruff.lint]
 preview = true
