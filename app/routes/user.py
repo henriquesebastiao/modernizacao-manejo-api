@@ -66,14 +66,18 @@ async def update(user_id: int, schema: UserUpdate, session: T_Session):
             status_code=HTTPStatus.NOT_FOUND, detail='User does not exist'
         )
 
-    db_email_exist = await session.scalar(
-        select(User).where(User.email == schema.email)
-    )
-
-    if db_email_exist:
-        raise HTTPException(
-            status_code=HTTPStatus.CONFLICT, detail='Email already exists'
+    if schema.email:
+        db_email_exist = await session.scalar(
+            select(User).where(User.email == schema.email)
         )
+
+        if db_email_exist:
+            raise HTTPException(
+                status_code=HTTPStatus.CONFLICT, detail='Email already exists'
+            )
+
+    if schema.password:
+        schema.password = get_password_hash(schema.password)
 
     for key, value in schema.model_dump(exclude_unset=True).items():
         setattr(db_user, key, value)
