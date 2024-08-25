@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Security
@@ -17,7 +18,7 @@ from app.utils import T_Session
 router = APIRouter(prefix='/user', tags=['User'])
 
 
-@router.post('/', response_model=UserSchema, status_code=201)
+@router.post('/', response_model=UserSchema, status_code=HTTPStatus.CREATED)
 async def create(schema: UserCreate, db: AsyncSession = Depends(get_session)):
     repository = Repository(User, db)
     schema.password = get_password_hash(schema.password)

@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -9,7 +11,7 @@ from app.schemas.farmer import FarmerCreate, FarmerSchema
 router = APIRouter(prefix='/farmer', tags=['Farmer'])
 
 
-@router.post('/', response_model=FarmerSchema, status_code=201)
+@router.post('/', response_model=FarmerSchema, status_code=HTTPStatus.CREATED)
 async def create(
     schema: FarmerCreate, db: AsyncSession = Depends(get_session)
 ):

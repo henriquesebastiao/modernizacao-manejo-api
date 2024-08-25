@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -18,14 +20,17 @@ class Message(BaseModel):
 @router.post(
     '/',
     response_model=AnimalSchema,
-    status_code=201,
+    status_code=HTTPStatus.CREATED,
     responses={
-        404: {
+        HTTPStatus.NOT_FOUND: {
             'model': Message,
             'description': 'Animal not exists',
             'example': {'detail': 'Animal already exists'},
         },
-        500: {'model': Message, 'description': 'Internal Server Error'},
+        HTTPStatus.INTERNAL_SERVER_ERROR: {
+            'model': Message,
+            'description': 'Internal Server Error',
+        },
     },
 )
 async def create(
@@ -50,25 +55,34 @@ async def create(
     repository = Repository(Animal, db)
     animal = AnimalSchema(**schema.dict())
     if await repository.get(schema.tag, 'tag'):
-        raise HTTPException(status_code=404, detail='Animal already exists')
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Animal already exists'
+        )
     elif schema.mother_tag == schema.father_tag:
         raise HTTPException(
-            status_code=404, detail='Mother and Father are the same'
+            status_code=HTTPStatus.NOT_FOUND,
+            detail='Mother and Father are the same',
         )
     if mother := await repository.get(schema.mother_tag, 'tag'):
         animal.mother_id = mother.id
     else:
-        raise HTTPException(status_code=404, detail='Mother not exists')
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Mother not exists'
+        )
     if father := await repository.get(schema.father_tag, 'tag'):
         animal.father_id = father.id
     else:
-        raise HTTPException(status_code=404, detail='Father not exists')
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Father not exists'
+        )
 
     # Cria o animal caso não exista
     try:
         db_animal = await repository.create(**animal.dict())
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(e)
+        )
     await repository.commit()
     return db_animal
 

@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -9,7 +11,7 @@ from app.schemas.batch import BatchSchema
 router = APIRouter(prefix='/animal/batch', tags=['Animal batch'])
 
 
-@router.post('/', status_code=201)
+@router.post('/', status_code=HTTPStatus.CREATED)
 async def create(schema: BatchSchema, db: AsyncSession = Depends(get_session)):
     """
     Adiciona um novo lote de animais
