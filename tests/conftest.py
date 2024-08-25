@@ -1,5 +1,4 @@
 import pytest
-import pytest_asyncio
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import (
@@ -12,6 +11,7 @@ from testcontainers.postgres import PostgresContainer
 from app.database import get_session
 from app.main import app
 from app.models import table_registry
+from tests.factories import UserFactory
 
 
 @pytest.fixture(scope='session')
@@ -20,7 +20,7 @@ def engine():
         yield create_async_engine(postgres.get_connection_url())
 
 
-@pytest_asyncio.fixture
+@pytest.fixture
 async def session(engine: AsyncEngine):
     async with engine.begin() as connection:
         await connection.run_sync(table_registry.metadata.create_all)
@@ -32,7 +32,7 @@ async def session(engine: AsyncEngine):
         await conn.run_sync(table_registry.metadata.drop_all)
 
 
-@pytest_asyncio.fixture
+@pytest.fixture
 async def aclient(session: AsyncSession):
     async def get_session_override():
         yield session
@@ -55,3 +55,23 @@ def client(session):
         yield client
 
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+async def user(session: AsyncSession):
+    user = UserFactory()
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+
+    return user
+
+
+@pytest.fixture
+async def other_user(session: AsyncSession):
+    user = UserFactory()
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+
+    return user

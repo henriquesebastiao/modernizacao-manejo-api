@@ -28,3 +28,7 @@ class UserSchema(UserBase):
     update_at: datetime = datetime.now()
     manager_id: int | None = None
     active: bool
+
+
+class UserList(BaseModel):
+    users: list[UserSchema]
