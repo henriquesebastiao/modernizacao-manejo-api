@@ -16,7 +16,6 @@ from app.routes import (
     farmer_plan,
     token,
     user,
-    user_type,
 )
 
 
@@ -68,4 +67,3 @@ app.include_router(farm.router)
 app.include_router(farmer.router)
 app.include_router(farmer_plan.router)
 app.include_router(token.router)
-app.include_router(user_type.router)
