@@ -1,5 +1,10 @@
 from http import HTTPStatus
 
+import pytest
+from sqlalchemy import select
+
+from app.models import User
+
 
 def test_create_user(client):
     response = client.post(
@@ -57,45 +62,76 @@ def test_get_all_users_empty_list(client):
     assert response.json() == {'users': []}
 
 
-def test_update_user(client, user):
+def test_update_user(client, user, token):
     response = client.patch(
         f'/user/{user.id}',
         json={'email': 'update@email.com'},
+        headers={'Authorization': f'Bearer {token}'},
     )
 
     assert response.status_code == HTTPStatus.OK
     assert response.json()['email'] == 'update@email.com'
 
 
-def test_update_user_not_exist(client):
-    response = client.patch(
-        '/user/1',
-        json={'email': 'update@email.com'},
-    )
-
-    assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json() == {'detail': 'User does not exist'}
-
-
-def test_update_user_email_already_exists(client, user, other_user):
+def test_update_user_email_already_exists(client, user, other_user, token):
     response = client.patch(
         f'/user/{user.id}',
         json={'email': other_user.email},
+        headers={'Authorization': f'Bearer {token}'},
     )
 
     assert response.status_code == HTTPStatus.CONFLICT
     assert response.json() == {'detail': 'Email already exists'}
 
 
-def test_delete_user(client, user):
-    response = client.delete(f'/user/{user.id}')
+def test_update_other_user_without_permission(client, user, other_user, token):
+    response = client.patch(
+        f'/user/{other_user.id}',
+        json={'email': 'update@email.com'},
+        headers={'Authorization': f'Bearer {token}'},
+    )
+
+    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.json() == {'detail': 'Not enough permission'}
+
+
+def test_update_my_user_without_permission(client, user):
+    response = client.patch(
+        f'/user/{user.id}',
+        json={'email': 'update@email.com'},
+    )
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+
+
+@pytest.mark.ayncio
+async def test_password_hash_in_update_user(aclient, token, user, session):
+    password = 'pwd'
+    assert user.password != password
+    await aclient.patch(f'/user/{user.id}', json={'password': password})
+    db_user = await session.scalar(select(User).where(User.id == user.id))
+    assert db_user.password != password
+
+
+def test_delete_user(client, user, token):
+    response = client.delete(
+        f'/user/{user.id}', headers={'Authorization': f'Bearer {token}'}
+    )
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_user_not_exist(client):
-    response = client.delete('/user/1')
+def test_delete_other_user_without_permission(client, other_user, token):
+    response = client.delete(
+        f'/user/{other_user.id}', headers={'Authorization': f'Bearer {token}'}
+    )
 
-    assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json() == {'detail': 'User does not exist'}
+    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.json() == {'detail': 'Not enough permission'}
+
+
+def test_delete_my_user_without_permission(client, user):
+    response = client.delete(f'/user/{user.id}')
+
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
