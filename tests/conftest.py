@@ -11,6 +11,7 @@ from testcontainers.postgres import PostgresContainer
 from app.database import get_session
 from app.main import app
 from app.models import table_registry
+from app.security import get_password_hash
 from tests.factories import UserFactory
 
 
@@ -59,10 +60,14 @@ def client(session):
 
 @pytest.fixture
 async def user(session: AsyncSession):
-    user = UserFactory()
+    password = 'password'
+
+    user = UserFactory(password=get_password_hash(password))
     session.add(user)
     await session.commit()
     await session.refresh(user)
+
+    user.clean_password = password
 
     return user
 
@@ -75,3 +80,13 @@ async def other_user(session: AsyncSession):
     await session.refresh(user)
 
     return user
+
+
+@pytest.fixture
+def token(client, user):
+    response = client.post(
+        '/token',
+        data={'username': user.email, 'password': user.clean_password},
+    )
+
+    return response.json()['access_token']
