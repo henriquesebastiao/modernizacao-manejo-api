@@ -15,15 +15,6 @@ router = APIRouter(prefix='/animal/weight', tags=['Animal Weight'])
 async def create(
     schema: AnimalWeightSchema, db: AsyncSession = Depends(get_session)
 ):
-    """
-    Registra um novo peso para um animal
-
-    - **id (int)**: Identificador do peso do animal
-    - **weight_type_id (int)**: Identificador do tipo de peso
-    - **animal_id (int)**: Identificador do animal
-    - **weight (float)**: Peso do animal
-    - **weight_date (datetime)**: Data da pesagem do animal
-    """
     repository = Repository(AnimalWeight, db)
     await repository.commit()
     db_animal_weight = await repository.create(**schema.dict())
@@ -34,7 +25,6 @@ async def create(
 async def get_by(
     animal_weight_id: int, db: AsyncSession = Depends(get_session)
 ):
-    """Retorna um peso de um animal com base no seu identificador"""
     repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.get(animal_weight_id)
     return db_animal_weight
@@ -42,7 +32,6 @@ async def get_by(
 
 @router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
-    """Retorna todos os pesos de todos os animais"""
     repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.get_all()
     return db_animal_weight
@@ -54,15 +43,6 @@ async def update(
     schema: AnimalWeightSchema,
     db: AsyncSession = Depends(get_session),
 ):
-    """
-    Atualiza um peso de um animal com base no seu identificador
-
-    - **id (int)**: Identificador do peso do animal
-    - **weight_type_id (int)**: Identificador do tipo de peso
-    - **animal_id (int)**: Identificador do animal
-    - **weight (float)**: Peso do animal
-    - **weight_date (datetime)**: Data da pesagem do animal
-    """
     repository = Repository(AnimalWeight, db)
     await repository.commit()
     db_animal_weight = await repository.update(
@@ -75,7 +55,6 @@ async def update(
 async def delete(
     animal_weight_id: int, db: AsyncSession = Depends(get_session)
 ):
-    """Deleta um peso de um animal com base no seu identificador"""
     repository = Repository(AnimalWeight, db)
     db_animal_weight = await repository.delete(animal_weight_id)
     await repository.commit()

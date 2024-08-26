@@ -15,11 +15,6 @@ router = APIRouter(prefix='/animal/weight/type', tags=['Animal Weight Type'])
 async def create(
     schema: AnimalWeightTypeSchema, db: AsyncSession = Depends(get_session)
 ):
-    """
-    Adiciona um novo tipo de peso de animal.
-
-    - **name (str)**: Nome do tipo de peso de animal.
-    """
     repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.create(**schema.dict())
     await repository.commit()
@@ -30,7 +25,6 @@ async def create(
 async def get_by(
     animal_weight_type_id: int, db: AsyncSession = Depends(get_session)
 ):
-    """Retorna um tipo de peso de animal pelo seu ID."""
     repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.get(animal_weight_type_id)
     return db_animal_weight_type
@@ -38,7 +32,6 @@ async def get_by(
 
 @router.get('/')
 async def get_all(db: AsyncSession = Depends(get_session)):
-    """Retorna todos os tipos de peso de animal."""
     repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.get_all()
     return db_animal_weight_type
@@ -50,11 +43,6 @@ async def update(
     schema: AnimalWeightTypeSchema,
     db: AsyncSession = Depends(get_session),
 ):
-    """
-    Atualiza um tipo de peso de animal com base no seu ID.
-
-    - **name (str)**: Nome do tipo de peso de animal.
-    """
     repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = await repository.update(
         animal_weight_type_id, **schema.dict()
@@ -67,7 +55,6 @@ async def update(
 async def delete(
     animal_weight_type_id: int, db: AsyncSession = Depends(get_session)
 ):
-    """Deleta um tipo de peso de animal com base no seu ID."""
     repository = Repository(AnimalWeightType, db)
     db_animal_weight_type = repository.delete(animal_weight_type_id)
     await repository.commit()

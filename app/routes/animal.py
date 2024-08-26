@@ -38,20 +38,6 @@ async def create(
     db: AsyncSession = Depends(get_session),
     current_user=Depends(get_current_user),
 ):
-    """
-    Cria um animal no banco de dados
-
-    - **tag (int)**: Tag do animal (brinco ou RFID)
-    - **sisbov (int)**: Número do SISBOV
-    - **gender (str)**: Gênero do animal (Macho ou Fêmea)
-    - **birth_date (date)**: Data de nascimento do animal
-    - **buy_date (date)**: Data de compra do animal
-    - **sell_date (date)**: Data de venda do animal
-    - **breed (str)**: Raça do animal
-    - **father_tag (int)**: Tag do pai do animal
-    - **mother_tag (int)**: Tag da mãe do animal
-    - **origin (str)**: Origem do animal
-    """
     repository = Repository(Animal, db)
     animal = AnimalSchema(**schema.dict())
     if await repository.get(schema.tag, 'tag'):
@@ -76,7 +62,6 @@ async def create(
             status_code=HTTPStatus.NOT_FOUND, detail='Father not exists'
         )
 
-    # Cria o animal caso não exista
     try:
         db_animal = await repository.create(**animal.dict())
     except Exception as e:
@@ -93,7 +78,6 @@ async def get_by(
     db: AsyncSession = Depends(get_session),
     current_user=Depends(get_current_user),
 ):
-    """Retorna um animal do banco de dados com base no ID"""
     repository = Repository(Animal, db)
     db_animal = await repository.get(animal_id)
     return db_animal
@@ -104,7 +88,6 @@ async def get_all(
     db: AsyncSession = Depends(get_session),
     current_user=Depends(get_current_user),
 ):
-    """Retorna todos os animais do banco de dados"""
     repository = Repository(Animal, db)
     db_animal = await repository.get_all()
     return db_animal
@@ -117,17 +100,6 @@ async def update(
     db: AsyncSession = Depends(get_session),
     current_user=Depends(get_current_user),
 ):
-    """
-    Atualiza um animal no banco de dados com base no ID
-
-    - **animal_id (int)**: ID do animal
-    - **tag (int)**: Tag do animal (brinco ou RFID)
-    - **sisbov (int)**: Número do SISBOV
-    - **gender (str)**: Gênero do animal (Macho ou Fêmea)
-    - **birth_date (date)**: Data de nascimento do animal
-    - **buy_date (date)**: Data de compra do animal
-    - **sell_date (date)**: Data de venda do animal
-    """
     repository = Repository(Animal, db)
     db_animal = await repository.update(animal_id, **schema.dict())
     await repository.commit()
@@ -140,7 +112,6 @@ async def delete(
     db: AsyncSession = Depends(get_session),
     current_user=Depends(get_current_user),
 ):
-    """Deleta um animal do banco de dados com base no ID"""
     repository = Repository(Animal, db)
     db_animal = await repository.delete(animal_id)
     await repository.commit()
