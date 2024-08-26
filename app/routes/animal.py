@@ -73,7 +73,7 @@ async def create(
 
 
 @router.get('/{animal_id}')
-async def get_by(
+async def get_by_id(
     animal_id: int,
     db: AsyncSession = Depends(get_session),
     current_user=Depends(get_current_user),

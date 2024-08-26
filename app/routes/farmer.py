@@ -22,7 +22,7 @@ async def create(
 
 
 @router.get('/{farmer_id}', response_model=FarmerSchema)
-async def get_by(farmer_id: int, db: AsyncSession = Depends(get_session)):
+async def get_by_id(farmer_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(Farmer, db)
     db_farmer = await repository.get(farmer_id)
     return db_farmer

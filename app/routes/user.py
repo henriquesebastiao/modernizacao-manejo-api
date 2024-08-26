@@ -1,15 +1,12 @@
 from http import HTTPStatus
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Security
+from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
 
 from app.models import User
 from app.schemas import Message
 from app.schemas.user import UserCreate, UserList, UserSchema, UserUpdate
 from app.security import (
-    get_current_active_user,
-    get_current_user,
     get_password_hash,
 )
 from app.utils import T_CurrentUser, T_Session
@@ -39,7 +36,7 @@ async def create_user(schema: UserCreate, session: T_Session):
 
 
 @router.get('/{user_id}', response_model=UserSchema)
-async def get_user_by_id(user_id: int, session: T_Session):
+async def get_by_id(user_id: int, session: T_Session):
     db_user = await session.scalar(select(User).where(User.id == user_id))
 
     if not db_user:
@@ -51,14 +48,14 @@ async def get_user_by_id(user_id: int, session: T_Session):
 
 
 @router.get('/', response_model=UserList)
-async def get_all_users(session: T_Session):
+async def get_all(session: T_Session):
     db_users = await session.scalars(select(User))
 
     return {'users': db_users.all()}
 
 
 @router.patch('/{user_id}', response_model=UserSchema)
-async def update_user(
+async def update(
     user_id: int,
     schema: UserUpdate,
     session: T_Session,
@@ -95,7 +92,7 @@ async def update_user(
 
 
 @router.delete('/{user_id}', response_model=Message)
-async def delete_user(
+async def delete(
     user_id: int, session: T_Session, current_user: T_CurrentUser
 ):
     if user_id != current_user.id:
@@ -109,26 +106,3 @@ async def delete_user(
     await session.commit()
 
     return {'message': 'User deleted'}
-
-
-@router.get('/me', response_model=UserSchema)
-async def read_users_me(
-    current_user: Annotated[UserSchema, Depends(get_current_active_user)],
-):
-    return current_user
-
-
-@router.get('/me/items/')
-async def read_own_items(
-    current_user: Annotated[
-        User, Security(get_current_active_user, scopes=['items'])
-    ],
-):
-    return [{'item_id': 'Foo', 'owner': current_user}]
-
-
-@router.get('/status/')
-async def read_system_status(
-    current_user: Annotated[User, Depends(get_current_user)],
-):
-    return {'status': 'ok'}

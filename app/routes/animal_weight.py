@@ -22,7 +22,7 @@ async def create(
 
 
 @router.get('/{animal_weight_id}')
-async def get_by(
+async def get_by_id(
     animal_weight_id: int, db: AsyncSession = Depends(get_session)
 ):
     repository = Repository(AnimalWeight, db)

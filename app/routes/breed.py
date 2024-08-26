@@ -20,7 +20,7 @@ async def create(schema: BreedSchema, db: AsyncSession = Depends(get_session)):
 
 
 @router.get('/{breed_id}')
-async def get_by(breed_id: int, db: AsyncSession = Depends(get_session)):
+async def get_by_id(breed_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(Breed, db)
     db_breed = await repository.get(breed_id)
     return db_breed

@@ -20,7 +20,7 @@ async def create(schema: FarmSchema, db: AsyncSession = Depends(get_session)):
 
 
 @router.get('/{farm_id}')
-async def get_by(farm_id: int, db: AsyncSession = Depends(get_session)):
+async def get_by_id(farm_id: int, db: AsyncSession = Depends(get_session)):
     repository = Repository(Farm, db)
     db_farm = await repository.get(farm_id)
     return db_farm
