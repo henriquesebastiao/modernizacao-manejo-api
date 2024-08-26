@@ -1,10 +1,10 @@
 on: [push, pull_request]
 
-name: CI
+name: Test
 
 jobs:
   lint:
-    name: Lint
+    name: Code Quality
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +19,38 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install ruff taskipy
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install
       
-      - name: Run lint
-        run: ruff check .
+      - name: Run Ruff
+        run: poetry run task lint
+      
+      - name: Run Radon
+        run: poetry run task radon
+  
+  security:
+    name: Code Security
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Copy files from repo
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install
+      
+      - name: Run Ruff
+        run: poetry run task bandit
 
   test:
     name: Tests
@@ -56,3 +84,8 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: henriquesebastiao/modernizacao-manejo-api
+      - name: Store coverage files
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: htmlcov
