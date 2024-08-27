@@ -11,7 +11,7 @@ services:
 
   app:
     container_name: app-manejo
-    image: app-manejo
+    image: manejo
     entrypoint: ./entrypoint.sh
     build: .
     volumes:
@@ -22,6 +22,17 @@ services:
       - database
     env_file:
       - .env
+  
+  adminer:
+    container_name: adminer-manejo
+    image: adminer
+    restart: always
+    depends_on:
+      - database
+    environment:
+      - ADMINER_DESIGN=pepa-linha-dark
+    ports:
+      - "8080:8080"
 
 volumes:
   pgdata:
