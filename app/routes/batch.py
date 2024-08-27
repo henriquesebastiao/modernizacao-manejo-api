@@ -1,51 +1,56 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter
+from sqlalchemy import select
+from sqlalchemy import update as up
 
-from app.crud import Repository
-from app.database import get_session
 from app.models import Batch
-from app.schemas.batch import BatchSchema
+from app.schemas import Message
+from app.schemas.batch import BatchList, BatchSchema
+from app.utils import T_Session
 
 router = APIRouter(prefix='/animal/batch', tags=['Animal batch'])
 
 
-@router.post('/', status_code=HTTPStatus.CREATED)
-async def create(schema: BatchSchema, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, db)
-    db_batch = await repository.create(**schema.dict())
-    await repository.commit()
+@router.post('/', status_code=HTTPStatus.CREATED, response_model=BatchSchema)
+async def create(schema: BatchSchema, session: T_Session):
+    db_batch = Batch(**schema.model_dump())
+
+    session.add(db_batch)
+    await session.commit()
+    await session.refresh(db_batch)
+
     return db_batch
 
 
-@router.get('/{batch_id}')
-async def get_by_id(batch_id: int, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, db)
-    db_batch = await repository.get(batch_id)
-    await repository.commit()
+@router.get('/{batch_id}', response_model=BatchSchema)
+async def get_by_id(batch_id: int, session: T_Session):
+    db_batch = await session.scalar(select(Batch).where(Batch.id == batch_id))
+
     return db_batch
 
 
-@router.get('/')
-async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, db)
-    db_batch = await repository.get_all()
+@router.get('/', response_model=BatchList)
+async def get_all(session: T_Session):
+    db_batch = await session.scalars(select(Batch))
+
+    return {'batchs': db_batch.all()}
+
+
+@router.patch('/{batch_id}', response_model=BatchSchema)
+async def update(batch_id: int, schema: BatchSchema, session: T_Session):
+    query = up(Batch).where(Batch.id == batch_id).values(**schema.model_dump())
+
+    db_batch = await session.scalar(query.returning(Batch))
+
     return db_batch
 
 
-@router.patch('/{batch_id}')
-async def update(
-    batch_id: int, schema: BatchSchema, db: AsyncSession = Depends(get_session)
-):
-    repository = Repository(Batch, db)
-    db_batch = await repository.update(batch_id, **schema.dict())
-    return db_batch
+@router.delete('/{batch_id}', response_model=Message)
+async def delete(batch_id: int, session: T_Session):
+    db_batch = await session.scalar(select(Batch).where(Batch.id == batch_id))
 
+    await session.delete(db_batch)
+    await session.commit()
 
-@router.delete('/{batch_id}')
-async def delete(batch_id: int, db: AsyncSession = Depends(get_session)):
-    repository = Repository(Batch, db)
-    db_batch = repository.delete(batch_id)
-    await repository.commit()
-    return db_batch
+    return {'message': 'Batch deleted'}

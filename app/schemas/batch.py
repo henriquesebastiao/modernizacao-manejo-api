@@ -11,6 +11,10 @@ class BatchSchema(BaseModel):
     farm_id: int | None
 
 
+class BatchList(BaseModel):
+    batchs: list[BatchSchema]
+
+
 class BatchLogSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -19,3 +23,7 @@ class BatchLogSchema(BaseModel):
     animal_id: int | None
     entry_date: datetime | None
     departure_date: datetime | None
+
+
+class BatchLogList(BaseModel):
+    batch_logs: list[BatchLogSchema]

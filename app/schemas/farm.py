@@ -6,3 +6,7 @@ class FarmSchema(BaseModel):
 
     id: int | None
     name: str | None
+
+
+class FarmList(BaseModel):
+    farms: list[FarmSchema]

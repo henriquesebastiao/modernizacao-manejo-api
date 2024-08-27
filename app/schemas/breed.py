@@ -6,3 +6,7 @@ class BreedSchema(BaseModel):
 
     id: int | None
     name: str | None
+
+
+class BreedList(BaseModel):
+    breeds: list[BreedSchema]

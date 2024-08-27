@@ -1,57 +1,70 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter
+from sqlalchemy import select
+from sqlalchemy import update as up
 
-from app.crud import Repository
-from app.database import get_session
 from app.models import BatchLog
-from app.schemas.batch import BatchLogSchema
+from app.schemas import Message
+from app.schemas.batch import BatchLogList, BatchLogSchema
+from app.utils import T_Session
 
 router = APIRouter(prefix='/animal/batch_log', tags=['Animal Batch Log'])
 
 
-@router.post('/', status_code=HTTPStatus.CREATED)
-async def create(
-    schema: BatchLogSchema, db: AsyncSession = Depends(get_session)
-):
-    repository = Repository(BatchLog, db)
-    db_batch_log = await repository.create(**schema.dict())
-    await repository.commit()
+@router.post(
+    '/', status_code=HTTPStatus.CREATED, response_model=BatchLogSchema
+)
+async def create(schema: BatchLogSchema, session: T_Session):
+    db_batch_log = BatchLog(**schema.model_dump())
+
+    session.add(db_batch_log)
+    await session.commit()
+    session.refresh(db_batch_log)
+
     return db_batch_log
 
 
-@router.get('/{batch_log_id}')
-async def get_by_id(
-    batch_log_id: int, db: AsyncSession = Depends(get_session)
-):
-    repository = Repository(BatchLog, db)
-    db_batch_log = await repository.get(batch_log_id)
+@router.get('/{batch_log_id}', response_model=BatchLogSchema)
+async def get_by_id(batch_log_id: int, session: T_Session):
+    db_batch_log = await session.scalar(
+        select(BatchLog).where(BatchLog.id == batch_log_id)
+    )
+
     return db_batch_log
 
 
-@router.get('/')
-async def get_all(db: AsyncSession = Depends(get_session)):
-    repository = Repository(BatchLog, db)
-    db_batch_log = await repository.get_all()
-    return db_batch_log
+@router.get('/', response_model=BatchLogList)
+async def get_all(session: T_Session):
+    db_batch_log = await session.scalars(select(BatchLog))
+
+    return {'batch_logs': db_batch_log.all()}
 
 
-@router.patch('/{batch_log_id}')
+@router.patch('/{batch_log_id}', response_model=BatchLogSchema)
 async def update(
     batch_log_id: int,
     schema: BatchLogSchema,
-    db: AsyncSession = Depends(get_session),
+    session: T_Session,
 ):
-    repository = Repository(BatchLog, db)
-    db_batch_log = await repository.update(batch_log_id, **schema.dict())
-    await repository.commit()
+    query = (
+        up(BatchLog)
+        .where(BatchLog.id == batch_log_id)
+        .values(**schema.model_dump())
+    )
+
+    db_batch_log = await session.scalar(query.returning(BatchLog))
+
     return db_batch_log
 
 
-@router.delete('/{batch_log_id}')
-async def delete(batch_log_id: int, db: AsyncSession = Depends(get_session)):
-    repository = Repository(BatchLog, db)
-    db_batch_log = repository.delete(batch_log_id)
-    await repository.commit()
-    return db_batch_log
+@router.delete('/{batch_log_id}', response_model=Message)
+async def delete(batch_log_id: int, session: T_Session):
+    db_batch_log = await session.scalar(
+        select(BatchLog).where(BatchLog.id == batch_log_id)
+    )
+
+    await session.delete(db_batch_log)
+    await session.commit()
+
+    return {'message': 'BatchLog deleted'}

@@ -11,8 +11,16 @@ class EmploymentSchema(BaseModel):
     employment_position_id: int | None
 
 
+class EmploymentList(BaseModel):
+    employments: list[EmploymentSchema]
+
+
 class EmploymentPositionSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     name: int | None
+
+
+class EmploymentPositionList(BaseModel):
+    employment_positions: list[EmploymentPositionSchema]

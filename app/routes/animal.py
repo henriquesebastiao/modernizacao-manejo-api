@@ -1,118 +1,90 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter
+from sqlalchemy import select
+from sqlalchemy import update as up
 
-from app.crud import Repository
-from app.database import get_session
 from app.models import Animal
-from app.schemas.animal import AnimalCreate, AnimalSchema, AnimalUpdate
-from app.security import get_current_user
+from app.schemas.animal import (
+    AnimalCreate,
+    AnimalList,
+    AnimalSchema,
+    AnimalUpdate,
+)
+from app.utils import T_CurrentUser, T_Session
 
 router = APIRouter(prefix='/animal', tags=['Animal'])
-
-
-class Message(BaseModel):
-    detail: str
 
 
 @router.post(
     '/',
     response_model=AnimalSchema,
     status_code=HTTPStatus.CREATED,
-    responses={
-        HTTPStatus.NOT_FOUND: {
-            'model': Message,
-            'description': 'Animal not exists',
-            'example': {'detail': 'Animal already exists'},
-        },
-        HTTPStatus.INTERNAL_SERVER_ERROR: {
-            'model': Message,
-            'description': 'Internal Server Error',
-        },
-    },
 )
 async def create(
     schema: AnimalCreate,
-    db: AsyncSession = Depends(get_session),
-    current_user=Depends(get_current_user),
+    session: T_Session,
+    current_user: T_CurrentUser,
 ):
-    repository = Repository(Animal, db)
-    animal = AnimalSchema(**schema.dict())
-    if await repository.get(schema.tag, 'tag'):
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail='Animal already exists'
-        )
-    elif schema.mother_tag == schema.father_tag:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail='Mother and Father are the same',
-        )
-    if mother := await repository.get(schema.mother_tag, 'tag'):
-        animal.mother_id = mother.id
-    else:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail='Mother not exists'
-        )
-    if father := await repository.get(schema.father_tag, 'tag'):
-        animal.father_id = father.id
-    else:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail='Father not exists'
-        )
+    db_animal = Animal(**schema.model_dump())
 
-    try:
-        db_animal = await repository.create(**animal.dict())
-    except Exception as e:
-        raise HTTPException(
-            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(e)
-        )
-    await repository.commit()
+    session.add(db_animal)
+    await session.commit()
+    await session.refresh(db_animal)
+
     return db_animal
 
 
-@router.get('/{animal_id}')
+@router.get('/{animal_id}', response_model=AnimalSchema)
 async def get_by_id(
     animal_id: int,
-    db: AsyncSession = Depends(get_session),
-    current_user=Depends(get_current_user),
+    session: T_Session,
+    current_user: T_CurrentUser,
 ):
-    repository = Repository(Animal, db)
-    db_animal = await repository.get(animal_id)
+    db_animal = await session.scalar(
+        select(Animal).where(Animal.id == animal_id)
+    )
+
     return db_animal
 
 
-@router.get('/')
+@router.get('/', response_model=AnimalList)
 async def get_all(
-    db: AsyncSession = Depends(get_session),
-    current_user=Depends(get_current_user),
+    session: T_Session,
+    current_user: T_CurrentUser,
 ):
-    repository = Repository(Animal, db)
-    db_animal = await repository.get_all()
-    return db_animal
+    db_animal = await session.scalars(select(Animal))
+
+    return {'animals': db_animal.all()}
 
 
-@router.patch('/{animal_id}')
+@router.patch('/{animal_id}', response_model=AnimalSchema)
 async def update(
     animal_id: int,
     schema: AnimalUpdate,
-    db: AsyncSession = Depends(get_session),
-    current_user=Depends(get_current_user),
+    session: T_Session,
+    current_user: T_CurrentUser,
 ):
-    repository = Repository(Animal, db)
-    db_animal = await repository.update(animal_id, **schema.dict())
-    await repository.commit()
+    query = (
+        up(Animal).where(Animal.id == animal_id).values(**schema.model_dump())
+    )
+
+    db_animal = await session.scalar(query.returning(Animal))
+
     return db_animal
 
 
 @router.delete('/{animal_id}')
 async def delete(
     animal_id: int,
-    db: AsyncSession = Depends(get_session),
-    current_user=Depends(get_current_user),
+    session: T_Session,
+    current_user: T_CurrentUser,
 ):
-    repository = Repository(Animal, db)
-    db_animal = await repository.delete(animal_id)
-    await repository.commit()
-    return db_animal
+    db_animal = await session.scalar(
+        select(Animal).where(Animal.id == animal_id)
+    )
+
+    await session.delete(db_animal)
+    await session.commit()
+
+    return {'message': 'Animal deleted'}

@@ -12,8 +12,16 @@ class FarmerSchema(BaseModel):
     farmer_plan_id: int | None
 
 
+class FarmerList(BaseModel):
+    farmers: list[FarmerSchema]
+
+
 class FarmerPlanSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     plan: str | None
+
+
+class FarmerPlanList(BaseModel):
+    farmer_plans: list[FarmerPlanSchema]

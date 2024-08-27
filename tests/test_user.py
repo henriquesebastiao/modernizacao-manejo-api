@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-import pytest
 from sqlalchemy import select
 
 from app.models import User
@@ -104,7 +103,6 @@ def test_update_my_user_without_permission(client, user):
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-@pytest.mark.ayncio
 async def test_password_hash_in_update_user(aclient, token, user, session):
     password = 'pwd'
     assert user.password != password

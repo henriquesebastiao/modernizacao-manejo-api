@@ -37,6 +37,10 @@ class AnimalSchema(AnimalBase):
     origin_id: int | None
 
 
+class AnimalList(BaseModel):
+    animals: list[AnimalSchema]
+
+
 class AnimalWeightSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -47,8 +51,16 @@ class AnimalWeightSchema(BaseModel):
     weight_date: datetime | None
 
 
+class AnimalWeightList(BaseModel):
+    animal_weights: list[AnimalWeightSchema]
+
+
 class AnimalWeightTypeSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int | None
     type: str | None
+
+
+class AnimalWeightTypeList(BaseModel):
+    animal_weight_types: list[AnimalWeightTypeSchema]
