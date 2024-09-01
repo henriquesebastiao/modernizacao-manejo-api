@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, func
 from sqlalchemy.orm import Mapped, mapped_column, registry
+from zoneinfo import ZoneInfo
 
 table_registry = registry()
 
@@ -125,9 +126,14 @@ class User:
     first_name: Mapped[str | None] = mapped_column(default=None)
     last_name: Mapped[str | None] = mapped_column(default=None)
     phone: Mapped[str | None] = mapped_column(default=None)
-    create_at: Mapped[datetime] = mapped_column(default=datetime.now())
+    create_at: Mapped[datetime] = mapped_column(
+        init=False, server_default=func.now(), nullable=False
+    )
     update_at: Mapped[datetime] = mapped_column(
-        default=datetime.now(), onupdate=datetime.now()
+        init=False,
+        server_default=func.now(),
+        onupdate=datetime.now(tz=ZoneInfo('UTC')),
+        nullable=False,
     )
     active: Mapped[bool] = mapped_column(default=True)
     manager_id: Mapped[int | None] = mapped_column(

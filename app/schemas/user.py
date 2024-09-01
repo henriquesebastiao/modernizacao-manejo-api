@@ -27,8 +27,8 @@ class UserSchema(UserBase):
 
     id: int
     phone: str | None = None
-    create_at: datetime = datetime.now()
-    update_at: datetime = datetime.now()
+    create_at: datetime
+    update_at: datetime
     manager_id: int | None = None
     active: bool
 
