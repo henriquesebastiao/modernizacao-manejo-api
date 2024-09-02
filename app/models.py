@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 
 from sqlalchemy import ForeignKey, func
 from sqlalchemy.orm import Mapped, mapped_column, registry
@@ -100,20 +101,19 @@ class Farm:
     name: Mapped[str]
 
 
+class FarmerPlan(str, Enum):
+    free = 'free'
+    starter = 'starter'
+    pro = 'pro'
+
+
 @table_registry.mapped_as_dataclass
 class Farmer:
     __tablename__ = 'farmer'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    farmer_plan_id: Mapped[int] = mapped_column(ForeignKey('farmer_plan.id'))
-
-
-@table_registry.mapped_as_dataclass
-class FarmerPlan:
-    __tablename__ = 'farmer_plan'
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
-    plan: Mapped[str]
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), unique=True)
+    farmer_plan: Mapped[FarmerPlan] = mapped_column(default='free')
 
 
 @table_registry.mapped_as_dataclass

@@ -1,27 +1,22 @@
 from pydantic import BaseModel, ConfigDict
 
+from app.models import FarmerPlan
+
 
 class FarmerCreate(BaseModel):
-    user_id: int | None
+    user_id: int
+    farmer_plan: FarmerPlan
 
 
-class FarmerSchema(BaseModel):
+class FarmerSchema(FarmerCreate):
     model_config = ConfigDict(from_attributes=True)
 
     id: int | None
-    farmer_plan_id: int | None
+
+
+class FarmerUpdate(BaseModel):
+    farmer_plan: FarmerPlan
 
 
 class FarmerList(BaseModel):
     farmers: list[FarmerSchema]
-
-
-class FarmerPlanSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int | None
-    plan: str | None
-
-
-class FarmerPlanList(BaseModel):
-    farmer_plans: list[FarmerPlanSchema]

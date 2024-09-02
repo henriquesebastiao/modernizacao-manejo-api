@@ -14,7 +14,16 @@ def test_create_user(client):
         },
     )
     assert response.status_code == HTTPStatus.CREATED
-    assert response.json()['email'] == 'test@test.com'
+
+    response = response.json()
+
+    assert response['first_name'] is None
+    assert response['last_name'] is None
+    assert response['email'] == 'test@test.com'
+    assert isinstance(response['id'], int)
+    assert response['phone'] is None
+    assert response['manager_id'] is None
+    assert response['active']
 
 
 def test_create_user_already_exists(client, user):

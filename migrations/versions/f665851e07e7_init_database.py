@@ -1,8 +1,8 @@
 """init_database
 
-Revision ID: 4348a54320e2
+Revision ID: f665851e07e7
 Revises: 
-Create Date: 2024-08-31 22:29:48.267903
+Create Date: 2024-09-02 12:30:51.019791
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '4348a54320e2'
+revision: str = 'f665851e07e7'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -62,11 +62,6 @@ def upgrade() -> None:
     sa.Column('name', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('farmer_plan',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('plan', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
@@ -92,10 +87,10 @@ def upgrade() -> None:
     op.create_table('farmer',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('farmer_plan_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['farmer_plan_id'], ['farmer_plan.id'], ),
+    sa.Column('farmer_plan', sa.Enum('free', 'starter', 'pro', name='farmerplan'), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('user_id')
     )
     op.create_table('batch_log',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -129,7 +124,6 @@ def downgrade() -> None:
     op.drop_table('farmer')
     op.drop_table('batch')
     op.drop_table('user')
-    op.drop_table('farmer_plan')
     op.drop_table('farm')
     op.drop_table('employment_position')
     op.drop_table('breed')

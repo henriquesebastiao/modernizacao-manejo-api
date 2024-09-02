@@ -74,10 +74,14 @@ async def user(session: AsyncSession):
 
 @pytest.fixture
 async def other_user(session: AsyncSession):
-    user = UserFactory()
+    password = 'password'
+
+    user = UserFactory(password=get_password_hash(password))
     session.add(user)
     await session.commit()
     await session.refresh(user)
+
+    user.clean_password = password
 
     return user
 
@@ -87,6 +91,19 @@ def token(client, user):
     response = client.post(
         '/token',
         data={'username': user.email, 'password': user.clean_password},
+    )
+
+    return response.json()['access_token']
+
+
+@pytest.fixture
+def other_token(client, other_user):
+    response = client.post(
+        '/token',
+        data={
+            'username': other_user.email,
+            'password': other_user.clean_password,
+        },
     )
 
     return response.json()['access_token']

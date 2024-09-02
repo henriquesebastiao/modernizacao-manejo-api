@@ -1,19 +1,41 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
 from sqlalchemy import update as up
 
 from app.models import Farmer
 from app.schemas import Message
-from app.schemas.farmer import FarmerCreate, FarmerList, FarmerSchema
-from app.utils import T_Session
+from app.schemas.farmer import (
+    FarmerCreate,
+    FarmerList,
+    FarmerSchema,
+    FarmerUpdate,
+)
+from app.utils import T_CurrentUser, T_Session
 
 router = APIRouter(prefix='/farmer', tags=['Farmer'])
 
 
 @router.post('/', response_model=FarmerSchema, status_code=HTTPStatus.CREATED)
-async def create(schema: FarmerCreate, session: T_Session):
+async def create(
+    schema: FarmerCreate, session: T_Session, current_user: T_CurrentUser
+):
+    if schema.user_id != current_user.id:
+        raise HTTPException(
+            status_code=HTTPStatus.FORBIDDEN, detail='Not enough permission'
+        )
+
+    db_farmer = await session.scalar(
+        select(Farmer).where(Farmer.user_id == schema.user_id)
+    )
+
+    if db_farmer:
+        raise HTTPException(
+            status_code=HTTPStatus.CONFLICT,
+            detail='There is already a Farmer for this user',
+        )
+
     db_farmer = Farmer(**schema.model_dump())
 
     session.add(db_farmer)
@@ -29,6 +51,11 @@ async def get_by_id(farmer_id: int, session: T_Session):
         select(Farmer).where(Farmer.id == farmer_id)
     )
 
+    if not db_farmer:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Farmer does not exist'
+        )
+
     return db_farmer
 
 
@@ -40,7 +67,25 @@ async def get_all(session: T_Session):
 
 
 @router.patch('/{farmer_id}', response_model=FarmerSchema)
-async def update(farmer_id: int, schema: FarmerSchema, session: T_Session):
+async def update(
+    farmer_id: int,
+    schema: FarmerUpdate,
+    session: T_Session,
+    current_user: T_CurrentUser,
+):
+    db_farmer = await session.scalar(
+        select(Farmer).where(Farmer.id == farmer_id)
+    )
+
+    if not db_farmer:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Farmer does not exist'
+        )
+    elif db_farmer.user_id != current_user.id:
+        raise HTTPException(
+            status_code=HTTPStatus.FORBIDDEN, detail='Not enough permission'
+        )
+
     query = (
         up(Farmer).where(Farmer.id == farmer_id).values(**schema.model_dump())
     )
@@ -50,10 +95,21 @@ async def update(farmer_id: int, schema: FarmerSchema, session: T_Session):
 
 
 @router.delete('/{farmer_id}', response_model=Message)
-async def delete(farmer_id: int, session: T_Session):
+async def delete(
+    farmer_id: int, session: T_Session, current_user: T_CurrentUser
+):
     db_farmer = await session.scalar(
         select(Farmer).where(Farmer.id == farmer_id)
     )
+
+    if not db_farmer:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Farmer does not exist'
+        )
+    elif db_farmer.user_id != current_user.id:
+        raise HTTPException(
+            status_code=HTTPStatus.FORBIDDEN, detail='Not enough permission'
+        )
 
     await session.delete(db_farmer)
     await session.commit()
