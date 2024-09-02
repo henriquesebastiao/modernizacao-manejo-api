@@ -12,7 +12,7 @@ table_registry = registry()
 class Animal:
     __tablename__ = 'animal'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     tag: Mapped[int]
     sisbov: Mapped[int]
     gender: Mapped[str]
@@ -29,7 +29,7 @@ class Animal:
 class AnimalWeightType:
     __tablename__ = 'animal_weight_type'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     name: Mapped[str]
 
 
@@ -37,7 +37,7 @@ class AnimalWeightType:
 class AnimalWeight:
     __tablename__ = 'animal_weight'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     weight_type_id: Mapped[int]
     animal_id: Mapped[int]
     weight: Mapped[float]
@@ -48,7 +48,7 @@ class AnimalWeight:
 class Batch:
     __tablename__ = 'batch'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     reg: Mapped[str] = mapped_column(nullable=False)
     farm_id: Mapped[int] = mapped_column(ForeignKey('farm.id'))
 
@@ -57,7 +57,7 @@ class Batch:
 class BatchLog:
     __tablename__ = 'batch_log'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     batch_id: Mapped[int] = mapped_column(ForeignKey('batch.id'))
     animal_id: Mapped[int] = mapped_column(ForeignKey('animal.id'))
     entry_date: Mapped[datetime]
@@ -68,7 +68,7 @@ class BatchLog:
 class Breed:
     __tablename__ = 'breed'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     name: Mapped[str]
 
 
@@ -76,7 +76,7 @@ class Breed:
 class Employment:
     __tablename__ = 'employment'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     farmer_id: Mapped[int] = mapped_column(ForeignKey('farmer.id'))
     farm_id: Mapped[int] = mapped_column(ForeignKey('farm.id'))
@@ -89,7 +89,7 @@ class Employment:
 class EmploymentPosition:
     __tablename__ = 'employment_position'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     name: Mapped[str]
 
 
@@ -97,7 +97,7 @@ class EmploymentPosition:
 class Farm:
     __tablename__ = 'farm'
 
-    id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
     name: Mapped[str]
 
 
