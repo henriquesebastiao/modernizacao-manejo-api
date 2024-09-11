@@ -11,7 +11,7 @@ uvicorn = "^0.30.6"
 sqlalchemy = "^2.0.34"
 pydantic = {extras = ["email"], version = "^2.9.1"}
 alembic = "^1.13.2"
-pydantic-settings = "^2.4.0"
+pydantic-settings = "^2.5.2"
 fastapi = {extras = ["standard"], version = "^0.114.0"}
 python-multipart = "^0.0.9"
 psycopg = {extras = ["binary"], version = "^3.2.1"}
