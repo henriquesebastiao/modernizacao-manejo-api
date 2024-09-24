@@ -10,7 +10,7 @@ python = "^3.11"
 uvicorn = "^0.30.6"
 sqlalchemy = "^2.0.35"
 pydantic = {extras = ["email"], version = "^2.9.2"}
-alembic = "^1.13.2"
+alembic = "^1.13.3"
 pydantic-settings = "^2.5.2"
 fastapi = {extras = ["standard"], version = "^0.115.0"}
 python-multipart = "^0.0.10"
