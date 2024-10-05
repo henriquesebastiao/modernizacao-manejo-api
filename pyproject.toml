@@ -14,7 +14,7 @@ alembic = "^1.13.3"
 pydantic-settings = "^2.5.2"
 fastapi = {extras = ["standard"], version = "^0.115.0"}
 python-multipart = "^0.0.12"
-psycopg = {extras = ["binary"], version = "^3.2.2"}
+psycopg = {extras = ["binary"], version = "^3.2.3"}
 pyjwt = "^2.9.0"
 pwdlib = {extras = ["argon2"], version = "^0.2.1"}
 
