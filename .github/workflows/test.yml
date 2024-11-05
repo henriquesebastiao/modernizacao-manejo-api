@@ -49,7 +49,7 @@ jobs:
           poetry config virtualenvs.create false
           poetry install
       
-      - name: Run Ruff
+      - name: Run Bandit
         run: poetry run task bandit
 
   test:

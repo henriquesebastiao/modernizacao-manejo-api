@@ -24,7 +24,7 @@ def custom_generate_unique_id(route: APIRoute):
 
 description = """
 Modernização Manejo
-#### Documentação alternativa: [Redoc](https://api.henriquesebastiao.com/redoc)
+#### Documentação alternativa: [Redoc](https://manejo-api.henriquesebastiao.com/redoc)
 """
 
 app = FastAPI(
@@ -33,15 +33,11 @@ app = FastAPI(
     title='Manejo API',
     description=description,
     version='0.1.0',
-    terms_of_service='https://site.henriquesebastiao.com/',
+    terms_of_service='https://github.com/henriquesebastiao/modernizacao-manejo-api/',
     contact={
         'name': 'Manejo API',
-        'url': 'https://api.henriquesebastiao.com/',
-        'email': 'ivan@noleto.tech',
-    },
-    license_info={
-        'name': 'Apache 2.0',
-        'url': 'https://www.apache.org/licenses/LICENSE-2.0.html',
+        'url': 'https://github.com/henriquesebastiao/modernizacao-manejo-api',
+        'email': 'contato@henriquesebastiao.com',
     },
 )
 

@@ -17,3 +17,38 @@ A API visa proporcionar uma solução abrangente para o controle eficiente de in
 CRUD Completo: Gerencie suas informações sobre o gado com facilidade, desde a adição de novos registros até a atualização e exclusão de dados existentes.
 
 Análises de Desempenho: Utilize recursos avançados para avaliar o desempenho do gado, possibilitando a tomada de decisões mais estratégicas no manejo.
+
+## Executar Localmente
+
+Toda a aplicação pode ser executada via Docker, logo você precisa somente dele instalado! ✅
+
+Clone o repositório e entre nele com o seguinte comando:
+
+```bash
+git clone https://github.com/henriquesebastiao/modernizacao-manejo-api && cd modernizacao-manejo-api
+```
+
+Crie um arquivo `.env` que conterá as variáveis de ambiente exigidas pela aplicação, você pode fazer isso apenas copiando o arquivo de exemplo:
+
+```bash
+cat .env.example > .env
+```
+
+Agora execute o docker compose e toda aplicação será construída e iniciada 🚀
+
+```bash
+docker compose up -d
+```
+
+Pronto! Você já pode abrir seu navegador e acessar as seguintes URLs:
+
+- Documentação interativa automática com Swagger UI (do backend OpenAPI): [http://localhost:8000](http://localhost:8000)
+- Adminer, para visualizar facilmente o banco de dados: [http://localhost:8080](http://localhost:8080)
+- Redoc, uma versão mais legível da documentação: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+Para acessar o bando de dados pelo Adminer, selecione o sistema PostgreSQL e use as seguintes credenciais:
+
+- Servidor: `database`
+- Usuário: `user`
+- Senha: `password`
+- Banco de dados: `db`
