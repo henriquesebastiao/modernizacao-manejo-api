@@ -22,17 +22,6 @@ services:
       - database
     env_file:
       - .env
-  
-  adminer:
-    container_name: adminer-manejo
-    image: adminer
-    restart: always
-    depends_on:
-      - database
-    environment:
-      - ADMINER_DESIGN=pepa-linha-dark
-    ports:
-      - "8080:8080"
 
 volumes:
   pgdata:
