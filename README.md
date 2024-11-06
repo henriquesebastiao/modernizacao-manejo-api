@@ -12,7 +12,15 @@ Esta API, construída com FastAPI, é a parte central de um projeto voltado para
 
 A API visa proporcionar uma solução abrangente para o controle eficiente de informações relacionadas ao gado. Através dela, oferecemos funcionalidades robustas para realizar operações de CRUD no banco de dados, abrangendo desde o registro inicial até as análises avançadas de desempenho.
 
-Você pode acessar o aplicativo [aqui](https://manejo-api.henriquesebastiao.com/) 🚀.
+### Deploy 🚀
+
+Você pode acessar a API [aqui](https://manejo-api.henriquesebastiao.com/).
+
+Você também pode visualizar o deploy do banco de dados usando Adminer neste [link](https://adminer.henriquesebastiao.com/?pgsql=projects_postgres&username=manejo&db=manejo&ns=public).
+
+Use a senha `manejo123`.
+
+> Este usuário é apenas para leitura, fique a vontade para bisbilhotar :)
 
 ### Tecnologias utilizadas
 
@@ -58,7 +66,7 @@ Pronto! Você já pode abrir seu navegador e acessar as seguintes URLs:
 - Adminer, para visualizar facilmente o banco de dados: [http://localhost:8080](http://localhost:8080)
 - Redoc, uma versão mais legível da documentação: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
-Para acessar o bando de dados pelo Adminer, selecione o sistema PostgreSQL e use as seguintes credenciais:
+Para acessar o banco de dados local pelo Adminer, selecione o sistema PostgreSQL e use as seguintes credenciais:
 
 - Servidor: `database`
 - Usuário: `user`
