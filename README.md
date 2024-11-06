@@ -4,13 +4,25 @@
 [![coverage](https://coverage-badge.samuelcolvin.workers.dev/henriquesebastiao/modernizacao-manejo-api.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/henriquesebastiao/modernizacao-manejo-api)
 [![fastapi](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![postgresql](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 
 API para o backend do projeto de modernização do manejo desenvolvida com FastAPI.
 
-Esta API, construída com FastAPI, é a espinha dorsal de um projeto voltado para o setor agropecuário. Nosso objetivo é viabilizar uma gestão de informações sobre o gado e seu desempenho, auxiliando os produtores rurais a tomar decisões mais assertivas e estratégicas.
-Sobre o Projeto
+Esta API, construída com FastAPI, é a parte central de um projeto voltado para o setor agropecuário. Nosso objetivo é viabilizar uma gestão eficiente de informações sobre o rebanho de bovinos e seu desempenho, auxiliando os produtores rurais a tomar decisões mais assertivas e estratégicas.
 
 A API visa proporcionar uma solução abrangente para o controle eficiente de informações relacionadas ao gado. Através dela, oferecemos funcionalidades robustas para realizar operações de CRUD no banco de dados, abrangendo desde o registro inicial até as análises avançadas de desempenho.
+
+Você pode acessar o aplicativo [aqui](https://manejo-api.henriquesebastiao.com/) 🚀.
+
+### Tecnologias utilizadas
+
+- **Python** e **FastAPI**, para o desenvolvimento de uma API asyncrona e robusta.
+- **Postgres** como bando de dados.
+- **SQLAlchemy**, para interação com o banco de dados via ORM.
+- **Pydantic**, para validação de dados.
+- **PyTest**, para testes de integração.
+- **Docker**, para desenvolvimento em containers.
+- **Ruff** como linter e formatador de código.
 
 ## Principais Recursos
 
