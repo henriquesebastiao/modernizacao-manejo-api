@@ -25,7 +25,7 @@ Use a senha `manejo123`.
 ### Tecnologias utilizadas
 
 - **Python** e **FastAPI**, para o desenvolvimento de uma API asyncrona e robusta.
-- **Postgres** como bando de dados.
+- **Postgres** como banco de dados.
 - **SQLAlchemy**, para interação com o banco de dados via ORM.
 - **Pydantic**, para validação de dados.
 - **PyTest**, para testes de integração.
