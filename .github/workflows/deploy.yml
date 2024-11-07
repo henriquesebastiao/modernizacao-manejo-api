@@ -1,0 +1,18 @@
+name: Deployment Trigger
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types: [completed]
+    branches:
+        - 'master'
+
+jobs:
+  trigger-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send deployment trigger
+        run: |
+          curl ${{ secrets.URL_TRIGGER_DEPLOY }}
