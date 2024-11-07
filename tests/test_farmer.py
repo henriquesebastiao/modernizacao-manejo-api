@@ -46,7 +46,7 @@ def test_get_farmer(client, user, token):
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
-    response = client.get(f'/farmer/{response.json()['id']}')
+    response = client.get(f'/farmer/{response.json()["id"]}')
 
     assert response.status_code == HTTPStatus.OK
 
@@ -73,7 +73,7 @@ def test_update_farmer(client, token, user):
     )
 
     response = client.patch(
-        f'/farmer/{response.json()['id']}',
+        f'/farmer/{response.json()["id"]}',
         headers={'Authorization': f'Bearer {token}'},
         json={'farmer_plan': 'pro'},
     )
@@ -90,7 +90,7 @@ def test_update_farmer_not_current_user(client, token, user, other_token):
     )
 
     response = client.patch(
-        f'/farmer/{response.json()['id']}',
+        f'/farmer/{response.json()["id"]}',
         headers={'Authorization': f'Bearer {other_token}'},
         json={'farmer_plan': 'pro'},
     )
@@ -118,7 +118,7 @@ def test_delete_farmer(client, token, user):
     )
 
     response = client.delete(
-        f'/farmer/{response.json()['id']}',
+        f'/farmer/{response.json()["id"]}',
         headers={'Authorization': f'Bearer {token}'},
     )
 

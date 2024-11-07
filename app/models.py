@@ -14,15 +14,15 @@ class Animal:
 
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     tag: Mapped[int]
-    sisbov: Mapped[int]
     gender: Mapped[str]
-    breed_id: Mapped[int]
-    father_id: Mapped[int]
-    mother_id: Mapped[int]
-    origin_id: Mapped[int]
-    birth_date: Mapped[datetime]
-    buy_date: Mapped[datetime]
-    sell_date: Mapped[datetime]
+    origin: Mapped[str]
+    sisbov: Mapped[int | None] = mapped_column(default=None)
+    breed_id: Mapped[int | None] = mapped_column(default=None)
+    father_id: Mapped[int | None] = mapped_column(default=None)
+    mother_id: Mapped[int | None] = mapped_column(default=None)
+    birth_date: Mapped[datetime | None] = mapped_column(default=None)
+    buy_date: Mapped[datetime | None] = mapped_column(default=None)
+    sell_date: Mapped[datetime | None] = mapped_column(default=None)
 
 
 @table_registry.mapped_as_dataclass

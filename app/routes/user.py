@@ -9,7 +9,7 @@ from app.schemas.user import UserCreate, UserList, UserSchema, UserUpdate
 from app.security import (
     get_password_hash,
 )
-from app.utils import T_CurrentUser, T_Session
+from app.utils import T_CurrentUser, T_Session, upattr
 
 router = APIRouter(prefix='/user', tags=['User'])
 
@@ -81,8 +81,7 @@ async def update(
     if schema.password:
         schema.password = get_password_hash(schema.password)
 
-    for key, value in schema.model_dump(exclude_unset=True).items():
-        setattr(db_user, key, value)
+    upattr(schema, db_user)
 
     session.add(db_user)
     await session.commit()

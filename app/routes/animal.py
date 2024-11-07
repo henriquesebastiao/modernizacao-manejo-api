@@ -1,8 +1,7 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
-from sqlalchemy import update as up
 
 from app.models import Animal
 from app.schemas.animal import (
@@ -11,7 +10,7 @@ from app.schemas.animal import (
     AnimalSchema,
     AnimalUpdate,
 )
-from app.utils import T_CurrentUser, T_Session
+from app.utils import T_CurrentUser, T_Session, upattr
 
 router = APIRouter(prefix='/animal', tags=['Animal'])
 
@@ -26,6 +25,15 @@ async def create(
     session: T_Session,
     current_user: T_CurrentUser,
 ):
+    db_animal = await session.scalar(
+        select(Animal).where(Animal.tag == schema.tag)
+    )
+
+    if db_animal:
+        raise HTTPException(
+            status_code=HTTPStatus.CONFLICT, detail='Animal already exists'
+        )
+
     db_animal = Animal(**schema.model_dump())
 
     session.add(db_animal)
@@ -35,15 +43,20 @@ async def create(
     return db_animal
 
 
-@router.get('/{animal_id}', response_model=AnimalSchema)
+@router.get('/{tag}', response_model=AnimalSchema)
 async def get_by_id(
-    animal_id: int,
+    tag: int,
     session: T_Session,
     current_user: T_CurrentUser,
 ):
     db_animal = await session.scalar(
-        select(Animal).where(Animal.id == animal_id)
+        select(Animal).where(Animal.tag == tag)
     )
+
+    if not db_animal:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Animal does not exist'
+        )
 
     return db_animal
 
@@ -58,31 +71,42 @@ async def get_all(
     return {'animals': db_animal.all()}
 
 
-@router.patch('/{animal_id}', response_model=AnimalSchema)
+@router.patch('/{tag}', response_model=AnimalSchema)
 async def update(
-    animal_id: int,
+    tag: int,
     schema: AnimalUpdate,
     session: T_Session,
     current_user: T_CurrentUser,
 ):
-    query = (
-        up(Animal).where(Animal.id == animal_id).values(**schema.model_dump())
-    )
+    db_animal = await session.scalar(select(Animal).where(Animal.tag == tag))
 
-    db_animal = await session.scalar(query.returning(Animal))
+    if not db_animal:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Animal does not exist'
+        )
 
+    upattr(schema, db_animal)
+
+    session.add(db_animal)
+    await session.commit()
+    await session.refresh(db_animal)
     return db_animal
 
 
-@router.delete('/{animal_id}')
+@router.delete('/{tag}')
 async def delete(
-    animal_id: int,
+    tag: int,
     session: T_Session,
     current_user: T_CurrentUser,
 ):
     db_animal = await session.scalar(
-        select(Animal).where(Animal.id == animal_id)
+        select(Animal).where(Animal.tag == tag)
     )
+
+    if not db_animal:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Animal does not exist'
+        )
 
     await session.delete(db_animal)
     await session.commit()

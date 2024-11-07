@@ -12,7 +12,7 @@ from app.database import get_session
 from app.main import app
 from app.models import table_registry
 from app.security import get_password_hash
-from tests.factories import UserFactory
+from tests.factories import AnimalFactory, UserFactory
 
 
 @pytest.fixture(scope='session')
@@ -107,3 +107,12 @@ def other_token(client, other_user):
     )
 
     return response.json()['access_token']
+
+
+@pytest.fixture
+async def animal(session: AsyncSession):
+    animal = AnimalFactory()
+    session.add(animal)
+    await session.commit()
+    await session.refresh(animal)
+    return animal
