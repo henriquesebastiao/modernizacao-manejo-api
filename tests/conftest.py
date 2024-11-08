@@ -17,7 +17,7 @@ from tests.factories import AnimalFactory, UserFactory
 
 @pytest.fixture(scope='session')
 def engine():
-    with PostgresContainer('postgres:16-alpine', driver='psycopg') as postgres:
+    with PostgresContainer('postgres:17-alpine', driver='psycopg') as postgres:
         yield create_async_engine(postgres.get_connection_url())
 
 

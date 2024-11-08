@@ -1,7 +1,7 @@
 services:
   database:
     container_name: db-manejo
-    image: postgres
+    image: postgres:17-alpine
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file:
@@ -12,10 +12,9 @@ services:
   app:
     container_name: app-manejo
     image: manejo
-    entrypoint: ./entrypoint.sh
     build: .
     volumes:
-      - app:/app
+      - ./app:/code/app
     ports:
       - "8000:8000"
     depends_on:
@@ -35,4 +34,3 @@ services:
 
 volumes:
   pgdata:
-  app:

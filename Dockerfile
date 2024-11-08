@@ -1,17 +1,15 @@
 FROM python:3.13-slim
 
-ENV POETRY_VIRTUALENVS_CREATE=false
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR app/
+WORKDIR /code
 
-COPY . .
+COPY . /code/
 
-RUN pip install poetry
-RUN poetry config installer.max-workers 10
-RUN poetry install --without dev --no-interaction --no-ansi
+RUN pip install --no-cache-dir --root-user-action ignore --upgrade pip \
+    && pip install --no-cache-dir --root-user-action ignore -r requirements.txt
 
 EXPOSE 8000
 
-CMD poetry run uvicorn --host 0.0.0.0 app.main:app
+ENTRYPOINT ["./entrypoint.sh"]
