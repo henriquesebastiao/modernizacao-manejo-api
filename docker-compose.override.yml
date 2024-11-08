@@ -13,6 +13,7 @@ services:
       - ./app:/code/app
     ports:
       - "8000:8000"
+    # Ref: https://docs.docker.com/reference/compose-file/develop/
     develop:
       watch:
         - path: ./app
