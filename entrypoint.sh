@@ -1,4 +1,9 @@
 #!/bin/sh
 
 alembic upgrade head
-uvicorn --host 0.0.0.0 app.main:app
+
+if [ "$DEBUG" -eq 1 ]; then
+  fastapi run --reload app/main.py
+else
+  fastapi run --workers 4 app/main.py
+fi

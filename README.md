@@ -38,7 +38,7 @@ CRUD Completo: Gerencie suas informações sobre o gado com facilidade, desde a 
 
 Análises de Desempenho: Utilize recursos avançados para avaliar o desempenho do gado, possibilitando a tomada de decisões mais estratégicas no manejo.
 
-## Executar Localmente
+### Executar localmente em modo desenvolvimento
 
 Toda a aplicação pode ser executada via Docker, logo você precisa somente dele instalado! ✅
 
@@ -54,10 +54,10 @@ Crie um arquivo `.env` que conterá as variáveis de ambiente exigidas pela apli
 cat .env.example > .env
 ```
 
-Agora execute o docker compose e toda aplicação será construída e iniciada 🚀
+Agora execute o docker compose e toda aplicação será construída e iniciada em modo de desenvolcimento 🚀
 
 ```bash
-docker compose up -d
+docker compose watch
 ```
 
 Pronto! Você já pode abrir seu navegador e acessar as seguintes URLs:
@@ -72,3 +72,22 @@ Para acessar o banco de dados local pelo Adminer, selecione o sistema PostgreSQL
 - Usuário: `user`
 - Senha: `password`
 - Banco de dados: `db`
+
+## Desenvolvendo 🛠️
+
+Durante o desenvolvimento, você pode alterar as configurações do Docker Compose que afetarão apenas o ambiente de desenvolvimento local no arquivo `docker-compose.override.yml`.
+
+As alterações nesse arquivo afetam apenas o ambiente de desenvolvimento local, não o ambiente de produção. Assim, você pode adicionar alterações "temporárias" que auxiliam no fluxo de trabalho de desenvolvimento.
+
+Há também uma substituição de comando que é executada `fastapi run --reload` em vez do padrão `fastapi run`. Ele inicia um único processo de servidor (em vez de vários, como seria para produção) e recarrega o processo sempre que o código muda.
+
+### Deploy com Docker Compose
+
+Com as variáveis de ambiente configuradas, você pode fazer deploy com Docker Compose:
+
+```bash
+docker compose -f docker-compose.yml up -d
+```
+
+> [!IMPORTANT]
+> Para produção, você não gostaria de ter as substituições feitas em `docker-compose.override.yml`, é por isso que especificamos explicitamente `docker-compose.yml` como o arquivo a ser usado.

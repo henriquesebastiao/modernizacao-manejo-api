@@ -2,6 +2,13 @@ services:
   database:
     container_name: db-manejo
     image: postgres:17-alpine
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file:
@@ -11,20 +18,24 @@ services:
 
   app:
     container_name: app-manejo
-    image: manejo
+    image: 'manejo:${TAG-latest}'
+    restart: always
     build: .
     volumes:
       - ./app:/code/app
     ports:
       - "8000:8000"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+        restart: true
     env_file:
       - .env
   
   adminer:
     container_name: adminer-manejo
     image: adminer
+    restart: always
     depends_on:
       - database
     environment:

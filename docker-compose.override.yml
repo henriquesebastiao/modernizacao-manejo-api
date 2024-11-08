@@ -1,0 +1,29 @@
+services:
+  database:
+    container_name: db-manejo-dev
+    restart: "no"
+    ports:
+      - "5432:5432"
+
+  app:
+    container_name: app-manejo-dev
+    restart: "no"
+    build: .
+    volumes:
+      - ./app:/code/app
+    ports:
+      - "8000:8000"
+    develop:
+      watch:
+        - path: ./app
+          action: sync
+          target: /code/app
+          ignore:
+            - .venv
+        - path: ./requirements.txt
+          action: rebuild
+  
+  adminer:
+    restart: "no"
+    ports:
+      - "8080:8080"
