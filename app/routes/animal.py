@@ -49,9 +49,7 @@ async def get_by_id(
     session: T_Session,
     current_user: T_CurrentUser,
 ):
-    db_animal = await session.scalar(
-        select(Animal).where(Animal.tag == tag)
-    )
+    db_animal = await session.scalar(select(Animal).where(Animal.tag == tag))
 
     if not db_animal:
         raise HTTPException(
@@ -99,9 +97,7 @@ async def delete(
     session: T_Session,
     current_user: T_CurrentUser,
 ):
-    db_animal = await session.scalar(
-        select(Animal).where(Animal.tag == tag)
-    )
+    db_animal = await session.scalar(select(Animal).where(Animal.tag == tag))
 
     if not db_animal:
         raise HTTPException(
