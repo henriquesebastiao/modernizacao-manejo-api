@@ -1,6 +1,6 @@
 services:
   database:
-    container_name: db-manejo-dev
+    container_name: db-manejo
     restart: "no"
     ports:
       - "5432:5432"
