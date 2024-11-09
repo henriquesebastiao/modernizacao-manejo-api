@@ -70,33 +70,33 @@ def test_get_all_users_empty_list(client):
     assert response.json() == {'users': []}
 
 
-def test_update_user(client, user, token):
+def test_update_user(client, user, auth):
     response = client.patch(
         f'/user/{user.id}',
         json={'email': 'update@email.com'},
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     assert response.status_code == HTTPStatus.OK
     assert response.json()['email'] == 'update@email.com'
 
 
-def test_update_user_email_already_exists(client, user, other_user, token):
+def test_update_user_email_already_exists(client, user, other_user, auth):
     response = client.patch(
         f'/user/{user.id}',
         json={'email': other_user.email},
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     assert response.status_code == HTTPStatus.CONFLICT
     assert response.json() == {'detail': 'Email already exists'}
 
 
-def test_update_other_user_without_permission(client, user, other_user, token):
+def test_update_other_user_without_permission(client, user, other_user, auth):
     response = client.patch(
         f'/user/{other_user.id}',
         json={'email': 'update@email.com'},
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     assert response.status_code == HTTPStatus.FORBIDDEN
@@ -112,7 +112,7 @@ def test_update_my_user_without_permission(client, user):
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-async def test_password_hash_in_update_user(aclient, token, user, session):
+async def test_password_hash_in_update_user(aclient, auth, user, session):
     password = 'pwd'
     assert user.password != password
     await aclient.patch(f'/user/{user.id}', json={'password': password})
@@ -120,19 +120,15 @@ async def test_password_hash_in_update_user(aclient, token, user, session):
     assert db_user.password != password
 
 
-def test_delete_user(client, user, token):
-    response = client.delete(
-        f'/user/{user.id}', headers={'Authorization': f'Bearer {token}'}
-    )
+def test_delete_user(client, user, auth):
+    response = client.delete(f'/user/{user.id}', headers=auth)
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_other_user_without_permission(client, other_user, token):
-    response = client.delete(
-        f'/user/{other_user.id}', headers={'Authorization': f'Bearer {token}'}
-    )
+def test_delete_other_user_without_permission(client, other_user, auth):
+    response = client.delete(f'/user/{other_user.id}', headers=auth)
 
     assert response.status_code == HTTPStatus.FORBIDDEN
     assert response.json() == {'detail': 'Not enough permission'}

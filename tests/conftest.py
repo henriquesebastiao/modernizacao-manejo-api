@@ -97,6 +97,11 @@ def token(client, user):
 
 
 @pytest.fixture
+def auth(token):
+    return {'Authorization': f'Bearer {token}'}
+
+
+@pytest.fixture
 def other_token(client, other_user):
     response = client.post(
         '/token',

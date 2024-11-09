@@ -1,20 +1,20 @@
 from http import HTTPStatus
 
 
-def test_create_farmer(client, user, token):
+def test_create_farmer(client, user, auth):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
     assert response.status_code == HTTPStatus.CREATED
 
 
-def test_create_farmer_not_current_user(client, other_user, token):
+def test_create_farmer_not_current_user(client, other_user, auth):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': other_user.id, 'farmer_plan': 'starter'},
     )
 
@@ -22,16 +22,16 @@ def test_create_farmer_not_current_user(client, other_user, token):
     assert response.json() == {'detail': 'Not enough permission'}
 
 
-def test_create_more_one_farmer_for_one_user(client, user, token):
+def test_create_more_one_farmer_for_one_user(client, user, auth):
     client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
@@ -39,10 +39,10 @@ def test_create_more_one_farmer_for_one_user(client, user, token):
     response.json() == {'detail': 'There is already a Farmer for this user'}
 
 
-def test_get_farmer(client, user, token):
+def test_get_farmer(client, user, auth):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
@@ -65,16 +65,16 @@ def test_get_all_farmers(client):
     assert response.json() == {'farmers': []}
 
 
-def test_update_farmer(client, token, user):
+def test_update_farmer(client, auth, user):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
     response = client.patch(
         f'/farmer/{response.json()["id"]}',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'farmer_plan': 'pro'},
     )
 
@@ -82,10 +82,10 @@ def test_update_farmer(client, token, user):
     assert response.json()['farmer_plan'] == 'pro'
 
 
-def test_update_farmer_not_current_user(client, token, user, other_token):
+def test_update_farmer_not_current_user(client, auth, user, other_token):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
@@ -99,10 +99,10 @@ def test_update_farmer_not_current_user(client, token, user, other_token):
     assert response.json() == {'detail': 'Not enough permission'}
 
 
-def test_update_farmer_not_exist(client, token):
+def test_update_farmer_not_exist(client, auth):
     response = client.patch(
         '/farmer/1',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'farmer_plan': 'pro'},
     )
 
@@ -110,36 +110,36 @@ def test_update_farmer_not_exist(client, token):
     assert response.json() == {'detail': 'Farmer does not exist'}
 
 
-def test_delete_farmer(client, token, user):
+def test_delete_farmer(client, auth, user):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 
     response = client.delete(
         f'/farmer/{response.json()["id"]}',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {'message': 'Farmer deleted'}
 
 
-def test_delete_farmer_not_exist(client, token):
+def test_delete_farmer_not_exist(client, auth):
     response = client.delete(
         '/farmer/1',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     response.status_code == HTTPStatus.NOT_FOUND
     response.json() == {'detail': 'Farmer does not exist'}
 
 
-def test_delete_farmer_not_current_user(client, token, user, other_token):
+def test_delete_farmer_not_current_user(client, auth, user, other_token):
     response = client.post(
         '/farmer/',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
         json={'user_id': user.id, 'farmer_plan': 'starter'},
     )
 

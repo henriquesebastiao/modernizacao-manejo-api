@@ -33,15 +33,15 @@ def test_jwt_invalid_token(client, user):
     assert response.json() == {'detail': 'Could not validate credentials'}
 
 
-def test_jwt_valid_token_with_user_not_exists(client, token, user):
+def test_jwt_valid_token_with_user_not_exists(client, auth, user):
     client.delete(
         f'/user/{user.id}',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     response = client.delete(
         f'/user/{user.id}',
-        headers={'Authorization': f'Bearer {token}'},
+        headers=auth,
     )
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
