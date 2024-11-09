@@ -12,7 +12,7 @@ from app.database import get_session
 from app.main import app
 from app.models import table_registry
 from app.security import get_password_hash
-from tests.factories import AnimalFactory, UserFactory
+from tests.factories import AnimalFactory, BreedFactory, UserFactory
 
 
 @pytest.fixture(scope='session')
@@ -121,3 +121,12 @@ async def animal(session: AsyncSession):
     await session.commit()
     await session.refresh(animal)
     return animal
+
+
+@pytest.fixture
+async def breed(session: AsyncSession):
+    breed = BreedFactory()
+    session.add(breed)
+    await session.commit()
+    await session.refresh(breed)
+    return breed

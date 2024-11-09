@@ -1,6 +1,6 @@
 import factory
 
-from app.models import Animal, User
+from app.models import Animal, Breed, User
 
 
 class UserFactory(factory.Factory):
@@ -19,3 +19,10 @@ class AnimalFactory(factory.Factory):
     gender = 'M'
     origin = 'Fazenda de Teste'
     sisbov = 1234
+
+
+class BreedFactory(factory.Factory):
+    class Meta:
+        model = Breed
+
+    name = 'Raca das Vaquinhas Intrusas'

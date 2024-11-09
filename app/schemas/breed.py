@@ -8,5 +8,9 @@ class BreedSchema(BaseModel):
     name: str | None
 
 
+class BreedCreateUpdate(BaseModel):
+    name: str
+
+
 class BreedList(BaseModel):
     breeds: list[BreedSchema]
