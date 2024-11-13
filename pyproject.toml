@@ -12,7 +12,7 @@ sqlalchemy = "^2.0.36"
 pydantic = {extras = ["email"], version = "^2.9.2"}
 alembic = "^1.14.0"
 pydantic-settings = "^2.6.1"
-fastapi = {extras = ["standard"], version = "^0.115.4"}
+fastapi = {extras = ["standard"], version = "^0.115.5"}
 python-multipart = "^0.0.17"
 psycopg = {extras = ["binary"], version = "^3.2.3"}
 pyjwt = "^2.9.0"
