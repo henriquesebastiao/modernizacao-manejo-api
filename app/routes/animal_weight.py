@@ -6,16 +6,20 @@ from sqlalchemy import update as up
 
 from app.models import AnimalWeight
 from app.schemas import Message
-from app.schemas.animal import AnimalWeightList, AnimalWeightSchema
+from app.schemas.animal import (
+    AnimalWeightCreateUpdate,
+    AnimalWeightList,
+    AnimalWeightResponse,
+)
 from app.utils import T_Session
 
 router = APIRouter(prefix='/animal/weight', tags=['Animal Weight'])
 
 
 @router.post(
-    '/', status_code=HTTPStatus.CREATED, response_model=AnimalWeightSchema
+    '/', status_code=HTTPStatus.CREATED, response_model=AnimalWeightResponse
 )
-async def create(schema: AnimalWeightSchema, session: T_Session):
+async def create(schema: AnimalWeightCreateUpdate, session: T_Session):
     db_animal_weight = AnimalWeight(**schema.model_dump())
 
     session.add(db_animal_weight)
@@ -25,7 +29,7 @@ async def create(schema: AnimalWeightSchema, session: T_Session):
     return db_animal_weight
 
 
-@router.get('/{animal_weight_id}', response_model=AnimalWeightSchema)
+@router.get('/{animal_weight_id}', response_model=AnimalWeightResponse)
 async def get_by_id(animal_weight_id: int, session: T_Session):
     db_animal_weight = await session.scalar(
         select(AnimalWeight).where(AnimalWeight.id == animal_weight_id)
@@ -41,10 +45,10 @@ async def get_all(session: T_Session):
     return {'animal_weights': db_animal_weight.all()}
 
 
-@router.patch('/{animal_weight_id}', response_model=AnimalWeightSchema)
+@router.patch('/{animal_weight_id}', response_model=AnimalWeightResponse)
 async def update(
     animal_weight_id: int,
-    schema: AnimalWeightSchema,
+    schema: AnimalWeightCreateUpdate,
     session: T_Session,
 ):
     query = (

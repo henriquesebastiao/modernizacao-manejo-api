@@ -48,26 +48,25 @@ class AnimalList(BaseModel):
     animals: list[AnimalSchema]
 
 
-class AnimalWeightSchema(BaseModel):
+class AnimalWeightType(str, Enum):
+    BIRTH = 'birth'
+    WEANING = 'weaning'
+    BUY = 'buy'
+    SELL = 'sell'
+
+
+class AnimalWeightCreateUpdate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int | None
-    weight_type_id: int | None
-    animal_id: int | None
-    weight: float | None
-    weight_date: datetime | None
+    weight_type: AnimalWeightType
+    animal_tag: int
+    weight: float
+    weight_date: datetime
+
+
+class AnimalWeightResponse(AnimalWeightCreateUpdate):
+    id: int
 
 
 class AnimalWeightList(BaseModel):
-    animal_weights: list[AnimalWeightSchema]
-
-
-class AnimalWeightTypeSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int | None
-    type: str | None
-
-
-class AnimalWeightTypeList(BaseModel):
-    animal_weight_types: list[AnimalWeightTypeSchema]
+    animal_weights: list[AnimalWeightResponse]

@@ -7,7 +7,6 @@ from fastapi.routing import APIRoute
 from app.routes import (
     animal,
     animal_weight,
-    animal_weight_type,
     batch,
     batch_log,
     breed,
@@ -54,7 +53,6 @@ app.add_middleware(
 app.include_router(user.router)
 app.include_router(animal.router)
 app.include_router(animal_weight.router)
-app.include_router(animal_weight_type.router)
 app.include_router(batch.router)
 app.include_router(batch_log.router)
 app.include_router(breed.router)

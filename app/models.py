@@ -26,20 +26,12 @@ class Animal:
 
 
 @table_registry.mapped_as_dataclass
-class AnimalWeightType:
-    __tablename__ = 'animal_weight_type'
-
-    id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    name: Mapped[str]
-
-
-@table_registry.mapped_as_dataclass
 class AnimalWeight:
     __tablename__ = 'animal_weight'
 
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    weight_type_id: Mapped[int]
-    animal_id: Mapped[int]
+    weight_type: Mapped[str]
+    animal_tag: Mapped[int]
     weight: Mapped[float]
     weight_date: Mapped[datetime]
 
