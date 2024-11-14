@@ -1,3 +1,5 @@
+from os import getenv
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
@@ -32,7 +34,7 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
     title='Manejo API',
     description=description,
-    version='0.1.0',
+    version=getenv('VERSION', 'dev'),
     terms_of_service='https://github.com/henriquesebastiao/modernizacao-manejo-api/',
     contact={
         'name': 'Manejo API',
