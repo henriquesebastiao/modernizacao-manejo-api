@@ -1,6 +1,8 @@
+from datetime import datetime
+
 import factory
 
-from app.models import Animal, Breed, User
+from app.models import Animal, AnimalWeight, Breed, User
 
 
 class UserFactory(factory.Factory):
@@ -26,3 +28,13 @@ class BreedFactory(factory.Factory):
         model = Breed
 
     name = 'Raca das Vaquinhas Intrusas'
+
+
+class AnimalWeightFactory(factory.Factory):
+    class Meta:
+        model = AnimalWeight
+
+    weight_type = 'buy'
+    animal_tag = 1
+    weight = 150.0
+    weight_date = datetime.now()

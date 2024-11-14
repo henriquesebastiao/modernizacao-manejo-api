@@ -1,17 +1,17 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
-from sqlalchemy import update as up
 
 from app.models import AnimalWeight
 from app.schemas import Message
 from app.schemas.animal import (
-    AnimalWeightCreateUpdate,
+    AnimalWeightCreate,
     AnimalWeightList,
     AnimalWeightResponse,
+    AnimalWeightUpdate,
 )
-from app.utils import T_Session
+from app.utils import T_CurrentUser, T_Session, upattr
 
 router = APIRouter(prefix='/animal/weight', tags=['Animal Weight'])
 
@@ -19,7 +19,9 @@ router = APIRouter(prefix='/animal/weight', tags=['Animal Weight'])
 @router.post(
     '/', status_code=HTTPStatus.CREATED, response_model=AnimalWeightResponse
 )
-async def create(schema: AnimalWeightCreateUpdate, session: T_Session):
+async def create(
+    schema: AnimalWeightCreate, session: T_Session, current_user: T_CurrentUser
+):
     db_animal_weight = AnimalWeight(**schema.model_dump())
 
     session.add(db_animal_weight)
@@ -30,16 +32,23 @@ async def create(schema: AnimalWeightCreateUpdate, session: T_Session):
 
 
 @router.get('/{animal_weight_id}', response_model=AnimalWeightResponse)
-async def get_by_id(animal_weight_id: int, session: T_Session):
+async def get_by_id(
+    animal_weight_id: int, session: T_Session, current_user: T_CurrentUser
+):
     db_animal_weight = await session.scalar(
         select(AnimalWeight).where(AnimalWeight.id == animal_weight_id)
     )
+
+    if not db_animal_weight:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Weight not exists'
+        )
 
     return db_animal_weight
 
 
 @router.get('/', response_model=AnimalWeightList)
-async def get_all(session: T_Session):
+async def get_all(session: T_Session, current_user: T_CurrentUser):
     db_animal_weight = await session.scalars(select(AnimalWeight))
 
     return {'animal_weights': db_animal_weight.all()}
@@ -48,25 +57,40 @@ async def get_all(session: T_Session):
 @router.patch('/{animal_weight_id}', response_model=AnimalWeightResponse)
 async def update(
     animal_weight_id: int,
-    schema: AnimalWeightCreateUpdate,
+    schema: AnimalWeightUpdate,
     session: T_Session,
+    current_user: T_CurrentUser,
 ):
-    query = (
-        up(AnimalWeight)
-        .where(AnimalWeight.id == animal_weight_id)
-        .values(**schema.model_dump())
+    db_animal_weight = await session.scalar(
+        select(AnimalWeight).where(AnimalWeight.id == animal_weight_id)
     )
 
-    db_animal_weight = await session.scalar(query.returning(AnimalWeight))
+    if not db_animal_weight:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Weight not exists'
+        )
+
+    upattr(schema, db_animal_weight)
+
+    session.add(db_animal_weight)
+    await session.commit()
+    await session.refresh(db_animal_weight)
 
     return db_animal_weight
 
 
 @router.delete('/{animal_weight_id}', response_model=Message)
-async def delete(animal_weight_id: int, session: T_Session):
-    db_animal_weight = session.scalar(
+async def delete(
+    animal_weight_id: int, session: T_Session, current_user: T_CurrentUser
+):
+    db_animal_weight = await session.scalar(
         select(AnimalWeight).where(AnimalWeight.id == animal_weight_id)
     )
+
+    if not db_animal_weight:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail='Weight not exists'
+        )
 
     await session.delete(db_animal_weight)
     await session.commit()

@@ -44,6 +44,9 @@ extend-exclude = ['migrations']
 preview = true
 select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 
+[tool.ruff.lint.per-file-ignores]
+'tests/*.py' = ['PLR2004']
+
 [tool.ruff.format]
 preview = true
 quote-style = 'single'

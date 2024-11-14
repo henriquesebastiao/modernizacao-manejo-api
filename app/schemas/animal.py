@@ -55,7 +55,7 @@ class AnimalWeightType(str, Enum):
     SELL = 'sell'
 
 
-class AnimalWeightCreateUpdate(BaseModel):
+class AnimalWeightCreate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     weight_type: AnimalWeightType
@@ -64,7 +64,14 @@ class AnimalWeightCreateUpdate(BaseModel):
     weight_date: datetime
 
 
-class AnimalWeightResponse(AnimalWeightCreateUpdate):
+class AnimalWeightUpdate(BaseModel):
+    weight_type: AnimalWeightType | None = None
+    animal_tag: int | None = None
+    weight: float | None = None
+    weight_date: datetime | None = None
+
+
+class AnimalWeightResponse(AnimalWeightCreate):
     id: int
 
 
