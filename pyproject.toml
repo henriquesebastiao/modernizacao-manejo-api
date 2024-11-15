@@ -29,6 +29,7 @@ dev = [
     "ruff>=0.7.3",
     "taskipy>=1.14.0",
     "testcontainers>=4.8.2",
+    "bandit>=1.7.10",
 ]
 
 [tool.ruff]
@@ -63,5 +64,6 @@ run = 'fastapi dev app/main.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=app -vv'
 post_test = 'coverage html'
+ready = 'task lint; task radon; task bandit; task test'
 export = 'uv export --no-hashes --no-dev > requirements.txt'
 logs = 'docker container logs app-manejo-dev'
