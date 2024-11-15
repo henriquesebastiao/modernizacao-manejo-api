@@ -18,7 +18,7 @@ class AnimalBase(BaseModel):
 
 
 class AnimalCreate(AnimalBase):
-    breed_id: int | None
+    breed: str | None
     father_id: int | None = None
     mother_id: int | None = None
     origin: str | None
@@ -27,7 +27,7 @@ class AnimalCreate(AnimalBase):
 class AnimalUpdate(BaseModel):
     tag: int | None = None
     sisbov: int | None = None
-    breed_id: int | None = None
+    breed: str | None = None
     father_id: int | None = None
     mother_id: int | None = None
     origin: str | None = None
@@ -38,7 +38,7 @@ class AnimalUpdate(BaseModel):
 
 class AnimalSchema(AnimalBase):
     model_config = ConfigDict(from_attributes=True)
-    breed_id: int | None
+    breed: str | None
     father_id: int | None
     mother_id: int | None
     origin: str | None

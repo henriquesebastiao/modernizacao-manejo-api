@@ -9,9 +9,7 @@ from app.routes import (
     animal_weight,
     batch,
     batch_log,
-    breed,
     employment,
-    employment_position,
     farm,
     farmer,
     token,
@@ -59,5 +57,3 @@ app.include_router(batch_log.router)
 app.include_router(animal.router)
 app.include_router(animal_weight.router)
 app.include_router(token.router)
-app.include_router(breed.router)
-app.include_router(employment_position.router)

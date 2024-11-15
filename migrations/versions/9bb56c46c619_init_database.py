@@ -1,8 +1,8 @@
-"""init_database
+"""init database
 
-Revision ID: 0a7dbc3b7e05
+Revision ID: 9bb56c46c619
 Revises: 
-Create Date: 2024-09-02 12:46:19.135691
+Create Date: 2024-11-15 05:33:18.277886
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '0a7dbc3b7e05'
+revision: str = '9bb56c46c619'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -23,38 +23,23 @@ def upgrade() -> None:
     op.create_table('animal',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('tag', sa.Integer(), nullable=False),
-    sa.Column('sisbov', sa.Integer(), nullable=False),
     sa.Column('gender', sa.String(), nullable=False),
-    sa.Column('breed_id', sa.Integer(), nullable=False),
-    sa.Column('father_id', sa.Integer(), nullable=False),
-    sa.Column('mother_id', sa.Integer(), nullable=False),
-    sa.Column('origin_id', sa.Integer(), nullable=False),
-    sa.Column('birth_date', sa.DateTime(), nullable=False),
-    sa.Column('buy_date', sa.DateTime(), nullable=False),
-    sa.Column('sell_date', sa.DateTime(), nullable=False),
+    sa.Column('origin', sa.String(), nullable=False),
+    sa.Column('sisbov', sa.Integer(), nullable=True),
+    sa.Column('breed', sa.Enum('girolando', 'guzera', 'holandes', 'nelore', 'senepol', 'gir_leiteiro', 'tabapua', 'angus', 'brahman', 'sindi', name='breed'), nullable=False),
+    sa.Column('father_id', sa.Integer(), nullable=True),
+    sa.Column('mother_id', sa.Integer(), nullable=True),
+    sa.Column('birth_date', sa.DateTime(), nullable=True),
+    sa.Column('buy_date', sa.DateTime(), nullable=True),
+    sa.Column('sell_date', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('animal_weight',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('weight_type_id', sa.Integer(), nullable=False),
-    sa.Column('animal_id', sa.Integer(), nullable=False),
+    sa.Column('weight_type', sa.String(), nullable=False),
+    sa.Column('animal_tag', sa.Integer(), nullable=False),
     sa.Column('weight', sa.Float(), nullable=False),
     sa.Column('weight_date', sa.DateTime(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('animal_weight_type',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('breed',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('employment_position',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('farm',
@@ -107,8 +92,7 @@ def upgrade() -> None:
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('farmer_id', sa.Integer(), nullable=False),
     sa.Column('farm_id', sa.Integer(), nullable=False),
-    sa.Column('employment_position_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['employment_position_id'], ['employment_position.id'], ),
+    sa.Column('employment_position', sa.Enum('farmer', 'manager', 'cowboy', name='employmentposition'), nullable=False),
     sa.ForeignKeyConstraint(['farm_id'], ['farm.id'], ),
     sa.ForeignKeyConstraint(['farmer_id'], ['farmer.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
@@ -125,9 +109,6 @@ def downgrade() -> None:
     op.drop_table('batch')
     op.drop_table('user')
     op.drop_table('farm')
-    op.drop_table('employment_position')
-    op.drop_table('breed')
-    op.drop_table('animal_weight_type')
     op.drop_table('animal_weight')
     op.drop_table('animal')
     # ### end Alembic commands ###

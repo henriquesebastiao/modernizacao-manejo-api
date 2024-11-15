@@ -8,6 +8,19 @@ from sqlalchemy.orm import Mapped, mapped_column, registry
 table_registry = registry()
 
 
+class Breed(str, Enum):
+    girolando = 'girolando'
+    guzera = 'guzera'
+    holandes = 'holandes'
+    nelore = 'nelore'
+    senepol = 'senepol'
+    gir_leiteiro = 'gir_leiteiro'
+    tabapua = 'tabapua'
+    angus = 'angus'
+    brahman = 'brahman'
+    sindi = 'sindi'
+
+
 @table_registry.mapped_as_dataclass
 class Animal:
     __tablename__ = 'animal'
@@ -17,7 +30,7 @@ class Animal:
     gender: Mapped[str]
     origin: Mapped[str]
     sisbov: Mapped[int | None] = mapped_column(default=None)
-    breed_id: Mapped[int | None] = mapped_column(default=None)
+    breed: Mapped[Breed] = mapped_column(default=Breed.nelore)
     father_id: Mapped[int | None] = mapped_column(default=None)
     mother_id: Mapped[int | None] = mapped_column(default=None)
     birth_date: Mapped[datetime | None] = mapped_column(default=None)
@@ -56,12 +69,10 @@ class BatchLog:
     departure_date: Mapped[datetime]
 
 
-@table_registry.mapped_as_dataclass
-class Breed:
-    __tablename__ = 'breed'
-
-    id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    name: Mapped[str]
+class EmploymentPosition(str, Enum):
+    farmer = 'farmer'
+    manager = 'manager'
+    cowboy = 'cowboy'
 
 
 @table_registry.mapped_as_dataclass
@@ -72,17 +83,7 @@ class Employment:
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     farmer_id: Mapped[int] = mapped_column(ForeignKey('farmer.id'))
     farm_id: Mapped[int] = mapped_column(ForeignKey('farm.id'))
-    employment_position_id: Mapped[int] = mapped_column(
-        ForeignKey('employment_position.id')
-    )
-
-
-@table_registry.mapped_as_dataclass
-class EmploymentPosition:
-    __tablename__ = 'employment_position'
-
-    id: Mapped[int] = mapped_column(init=False, primary_key=True)
-    name: Mapped[str]
+    employment_position: Mapped[EmploymentPosition]
 
 
 @table_registry.mapped_as_dataclass

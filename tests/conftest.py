@@ -15,7 +15,6 @@ from app.security import get_password_hash
 from tests.factories import (
     AnimalFactory,
     AnimalWeightFactory,
-    BreedFactory,
     UserFactory,
 )
 
@@ -126,15 +125,6 @@ async def animal(session: AsyncSession):
     await session.commit()
     await session.refresh(animal)
     return animal
-
-
-@pytest.fixture
-async def breed(session: AsyncSession):
-    breed = BreedFactory()
-    session.add(breed)
-    await session.commit()
-    await session.refresh(breed)
-    return breed
 
 
 @pytest.fixture

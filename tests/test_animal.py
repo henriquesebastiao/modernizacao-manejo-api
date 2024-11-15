@@ -20,7 +20,7 @@ def test_create_animal_with_all_atributes(client, auth):
         'gender': 'M',
         'birth_date': now,
         'buy_date': now,
-        'breed_id': 1,
+        'breed': 'nelore',
         'father_id': 1,
         'mother_id': 1,
         'origin': 'Fazenda de Teste',
@@ -43,7 +43,7 @@ def test_create_animal_without_optional_atributes(client, auth):
         json={
             'tag': 1,
             'gender': 'M',
-            'breed_id': 1,
+            'breed': 'nelore',
             'origin': 'Fazenda de Teste',
         },
     )
@@ -55,7 +55,7 @@ def test_create_animal_without_optional_atributes(client, auth):
         'gender': 'M',
         'birth_date': None,
         'buy_date': None,
-        'breed_id': 1,
+        'breed': 'nelore',
         'father_id': None,
         'mother_id': None,
         'origin': 'Fazenda de Teste',
@@ -69,7 +69,7 @@ def test_create_animal_already_exists(client, auth, animal):
         json={
             'tag': animal.tag,
             'gender': 'M',
-            'breed_id': 1,
+            'breed': 'nelore',
             'origin': 'Fazenda de Teste',
         },
     )
@@ -92,7 +92,7 @@ def test_update_animal(client, auth, animal):
         'gender': 'M',
         'birth_date': None,
         'buy_date': None,
-        'breed_id': None,
+        'breed': 'nelore',
         'father_id': None,
         'mother_id': None,
         'origin': 'Fazenda de Teste',
@@ -120,7 +120,7 @@ def test_get_animal_by_tag(client, auth, animal):
         'gender': 'M',
         'birth_date': None,
         'buy_date': None,
-        'breed_id': None,
+        'breed': 'nelore',
         'father_id': None,
         'mother_id': None,
         'origin': 'Fazenda de Teste',

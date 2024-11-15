@@ -21,6 +21,7 @@ class AnimalFactory(factory.Factory):
     gender = 'M'
     origin = 'Fazenda de Teste'
     sisbov = 1234
+    breed = 'nelore'
 
 
 class BreedFactory(factory.Factory):
