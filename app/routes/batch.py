@@ -9,7 +9,7 @@ from app.schemas import Message
 from app.schemas.batch import BatchList, BatchSchema
 from app.utils import T_Session
 
-router = APIRouter(prefix='/animal/batch', tags=['Animal batch'])
+router = APIRouter(prefix='/batch', tags=['Batch'])
 
 
 @router.post('/', status_code=HTTPStatus.CREATED, response_model=BatchSchema)

@@ -9,7 +9,7 @@ from app.schemas import Message
 from app.schemas.batch import BatchLogList, BatchLogSchema
 from app.utils import T_Session
 
-router = APIRouter(prefix='/animal/batch_log', tags=['Animal Batch Log'])
+router = APIRouter(prefix='/batch/log', tags=['Batch Log'])
 
 
 @router.post(
