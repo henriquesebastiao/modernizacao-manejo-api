@@ -7,7 +7,7 @@ from sqlalchemy import update as up
 from app.models import Employment
 from app.schemas import Message
 from app.schemas.employment import EmploymentList, EmploymentSchema
-from app.utils import T_Session
+from app.utils.routes import T_Session
 
 router = APIRouter(prefix='/employment', tags=['Employment'])
 

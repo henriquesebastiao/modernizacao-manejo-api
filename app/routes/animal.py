@@ -10,7 +10,7 @@ from app.schemas.animal import (
     AnimalSchema,
     AnimalUpdate,
 )
-from app.utils import T_CurrentUser, T_Session, upattr
+from app.utils.routes import T_CurrentUser, T_Session, upattr
 
 router = APIRouter(prefix='/animal', tags=['Animal'])
 

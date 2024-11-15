@@ -9,7 +9,7 @@ from app.schemas.user import UserCreate, UserList, UserSchema, UserUpdate
 from app.security import (
     get_password_hash,
 )
-from app.utils import T_CurrentUser, T_Session, upattr
+from app.utils.routes import T_CurrentUser, T_Session, upattr
 
 router = APIRouter(prefix='/user', tags=['User'])
 

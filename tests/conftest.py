@@ -14,7 +14,6 @@ from app.models import table_registry
 from app.security import get_password_hash
 from tests.factories import (
     AnimalFactory,
-    AnimalWeightFactory,
     UserFactory,
 )
 
@@ -125,12 +124,3 @@ async def animal(session: AsyncSession):
     await session.commit()
     await session.refresh(animal)
     return animal
-
-
-@pytest.fixture
-async def animal_weight(session: AsyncSession):
-    animal_weight = AnimalWeightFactory()
-    session.add(animal_weight)
-    await session.commit()
-    await session.refresh(animal_weight)
-    return animal_weight

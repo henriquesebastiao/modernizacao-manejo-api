@@ -2,7 +2,7 @@ from datetime import datetime
 
 import factory
 
-from app.models import Animal, AnimalWeight, Breed, User
+from app.models import Animal, AnimalWeight, User
 
 
 class UserFactory(factory.Factory):
@@ -11,6 +11,7 @@ class UserFactory(factory.Factory):
 
     email = factory.Faker('email')
     password = factory.Faker('password')
+    first_name = 'First Name'
 
 
 class AnimalFactory(factory.Factory):
@@ -24,18 +25,10 @@ class AnimalFactory(factory.Factory):
     breed = 'nelore'
 
 
-class BreedFactory(factory.Factory):
-    class Meta:
-        model = Breed
-
-    name = 'Raca das Vaquinhas Intrusas'
-
-
 class AnimalWeightFactory(factory.Factory):
     class Meta:
         model = AnimalWeight
 
     weight_type = 'buy'
-    animal_tag = 1
     weight = 150.0
     weight_date = datetime.now()

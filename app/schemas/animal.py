@@ -1,79 +1,76 @@
-from datetime import date, datetime
-from enum import Enum
+from datetime import date
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
-
-class Sexo(str, Enum):
-    M = 'M'
-    F = 'F'
+from app.utils.enum import Breeds, Genders, WeightTypes
 
 
-class AnimalBase(BaseModel):
-    tag: int | None
+class AnimalCreate(BaseModel):
+    tag: int
+    gender: Genders
+    origin: str | None = None
     sisbov: int | None = None
-    gender: Sexo | None
+    breed: Breeds
+    father_id: int | None = None
+    mother_id: int | None = None
     birth_date: date | None = None
     buy_date: date | None = None
 
 
-class AnimalCreate(AnimalBase):
-    breed: str | None
-    father_id: int | None = None
-    mother_id: int | None = None
-    origin: str | None
-
-
 class AnimalUpdate(BaseModel):
     tag: int | None = None
+    gender: Genders | None = None
+    origin: str | None = None
     sisbov: int | None = None
-    breed: str | None = None
+    breed: Breeds | None = None
     father_id: int | None = None
     mother_id: int | None = None
-    origin: str | None = None
     birth_date: date | None = None
     buy_date: date | None = None
     sell_date: date | None = None
 
 
-class AnimalSchema(AnimalBase):
-    model_config = ConfigDict(from_attributes=True)
-    breed: str | None
+class AnimalSchema(BaseModel):
+    tag: int | None
+    gender: Genders | None
+    origin: str | None
+    sisbov: int | None
+    breed: Breeds | None
     father_id: int | None
     mother_id: int | None
-    origin: str | None
+    birth_date: date | None
+    buy_date: date | None
+    sell_date: date | None
 
 
 class AnimalList(BaseModel):
     animals: list[AnimalSchema]
 
 
-class AnimalWeightType(str, Enum):
-    BIRTH = 'birth'
-    WEANING = 'weaning'
-    BUY = 'buy'
-    SELL = 'sell'
-
-
 class AnimalWeightCreate(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    weight_type: AnimalWeightType
-    animal_tag: int
+    weight_type: WeightTypes
+    animal_id: int
     weight: float
-    weight_date: datetime
+    weight_date: date
 
 
 class AnimalWeightUpdate(BaseModel):
-    weight_type: AnimalWeightType | None = None
+    weight_type: WeightTypes | None = None
     animal_tag: int | None = None
     weight: float | None = None
-    weight_date: datetime | None = None
+    weight_date: date | None = None
 
 
 class AnimalWeightResponse(AnimalWeightCreate):
     id: int
 
 
+class AnimalWeightResponseForList(BaseModel):
+    weight_type: WeightTypes | None
+    animal_tag: int | None
+    weight: float | None
+    weight_date: date | None
+
+
 class AnimalWeightList(BaseModel):
-    animal_weights: list[AnimalWeightResponse]
+    animal_weights: list[AnimalWeightResponseForList]

@@ -10,7 +10,7 @@ from app.security import (
     get_current_user,
     verify_password,
 )
-from app.utils import T_OAuth2Form, T_Session
+from app.utils.routes import T_OAuth2Form, T_Session
 
 router = APIRouter(tags=['Token'])
 
