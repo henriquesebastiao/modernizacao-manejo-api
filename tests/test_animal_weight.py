@@ -72,9 +72,7 @@ def test_update_animal_weight(client, auth, animal_weight):
 
 def test_update_animal_weight_not_exists(client, auth):
     response = client.patch(
-        '/animal/weight/0',
-        headers=auth,
-        json={'weight': 170.0}
+        '/animal/weight/0', headers=auth, json={'weight': 170.0}
     )
 
     assert response.status_code == HTTPStatus.NOT_FOUND

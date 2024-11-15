@@ -7,7 +7,7 @@ tests
 .env.example
 .gitignore
 .temp.txt
-poetry.lock
+.python-version
 README.md
 .env
 pyproject.toml
@@ -17,3 +17,4 @@ pyproject.toml
 __pycache__
 *.pyc
 .mypy_cache
+uv.lock

@@ -1,9 +1,9 @@
 from datetime import datetime
 from enum import Enum
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import ForeignKey, func
 from sqlalchemy.orm import Mapped, mapped_column, registry
-from zoneinfo import ZoneInfo
 
 table_registry = registry()
 

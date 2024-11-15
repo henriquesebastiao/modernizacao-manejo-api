@@ -1,40 +1,35 @@
-[tool.poetry]
-name = "app"
+[project]
+name = "modernizacao-manejo-api"
 version = "0.1.0"
-description = ""
-authors = ["Henrique Sebastião <henriquesebastiao.web@gmail.com>"]
+description = "API async robusta para gestão de rebanhos construída com FastAPI."
 readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.14.0",
+    "fastapi[standard]>=0.115.5",
+    "greenlet>=3.1.1",
+    "psycopg[binary]>=3.2.3",
+    "pwdlib[argon2]>=0.2.1",
+    "pydantic-settings>=2.6.1",
+    "pydantic[email]>=2.9.2",
+    "pyjwt>=2.9.0",
+    "python-multipart>=0.0.17",
+    "sqlalchemy>=2.0.36",
+    "uvicorn[standard]>=0.32.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-uvicorn = {extras = ["standard"], version = "^0.32.0"}
-sqlalchemy = "^2.0.36"
-pydantic = {extras = ["email"], version = "^2.9.2"}
-alembic = "^1.14.0"
-pydantic-settings = "^2.6.1"
-fastapi = {extras = ["standard"], version = "^0.115.5"}
-python-multipart = "^0.0.17"
-psycopg = {extras = ["binary"], version = "^3.2.3"}
-pyjwt = "^2.9.0"
-pwdlib = {extras = ["argon2"], version = "^0.2.1"}
-greenlet = "^3.1.1"
-
-[tool.poetry.group.dev.dependencies]
-pytest-cov = "^6.0.0"
-taskipy = "^1.14.0"
-httpx = "^0.27.2"
-ruff = "^0.7.3"
-testcontainers = "^4.8.2"
-pytest = "^8.3.3"
-pytest-factoryboy = "^2.7.0"
-pytest-asyncio = "^0.24.0"
-gevent = "^24.11.1"
-radon = "^6.0.1"
-bandit = "^1.7.10"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "gevent>=24.11.1",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "pytest-factoryboy>=2.7.0",
+    "pytest>=8.3.3",
+    "radon>=6.0.1",
+    "ruff>=0.7.3",
+    "taskipy>=1.14.0",
+    "testcontainers>=4.8.2",
+]
 
 [tool.ruff]
 line-length = 79
@@ -68,5 +63,5 @@ run = 'fastapi dev app/main.py'
 pre_test = 'task lint'
 test = 'pytest -s -x --cov=app -vv'
 post_test = 'coverage html'
-export = 'poetry export -f requirements.txt  --without-hashes --without dev > requirements.txt'
+export = 'uv export --no-hashes --no-dev > requirements.txt'
 logs = 'docker container logs app-manejo-dev'
