@@ -73,6 +73,12 @@ Para acessar o banco de dados local pelo Adminer, selecione o sistema PostgreSQL
 - Senha: `password`
 - Banco de dados: `db`
 
+### Diagrama do Banco de Dados
+
+Um diagrama do banco de dados para facilitar o entendimento da estrutura e dos relacionamentos entre as tabelas. O diagrama serve como uma referência visual para desenvolvedores e colaboradores, destacando como os dados estão organizados e conectados, e auxiliando na manutenção e na extensão do sistema.
+
+[![Diagrama do Banco de Dados](./assets/db.svg)]()
+
 ## Desenvolvendo 🛠️
 
 Durante o desenvolvimento, você pode alterar as configurações do Docker Compose que afetarão apenas o ambiente de desenvolvimento local no arquivo `docker-compose.override.yml`.
