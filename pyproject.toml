@@ -10,6 +10,7 @@ dependencies = [
     "greenlet>=3.1.1",
     "psycopg[binary]>=3.2.3",
     "pwdlib[argon2]>=0.2.1",
+    "pydantic-core>=2.23.4",
     "pydantic-settings>=2.6.1",
     "pydantic[email]>=2.9.2",
     "pyjwt>=2.9.0",
