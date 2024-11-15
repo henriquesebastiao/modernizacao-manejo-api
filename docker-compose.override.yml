@@ -24,6 +24,9 @@ services:
         - path: ./requirements.txt
           action: rebuild
   
+  web:
+    restart: "no"
+  
   adminer:
     restart: "no"
     ports:

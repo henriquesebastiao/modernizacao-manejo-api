@@ -23,14 +23,26 @@ services:
     build: .
     volumes:
       - ./app:/code/app
-    ports:
-      - "8000:8000"
     depends_on:
       database:
         condition: service_healthy
         restart: true
     env_file:
       - .env
+  
+  web:
+    container_name: web-manejo
+    image: nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_PORT=80
+    depends_on:
+      - app
+
   
   adminer:
     container_name: adminer-manejo
