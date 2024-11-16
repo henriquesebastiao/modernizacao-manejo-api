@@ -1,5 +1,3 @@
-from os import getenv
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
@@ -15,15 +13,18 @@ from app.routes import (
     token,
     user,
 )
+from app.settings import get_settings
 
 
 def custom_generate_unique_id(route: APIRoute):
     return f'{route.tags[0]}-{route.name}'
 
 
-description = """
+settings = get_settings()
+
+description = f"""
 Modernização Manejo
-#### Documentação alternativa: [Redoc](https://manejo-api.henriquesebastiao.com/redoc)
+#### Documentação alternativa: [Redoc]({settings.APP_URL}/redoc)
 """
 
 app = FastAPI(
@@ -31,7 +32,7 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
     title='Manejo API',
     description=description,
-    version=getenv('VERSION', 'dev'),
+    version=settings.VERSION,
     terms_of_service='https://github.com/henriquesebastiao/modernizacao-manejo-api/',
     contact={
         'name': 'Manejo API',

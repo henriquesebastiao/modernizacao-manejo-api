@@ -7,9 +7,9 @@ from app.security import (
     get_password_hash,
     verify_password,
 )
-from app.settings import Settings
+from app.settings import get_settings
 
-settings = Settings()
+settings = get_settings()
 
 
 def test_jwt():

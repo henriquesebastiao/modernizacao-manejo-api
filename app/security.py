@@ -14,11 +14,11 @@ from sqlalchemy.orm import Session
 from app.database import get_session
 from app.models import User
 from app.schemas.token import TokenData
-from app.settings import Settings
+from app.settings import get_settings
 
 pwd_context = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
-settings = Settings()
+settings = get_settings()
 
 credentials_exception = HTTPException(
     status_code=HTTPStatus.UNAUTHORIZED,
