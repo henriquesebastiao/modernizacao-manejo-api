@@ -6,7 +6,7 @@ tests
 .coverage
 .env.example
 .gitignore
-.temp.txt
+notes.md
 .python-version
 README.md
 .env
