@@ -108,6 +108,8 @@ As credencias padrão são:
 - Usuário: `admin`
 - Senha: `admin`
 
+Para visualizar o dashboard, clique em `Dashboards` no menu lateral direto e selecione `Manejo API`.
+
 #### Testes de carga com Locust
 
 Você pode executar testes de carga na aplicação para simular acessos aos endpoints, como possivelmente seria em um ambiente de produção.
@@ -118,7 +120,9 @@ Execute os testes com o seguinte comando:
 task locust
 ```
 
-Após isso você verá as métricas de acessos a API subindo constantemente. Para parar o testes pressione `ctrl` + `c`.
+Após isso você verá as métricas de acessos a API subindo constantemente no dashboard do Grafana. Para parar o testes pressione `ctrl` + `c`.
+
+![Captura de tela de 2024-11-19 05-19-34](https://github.com/user-attachments/assets/d59abeb4-386d-498f-88ad-4a7b4a17ed78)
 
 ## Desenvolvendo 🛠️
 
