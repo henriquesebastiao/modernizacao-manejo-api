@@ -8,12 +8,24 @@ class Settings(BaseSettings):
         env_file='.env', env_file_encoding='utf-8', extra='ignore'
     )
 
+    # Database
     DATABASE_URL: str
-    SECRET_KEY: str
-    ALGORITHM: str
+
+    # Application
     ACCESS_TOKEN_EXPIRE_MINUTES: int
+    ALGORITHM: str
+    DEBUG: int = 0
+    SECRET_KEY: str
     VERSION: str
+
+    # Observability
+    APP_NAME: str = 'app-manejo'
     APP_URL: str
+    OTLP_GRPC_ENDPOINT: str = 'http://loki-manejo:4317'
+
+    # 1 - To run unit tests with Pytest
+    # 0 - To deploy the application with observability
+    TEST: int = 0
 
 
 @lru_cache

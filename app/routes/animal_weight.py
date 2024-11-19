@@ -11,7 +11,8 @@ from app.schemas.animal import (
     AnimalWeightResponse,
     AnimalWeightUpdate,
 )
-from app.utils.routes import T_CurrentUser, T_Session, upattr
+from app.utils.db import upattr
+from app.utils.type import T_CurrentUser, T_Session
 
 router = APIRouter(prefix='/animal/weight', tags=['Animal Weight'])
 

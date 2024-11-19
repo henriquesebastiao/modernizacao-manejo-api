@@ -12,7 +12,7 @@ from app.schemas.farmer import (
     FarmerSchema,
     FarmerUpdate,
 )
-from app.utils.routes import T_CurrentUser, T_Session
+from app.utils.type import T_CurrentUser, T_Session
 
 router = APIRouter(prefix='/farmer', tags=['Farmer'])
 

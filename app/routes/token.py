@@ -3,14 +3,14 @@ from http import HTTPStatus
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 
-from app.models import User
-from app.schemas.token import Token
-from app.security import (
+from app.core.security import (
     create_access_token,
     get_current_user,
     verify_password,
 )
-from app.utils.routes import T_OAuth2Form, T_Session
+from app.models import User
+from app.schemas.token import Token
+from app.utils.type import T_OAuth2Form, T_Session
 
 router = APIRouter(tags=['Token'])
 

@@ -6,14 +6,14 @@ from sqlalchemy import update as up
 
 from app.models import Farm
 from app.schemas import Message
-from app.schemas.farm import FarmList, FarmSchema
-from app.utils.routes import T_Session
+from app.schemas.farm import FarmCreate, FarmList, FarmSchema
+from app.utils.type import T_Session
 
 router = APIRouter(prefix='/farm', tags=['Farm'])
 
 
 @router.post('/', status_code=HTTPStatus.CREATED, response_model=FarmSchema)
-async def create(schema: FarmSchema, session: T_Session):
+async def create(schema: FarmCreate, session: T_Session):
     db_farm = Farm(**schema.model_dump())
 
     session.add(db_farm)

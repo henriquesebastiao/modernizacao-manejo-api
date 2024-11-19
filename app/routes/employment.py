@@ -6,8 +6,12 @@ from sqlalchemy import update as up
 
 from app.models import Employment
 from app.schemas import Message
-from app.schemas.employment import EmploymentList, EmploymentSchema
-from app.utils.routes import T_Session
+from app.schemas.employment import (
+    EmploymentCreate,
+    EmploymentList,
+    EmploymentSchema,
+)
+from app.utils.type import T_Session
 
 router = APIRouter(prefix='/employment', tags=['Employment'])
 
@@ -15,7 +19,7 @@ router = APIRouter(prefix='/employment', tags=['Employment'])
 @router.post(
     '/', status_code=HTTPStatus.CREATED, response_model=EmploymentSchema
 )
-async def create(schema: EmploymentSchema, session: T_Session):
+async def create(schema: EmploymentCreate, session: T_Session):
     db_employment = Employment(**schema.model_dump())
 
     session.add(db_employment)

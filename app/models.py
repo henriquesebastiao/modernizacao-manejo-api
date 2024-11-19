@@ -48,9 +48,11 @@ class User:
     manager: Mapped['User'] = relationship(
         remote_side=[id], init=False, foreign_keys='User.manager_id'
     )
-    farmer: Mapped['Farmer'] = relationship(back_populates='user', init=False)
+    farmer: Mapped['Farmer'] = relationship(
+        back_populates='user', lazy='immediate', init=False
+    )
     employment: Mapped['Employment'] = relationship(
-        back_populates='user', init=False
+        back_populates='user', lazy='immediate', init=False
     )
 
 
@@ -62,9 +64,11 @@ class Farmer:
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), unique=True)
     farmer_plan: Mapped[FarmerPlan] = mapped_column(default=FarmerPlan.FREE)
 
-    user: Mapped['User'] = relationship(back_populates='farmer', init=False)
+    user: Mapped['User'] = relationship(
+        back_populates='farmer', lazy='immediate', init=False
+    )
     employment: Mapped[List['Employment']] = relationship(
-        back_populates='farmer', init=False
+        back_populates='farmer', lazy='immediate', init=False
     )
 
 
@@ -76,10 +80,10 @@ class Farm:
     name: Mapped[str]
 
     employment: Mapped[List['Employment']] = relationship(
-        back_populates='farm', init=False
+        back_populates='farm', lazy='immediate', init=False
     )
     batch: Mapped[List['Batch']] = relationship(
-        back_populates='farm', init=False
+        back_populates='farm', lazy='immediate', init=False
     )
 
 
@@ -94,13 +98,13 @@ class Employment:
     employment_position: Mapped[EmploymentPositions]
 
     user: Mapped['User'] = relationship(
-        back_populates='employment', init=False
+        back_populates='employment', lazy='immediate', init=False
     )
     farmer: Mapped['Farmer'] = relationship(
-        back_populates='employment', init=False
+        back_populates='employment', lazy='immediate', init=False
     )
     farm: Mapped['Farm'] = relationship(
-        back_populates='employment', init=False
+        back_populates='employment', lazy='immediate', init=False
     )
 
 
@@ -112,9 +116,11 @@ class Batch:
     farm_id: Mapped[int] = mapped_column(ForeignKey('farms.id'))
     description: Mapped[Optional[str]]
 
-    farm: Mapped['Farm'] = relationship(back_populates='batch', init=False)
+    farm: Mapped['Farm'] = relationship(
+        back_populates='batch', lazy='immediate', init=False
+    )
     batch_log: Mapped[List['BatchLog']] = relationship(
-        back_populates='batch', init=False
+        back_populates='batch', lazy='immediate', init=False
     )
 
 
@@ -153,10 +159,10 @@ class Animal:
         remote_side=[id], init=False, foreign_keys='Animal.mother_id'
     )
     animal_weight: Mapped[List['AnimalWeight']] = relationship(
-        back_populates='animal', init=False
+        back_populates='animal', lazy='immediate', init=False
     )
     batch_log: Mapped[List['BatchLog']] = relationship(
-        back_populates='animal', init=False
+        back_populates='animal', lazy='immediate', init=False
     )
 
 
@@ -171,7 +177,7 @@ class AnimalWeight:
     weight_date: Mapped[date]
 
     animal: Mapped['Animal'] = relationship(
-        back_populates='animal_weight', init=False
+        back_populates='animal_weight', lazy='immediate', init=False
     )
 
 
@@ -186,8 +192,8 @@ class BatchLog:
     departure_date: Mapped[datetime]
 
     batch: Mapped['Batch'] = relationship(
-        back_populates='batch_log', init=False
+        back_populates='batch_log', lazy='immediate', init=False
     )
     animal: Mapped['Animal'] = relationship(
-        back_populates='batch_log', init=False
+        back_populates='batch_log', lazy='immediate', init=False
     )
