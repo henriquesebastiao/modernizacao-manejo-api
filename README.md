@@ -122,7 +122,7 @@ task locust
 
 Após isso você verá as métricas de acessos a API subindo constantemente no dashboard do Grafana. Para parar o testes pressione `ctrl` + `c`.
 
-![Captura de tela de 2024-11-19 05-19-34](https://github.com/user-attachments/assets/d59abeb4-386d-498f-88ad-4a7b4a17ed78)
+![Captura de tela de 2024-11-19 16-37-10](https://github.com/user-attachments/assets/1b409091-0a3c-4904-86e2-aa0e9f9fdf65)
 
 ## Desenvolvendo 🛠️
 
