@@ -8,14 +8,11 @@ from sqlalchemy.ext.asyncio import (
 )
 from testcontainers.postgres import PostgresContainer
 
-from app.database import get_session
+from app.core.database import get_session
+from app.core.security import get_password_hash
 from app.main import app
 from app.models import table_registry
-from app.security import get_password_hash
-from tests.factories import (
-    AnimalFactory,
-    UserFactory,
-)
+from tests.factories import AnimalFactory, UserFactory
 
 
 @pytest.fixture(scope='session')
@@ -65,6 +62,7 @@ def client(session):
 async def user(session: AsyncSession):
     password = 'password'
 
+    UserFactory.with_session(session)
     user = UserFactory(password=get_password_hash(password))
     session.add(user)
     await session.commit()
@@ -78,6 +76,8 @@ async def user(session: AsyncSession):
 @pytest.fixture
 async def other_user(session: AsyncSession):
     password = 'password'
+
+    UserFactory._meta.sqlalchemy_session = session
 
     user = UserFactory(password=get_password_hash(password))
     session.add(user)

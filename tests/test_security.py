@@ -2,12 +2,12 @@ from http import HTTPStatus
 
 from jwt import decode
 
-from app.security import (
+from app.core.security import (
     create_access_token,
     get_password_hash,
     verify_password,
 )
-from app.settings import get_settings
+from app.core.settings import get_settings
 
 settings = get_settings()
 

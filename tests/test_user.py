@@ -51,6 +51,43 @@ def test_create_user_without_email(client):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
+def test_create_user_subordinate(client, auth, user):
+    farmer = client.post(
+        '/farmer/',
+        headers=auth,
+        json={
+            'user_id': user.id,
+            'farmer_plan': 'free',
+        },
+    )
+
+    farm = client.post('/farm/', headers=auth, json={'name': 'Fazendinha'})
+
+    client.post(
+        '/employment/',
+        headers=auth,
+        json={
+            'user_id': user.id,
+            'farmer_id': farmer.json()['id'],
+            'farm_id': farm.json()['id'],
+            'employment_position': 'farmer',
+        },
+    )
+
+    response = client.post(
+        '/user/employee/',
+        headers=auth,
+        json={
+            'email': 'test@test.com',
+            'password': 'secret',
+            'first_name': 'First Name',
+            'manager_id': user.id,
+        },
+    )
+
+    assert response.status_code == 201
+
+
 def test_get_user_by_id(client, user):
     response = client.get(f'/user/{user.id}')
 

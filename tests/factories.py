@@ -1,13 +1,22 @@
 from datetime import datetime
 
 import factory
+from factory.alchemy import SQLAlchemyModelFactory
 
 from app.models import Animal, AnimalWeight, User
 
 
-class UserFactory(factory.Factory):
+class BaseFactory(SQLAlchemyModelFactory):
+    @classmethod
+    def with_session(cls, session):
+        cls._meta.sqlalchemy_session = session
+        return cls
+
+
+class UserFactory(BaseFactory):
     class Meta:
         model = User
+        sqlalchemy_session = None
 
     email = factory.Faker('email')
     password = factory.Faker('password')
