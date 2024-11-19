@@ -2,7 +2,7 @@ name: Deployment Trigger
 
 on:
   workflow_run:
-    workflows: ["Test"]
+    workflows: ["Build and Push Docker Image"]
     types: [completed]
     branches:
         - 'master'
