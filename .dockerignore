@@ -18,3 +18,5 @@ __pycache__
 *.pyc
 .mypy_cache
 uv.lock
+locustfile.py
+.vscode
