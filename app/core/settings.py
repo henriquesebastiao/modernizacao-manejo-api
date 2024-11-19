@@ -19,8 +19,10 @@ class Settings(BaseSettings):
     VERSION: str
 
     # Observability
+    APP_BIND_HOST: str
     APP_NAME: str = 'app-manejo'
     APP_URL: str
+    EXPOSE_PORT: int = 8000
     OTLP_GRPC_ENDPOINT: str = 'http://loki-manejo:4317'
 
     # 1 - To run unit tests with Pytest

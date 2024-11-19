@@ -94,16 +94,16 @@ if __name__ == '__main__':
     if settings.DEBUG:
         uvicorn.run(
             'main:app',
-            host='0.0.0.0',
-            port=8000,
+            host=settings.APP_BIND_HOST,
+            port=settings.EXPOSE_PORT,
             reload=True,
             log_config=log_config,
         )
     else:
         uvicorn.run(
             'main:app',
-            host='0.0.0.0',
-            port=8000,
+            host=settings.APP_BIND_HOST,
+            port=settings.EXPOSE_PORT,
             workers=4,
             log_config=log_config,
         )
