@@ -16,12 +16,12 @@ class Settings(BaseSettings):
     ALGORITHM: str
     DEBUG: int = 0
     SECRET_KEY: str
-    VERSION: str
+    VERSION: str = 'dev'
 
     # Observability
     APP_BIND_HOST: str
     APP_NAME: str = 'app-manejo'
-    APP_URL: str
+    APP_URL: str = 'http://localhost:8000'
     EXPOSE_PORT: int = 8000
     OTLP_GRPC_ENDPOINT: str = 'http://loki-manejo:4317'
 
