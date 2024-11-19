@@ -24,13 +24,25 @@ Use a senha `manejo123`.
 
 ### Tecnologias utilizadas
 
+#### Como núcleo da aplicação
+
 - **Python** e **FastAPI**, para o desenvolvimento de uma API asyncrona e robusta.
 - **Postgres** como banco de dados.
 - **SQLAlchemy**, para interação com o banco de dados via ORM.
 - **Pydantic**, para validação de dados.
-- **PyTest**, para testes de integração.
+
+#### Ferramentas usadas na implantação
+
 - **Docker**, para desenvolvimento em containers.
+- **Uvicorn** como servidor ASGI de aplicação.
+- **Nginx**, como servidor web.
+- **OpenTelemetry**, **Prometheus** e **Grafana** para observabilidade e telemetria.
+
+#### Ferramentas usadas no desenvolvimento
+
+- **PyTest**, para testes de integração.
 - **Ruff** como linter e formatador de código.
+- **Locust**, para testes de carga.
 
 ## Principais Recursos
 
@@ -73,11 +85,40 @@ Para acessar o banco de dados local pelo Adminer, selecione o sistema PostgreSQL
 - Senha: `password`
 - Banco de dados: `db`
 
-### Diagrama do Banco de Dados
+### Diagrama do Banco de Dados 💾
 
 Um diagrama do banco de dados para facilitar o entendimento da estrutura e dos relacionamentos entre as tabelas. O diagrama serve como uma referência visual para desenvolvedores e colaboradores, destacando como os dados estão organizados e conectados, e auxiliando na manutenção e na extensão do sistema.
 
-[![Diagrama do Banco de Dados](./assets/db.svg)]()
+[![Diagrama do Banco de Dados](./assets/db.svg)](https://raw.githubusercontent.com/henriquesebastiao/modernizacao-manejo-api/refs/heads/master/assets/db.svg)
+
+### Observabilidade com OpenTelemetry 🔍
+
+O projeto conta com ferramentas para observação de métricas da aplicação, sendo elas:
+
+- **Prometheus**, para coleta de métricas.
+- **Loki**, para coleta de logs.
+- **Tempo**, para coletas de traces.
+
+Por fim, todos os dados são enviados para o **Grafana**, onde podemos ver os dados em um dashboard.
+
+Acesse o Grafana em: [https://localhost:3000](https://localhost:3000)
+
+As credencias padrão são:
+
+- Usuário: `admin`
+- Senha: `admin`
+
+#### Testes de carga com Locust
+
+Você pode executar testes de carga na aplicação para simular acessos aos endpoints, como possivelmente seria em um ambiente de produção.
+
+Execute os testes com o seguinte comando:
+
+```bash
+task locust
+```
+
+Após isso você verá as métricas de acessos a API subindo constantemente. Para parar o testes pressione `ctrl` + `c`.
 
 ## Desenvolvendo 🛠️
 

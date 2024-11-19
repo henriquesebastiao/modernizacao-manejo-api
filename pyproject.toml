@@ -8,9 +8,15 @@ dependencies = [
     "alembic>=1.14.0",
     "fastapi[standard]>=0.115.5",
     "greenlet>=3.1.1",
+    "opentelemetry-distro[otlp]>=0.49b1",
+    "opentelemetry-instrumentation-fastapi>=0.49b1",
+    "opentelemetry-instrumentation-logging>=0.49b1",
+    "phonenumbers>=8.13.50",
+    "prometheus-client>=0.21.0",
     "psycopg[binary]>=3.2.3",
     "pwdlib[argon2]>=0.2.1",
     "pydantic-core>=2.23.4",
+    "pydantic-extra-types>=2.10.0",
     "pydantic-settings>=2.6.1",
     "pydantic[email]>=2.9.2",
     "pyjwt>=2.9.0",
@@ -31,6 +37,8 @@ dev = [
     "taskipy>=1.14.0",
     "testcontainers>=4.8.2",
     "bandit>=1.7.10",
+    "ipython>=8.29.0",
+    "locust>=2.32.3",
 ]
 
 [tool.ruff]
@@ -43,6 +51,8 @@ select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 
 [tool.ruff.lint.per-file-ignores]
 'tests/*.py' = ['PLR2004']
+'main.py' = ['E501', 'PLR6301']
+'telemetry.py' = ['F841']
 
 [tool.ruff.format]
 preview = true
@@ -63,8 +73,8 @@ radon = 'radon cc ./app -a -na'
 bandit = 'bandit -r ./app'
 run = 'fastapi dev app/main.py'
 pre_test = 'task lint'
-test = 'pytest -s -x --cov=app -vv'
+test = 'export TEST=1 && pytest -s -x --cov=app -v'
 post_test = 'coverage html'
 ready = 'task lint; task radon; task bandit; task test'
 export = 'uv export --no-hashes --no-dev > requirements.txt'
-logs = 'docker container logs app-manejo-dev'
+locust = 'locust -f locustfile.py --headless --users 10 --spawn-rate 1 -H http://localhost'

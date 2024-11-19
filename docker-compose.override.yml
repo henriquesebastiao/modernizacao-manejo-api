@@ -1,18 +1,13 @@
 services:
   database:
-    container_name: db-manejo
-    restart: "no"
-    ports:
-      - "5432:5432"
+      restart: "no"
 
   app:
-    container_name: app-manejo-dev
     restart: "no"
-    build: .
-    volumes:
-      - ./app:/code/app
     ports:
       - "8000:8000"
+    environment:
+      - DEBUG=1
     # Ref: https://docs.docker.com/reference/compose-file/develop/
     develop:
       watch:
@@ -29,5 +24,15 @@ services:
   
   adminer:
     restart: "no"
-    ports:
-      - "8080:8080"
+  
+  loki:
+    restart: "no"
+  
+  prometheus:
+    restart: "no"
+  
+  tempo:
+    restart: "no"
+  
+  grafana:
+    restart: "no"

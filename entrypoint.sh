@@ -1,9 +1,14 @@
 #!/bin/sh
 
-alembic upgrade head
+export OTEL_SERVICE_NAME=app-manejo
+export OTEL_EXPORTER_OTLP_ENDPOINT=loki-manejo:4317
+export OTEL_EXPORTER_OTLP_INSECURE=true
+export OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+export OTEL_TRACES_EXPORTER=otlp
+export OTEL_METRICS_EXPORTER=otlp
+export OTEL_LOGS_EXPORTER=otlp
 
-if [ "$DEBUG" -eq 1 ]; then
-  fastapi run --reload app/main.py
-else
-  fastapi run --workers 4 app/main.py
-fi
+export TEST=0
+
+alembic upgrade head
+opentelemetry-instrument python app/main.py

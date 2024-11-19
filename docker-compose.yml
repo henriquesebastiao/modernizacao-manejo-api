@@ -1,3 +1,14 @@
+x-logging: &default-logging
+  driver: loki
+  options:
+    loki-url: 'http://localhost:3100/api/prom/push'
+    loki-pipeline-stages: |
+      - multiline:
+          firstline: '^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2}'
+          max_wait_time: 3s
+      - regex:
+          expression: '^(?P<time>\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2},\d{3}) (?P<message>(?s:.*))$$'
+
 services:
   database:
     container_name: db-manejo
@@ -19,16 +30,22 @@ services:
   app:
     container_name: app-manejo
     image: 'manejo:${TAG-latest}'
-    restart: always
+    restart: no
     build: .
     volumes:
       - ./app:/code/app
+      - ./migrations:/code/migrations
     depends_on:
       database:
         condition: service_healthy
         restart: true
+      loki:
+        condition: service_started
     env_file:
       - .env
+    environment:
+      - DEBUG=0
+    logging: *default-logging
   
   web:
     container_name: web-manejo
@@ -43,7 +60,6 @@ services:
     depends_on:
       - app
 
-  
   adminer:
     container_name: adminer-manejo
     image: adminer
@@ -54,6 +70,56 @@ services:
       - ADMINER_DESIGN=pepa-linha-dark
     ports:
       - "8080:8080"
+  
+  loki:
+    container_name: loki-manejo
+    image: grafana/loki:3.0.0
+    restart: always
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+  
+  prometheus:
+    container_name: prometheus-manejo
+    image: prom/prometheus:v2.51.2
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./etc/prometheus:/workspace
+    command:
+      - --config.file=/workspace/prometheus.yml
+      - --enable-feature=exemplar-storage
+    depends_on:
+      - loki
+    logging: *default-logging
+  
+  tempo:
+    container_name: tempo-manejo
+    image: grafana/tempo:2.4.1
+    restart: always
+    command: [ "--target=all", "--storage.trace.backend=local", "--storage.trace.local.path=/var/tempo", "--auth.enabled=false" ]
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    depends_on:
+      - loki
+    logging: *default-logging
+  
+  grafana:
+    container_name: grafana-manejo
+    image: grafana/grafana:10.4.2
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./etc/grafana/:/etc/grafana/provisioning/datasources
+      - ./etc/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./etc/dashboards:/etc/grafana/dashboards
+    depends_on:
+      - loki
+      - prometheus
+    logging: *default-logging
 
 volumes:
   pgdata:
