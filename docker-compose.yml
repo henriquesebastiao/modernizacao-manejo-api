@@ -30,7 +30,7 @@ services:
   app:
     container_name: app-manejo
     image: 'manejo:${TAG-latest}'
-    restart: no
+    restart: always
     build: .
     volumes:
       - ./app:/code/app
