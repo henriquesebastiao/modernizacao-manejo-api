@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     APP_NAME: str = 'app-manejo'
     APP_URL: str = 'http://localhost:8000'
     EXPOSE_PORT: int = 8000
-    OTLP_GRPC_ENDPOINT: str = 'http://loki-manejo:4317'
+    OTLP_GRPC_ENDPOINT: str = 'http://tempo-manejo:4317'
 
     # 1 - To run unit tests with Pytest
     # 0 - To deploy the application with observability
