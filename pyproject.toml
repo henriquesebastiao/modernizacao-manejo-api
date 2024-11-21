@@ -16,14 +16,14 @@ dependencies = [
     "prometheus-client>=0.21.0",
     "psycopg[binary]>=3.2.3",
     "pwdlib[argon2]>=0.2.1",
-    "pydantic-core>=2.23.4",
+    "pydantic-core>=2.27.0",
     "pydantic-extra-types>=2.10.0",
     "pydantic-settings>=2.6.1",
-    "pydantic[email]>=2.9.2",
-    "pyjwt>=2.9.0",
+    "pydantic[email]>=2.10.0",
+    "pyjwt>=2.10.0",
     "python-multipart>=0.0.17",
     "sqlalchemy>=2.0.36",
-    "uvicorn[standard]>=0.32.0",
+    "uvicorn[standard]>=0.32.1",
 ]
 
 [dependency-groups]
@@ -34,13 +34,16 @@ dev = [
     "pytest-factoryboy>=2.7.0",
     "pytest>=8.3.3",
     "radon>=6.0.1",
-    "ruff>=0.7.3",
+    "ruff>=0.7.4",
     "taskipy>=1.14.0",
     "testcontainers>=4.8.2",
     "bandit>=1.7.10",
     "ipython>=8.29.0",
     "locust>=2.32.3",
 ]
+
+[tool.uv]
+upgrade = true
 
 [tool.ruff]
 line-length = 79
