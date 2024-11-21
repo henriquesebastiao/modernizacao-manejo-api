@@ -1,44 +1,29 @@
-# Usage: locust -f locustfile.py --headless --users 10 --spawn-rate 1 -H http://localhost:8000
 from locust import HttpUser, between, task
 
 
 class QuickstartUser(HttpUser):
-    wait_time = between(1, 5)
-
-    @task(10)
-    def root(self):
-        self.client.get('/', name='/root')
-
-    @task(5)
-    def get_all_users(self):
-        self.client.get('/user', name='/user')
-
-    @task(5)
-    def get_all_farmers(self):
-        self.client.get('/farmer', name='/farmer')
-
-    @task(3)
-    def get_all_farms(self):
-        self.client.get('/farm', name='/farm')
-
-    @task(10)
-    def employment(self):
-        self.client.get('/employment', name='/employment')
+    wait_time = between(5, 30)
 
     @task(9)
-    def create_employee(self):
-        self.client.post(
-            '/user/employee',
-            json={
-                'first_name': 'string',
-                'last_name': 'string',
-                'email': 'user@example.com',
-                'password': 'string',
-                'phone': '66999999999',
-            },
-            name='/user/employee',
-        )
+    def get_all_users(self):
+        self.client.get('/user')
 
-    @task(15)
+    @task(4)
+    def get_user_by_id(self):
+        self.client.get('/user/1')
+
+    @task(2)
+    def get_all_farmers(self):
+        self.client.get('/farmer')
+
+    @task(2)
+    def get_all_farms(self):
+        self.client.get('/farm')
+
+    @task(1)
+    def get_all_employments(self):
+        self.client.get('/employment')
+
+    @task(6)
     def not_found(self):
-        self.client.get('/not_found', name='/not_found')
+        self.client.get('/not_found')
