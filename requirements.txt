@@ -47,7 +47,7 @@ opentelemetry-util-http==0.49b2
 packaging==24.2
 phonenumbers==8.13.50
 prometheus-client==0.21.0
-protobuf==5.28.3
+protobuf==5.29.0
 psycopg==3.2.3
 psycopg-binary==3.2.3 ; implementation_name != 'pypy'
 pwdlib==0.2.1
