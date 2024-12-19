@@ -52,7 +52,7 @@ psycopg==3.2.3
 psycopg-binary==3.2.3 ; implementation_name != 'pypy'
 pwdlib==0.2.1
 pycparser==2.22
-pydantic==2.10.0
+pydantic==2.10.4
 pydantic-core==2.27.0
 pydantic-extra-types==2.10.0
 pydantic-settings==2.6.1
