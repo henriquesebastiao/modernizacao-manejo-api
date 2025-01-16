@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -40,7 +40,9 @@ async def aclient(session: AsyncSession):
 
     app.dependency_overrides[get_session] = get_session_override
 
-    async with AsyncClient(app=app, base_url='https://test') as test_client:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url='https://test'
+    ) as test_client:
         yield test_client
 
     app.dependency_overrides.clear()
