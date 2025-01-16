@@ -66,7 +66,7 @@ Crie um arquivo `.env` que conterá as variáveis de ambiente exigidas pela apli
 cat .env.example > .env
 ```
 
-Agora execute o docker compose e toda aplicação será construída e iniciada em modo de desenvolcimento 🚀
+Agora execute o docker compose e toda aplicação será construída e iniciada em modo de desenvolvimento 🚀
 
 ```bash
 docker compose watch
