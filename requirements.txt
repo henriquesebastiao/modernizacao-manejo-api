@@ -45,7 +45,7 @@ opentelemetry-sdk==1.29.0
 opentelemetry-semantic-conventions==0.50b0
 opentelemetry-util-http==0.50b0
 packaging==24.2
-phonenumbers==8.13.52
+phonenumbers==8.13.53
 prometheus-client==0.21.1
 protobuf==5.29.3
 psycopg==3.2.4
