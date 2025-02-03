@@ -38,7 +38,7 @@ dev = [
     "taskipy>=1.14.1",
     "testcontainers>=4.9.1",
     "bandit>=1.8.2",
-    "ipython>=8.31.0",
+    "ipython>=8.32.0",
     "locust>=2.32.8",
 ]
 
