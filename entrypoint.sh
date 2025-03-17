@@ -3,4 +3,4 @@
 export TEST=0
 
 alembic upgrade head
-python app/main.py
+uvicorn --host 0.0.0.0 app.main:app
