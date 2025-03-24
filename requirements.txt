@@ -35,7 +35,7 @@ opentelemetry-distro==0.52b0
 opentelemetry-exporter-otlp==1.31.0
 opentelemetry-exporter-otlp-proto-common==1.31.1
 opentelemetry-exporter-otlp-proto-grpc==1.31.0
-opentelemetry-exporter-otlp-proto-http==1.31.0
+opentelemetry-exporter-otlp-proto-http==1.31.1
 opentelemetry-instrumentation==0.52b0
 opentelemetry-instrumentation-asgi==0.52b0
 opentelemetry-instrumentation-fastapi==0.52b0
