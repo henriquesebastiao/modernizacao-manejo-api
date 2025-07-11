@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
@@ -157,6 +159,8 @@ async def get_all(session: T_Session):
     em desenvolvimento, sendo removida para deploy em produção.
     """
     db_users = await session.scalars(select(User))
+
+    logging.info('Returning all users')
 
     return {'users': db_users.all()}
 
