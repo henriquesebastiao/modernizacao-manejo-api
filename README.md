@@ -2,9 +2,7 @@
 
 [![CI](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/test.yml/badge.svg)](https://github.com/henriquesebastiao/modernizacao-manejo-api/actions/workflows/test.yml)
 [![coverage](https://coverage-badge.samuelcolvin.workers.dev/henriquesebastiao/modernizacao-manejo-api.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/henriquesebastiao/modernizacao-manejo-api)
-[![fastapi](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![postgresql](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Static Badge](https://img.shields.io/badge/status-dev-blue)](https://github.com/henriquesebastiao/modernizacao-manejo-api)
 
 API para o backend do projeto de modernização do manejo desenvolvida com FastAPI.
 
